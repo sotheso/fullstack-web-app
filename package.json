@@ -10,6 +10,7 @@
     "build": "cd frontend && npm install && npm run build",
     "start": "cd frontend && npm start",
     "vercel-build": "cd frontend && npm install && npm run build",
+    "postinstall": "cd frontend && npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
