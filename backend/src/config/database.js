@@ -1,9 +1,9 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME || 'davvvat_db',
+  process.env.DB_NAME || 'DavvvatDB',
   process.env.DB_USER || 'root',
-  process.env.DB_PASSWORD || '',
+  process.env.DB_PASSWORD || '11331133',
   {
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 3306,
@@ -32,4 +32,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = { sequelize, connectDB }; 
+module.exports = { sequelize, connectDB };

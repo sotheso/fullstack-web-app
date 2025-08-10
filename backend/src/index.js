@@ -7,8 +7,7 @@ const { connectDB } = require('./config/database');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-
+const PORT = process.env.PORT || 5001;
 // Connect to MySQL Database
 connectDB();
 
@@ -39,4 +38,4 @@ app.use('*', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-}); 
+});
