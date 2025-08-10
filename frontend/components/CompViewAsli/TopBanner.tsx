@@ -72,7 +72,7 @@ const BannerCard: React.FC = () => {
           <BazaarcheButton>دانش</BazaarcheButton>
           <BazaarcheButton>موزیک</BazaarcheButton>
           <BazaarcheButton>بازارچه</BazaarcheButton>
-          <div style={{ marginRight: isMobile ? 0 : 32 }}>
+          <div style={{ marginLeft: 32 }}>
             <DateButton>پنجشنبه، ۲۴ فروردین</DateButton>
           </div>
         </div>

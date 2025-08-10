@@ -11,7 +11,7 @@ const DetailsPage: React.FC = () => {
       <div className="details-container">
         <div style={{ height: 16 }} />
         <TopBar />
-        <div style={{ height: 32 }} />
+        <div style={{ height: 120 }} />
         {/* Main content */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 32 }}>
           {/* Banner box */}

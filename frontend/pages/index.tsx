@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
     <div className="home-container">
       <TopBar />
 
-      <div style={{ height: 64 }} />
+      <div style={{ height: 120 }} />
 
       {/* Banner Card - New Position */}
       <SectionTitle>!اگه قرار باشه فقط یه جا بری</SectionTitle>
@@ -66,16 +66,21 @@ const HomePage: React.FC = () => {
       <SectionTitle>برندها</SectionTitle>
       <BottomImage />
 
+      <div style={{ height: 140 }} />
+
+
       <style jsx>{`
         .home-container {
           padding-left: 20px;
           padding-right: 20px;
+          padding-top: 0;
         }
 
         @media (min-width: 768px) {
           .home-container {
             padding-left: 94px;
             padding-right: 94px;
+            padding-top: 0;
           }
         }
 
