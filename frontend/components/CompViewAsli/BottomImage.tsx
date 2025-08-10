@@ -1,9 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
+import { useBrandCard } from '../../Functions/useBrandCard';
 
 const bannerStyle: React.CSSProperties = {
   width: '538px',
-  height: '204px',
+  height: '180px',
   flexShrink: 0,
   borderRadius: '24px',
   border: '1px solid #F26430',
@@ -16,7 +17,7 @@ const bannerStyle: React.CSSProperties = {
   fontWeight: 400,
   position: 'relative',
   margin: '0 12px',
-  padding: '32px 40px',
+  padding: '16px 20px',
   boxSizing: 'border-box',
   overflow: 'hidden',
   transition: 'width 0.2s',
@@ -24,15 +25,15 @@ const bannerStyle: React.CSSProperties = {
 
 const avatarStyle: React.CSSProperties = {
   display: 'flex',
-  width: '48px',
-  height: '48px',
-  padding: '12.8px',
+  width: '36px',
+  height: '36px',
+  padding: '8px',
   justifyContent: 'center',
   alignItems: 'center',
   flexShrink: 0,
   borderRadius: '50%',
   background: '#E5E7EB',
-  marginBottom: '8px',
+  marginBottom: '4px',
 };
 
 const responsiveContainer: React.CSSProperties = {
@@ -46,11 +47,13 @@ const responsiveContainer: React.CSSProperties = {
 };
 
 const BottomImage: React.FC = () => {
+  const { brands } = useBrandCard();
+
   return (
     <div style={responsiveContainer}>
-      {[1, 2].map((idx) => (
+      {brands.map((brand) => (
         <div
-          key={idx}
+          key={brand.id}
           style={bannerStyle as React.CSSProperties}
           className="bottom-banner-responsive"
         >
@@ -60,51 +63,38 @@ const BottomImage: React.FC = () => {
             color: '#FFF',
             textAlign: 'right',
             fontFamily: 'Inter',
-            fontSize: 16,
+            fontSize: 13,
             fontWeight: 400,
-            lineHeight: '24px',
-            marginLeft: 32,
+            lineHeight: '20px',
+            marginLeft: 20,
             direction: 'rtl',
           }}>
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dis turpis nisi, justo, integer dignissim ornare leo euismod ac."
+            {brand.description}
           </div>
           {/* پروفایل و عنوان */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 120, paddingLeft: 24 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 90, paddingLeft: 12 }}>
             <div style={avatarStyle}>
-              <Image src="/iconProfile.svg" alt="avatar" width={38.4} height={38.4} />
+              <Image src={brand.avatarSrc} alt="avatar" width={28} height={28} />
             </div>
             <div style={{
               color: '#FFF',
               textAlign: 'center',
               fontFamily: 'Ravi',
-              fontSize: 14,
+              fontSize: 13,
               fontWeight: 700,
-              marginBottom: 4,
+              marginBottom: 1,
             }}>
-              اسم برند
+              {brand.brandName}
             </div>
             <div style={{
               color: '#FFF',
               textAlign: 'center',
               fontFamily: 'Ravi',
-              fontSize: 14,
+              fontSize: 11,
               fontWeight: 400,
             }}>
-              حوزه فعالیت برند
+              {brand.brandField}
             </div>
-          </div>
-          {/* دکمه دایره‌ای پایین چپ */}
-          <div style={{
-            position: 'absolute',
-            left: 12,
-            bottom: 12,
-            width: 40,
-            height: 40,
-            flexShrink: 0,
-          }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
-              <circle cx="20" cy="20" r="20" fill="#F3F4F6" />
-            </svg>
           </div>
         </div>
       ))}
@@ -114,6 +104,17 @@ const BottomImage: React.FC = () => {
             width: 90% !important;
             min-width: unset !important;
             margin: 16px 0 !important;
+            padding: 14px 16px !important;
+          }
+          .bottom-banner-responsive div[style*='font-size: 14px'] {
+            font-size: 12px !important;
+            line-height: 18px !important;
+          }
+          .bottom-banner-responsive div[style*='font-size: 13px'] {
+            font-size: 11px !important;
+          }
+          .bottom-banner-responsive div[style*='font-size: 11px'] {
+            font-size: 10px !important;
           }
         }
       `}</style>

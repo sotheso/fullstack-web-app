@@ -52,8 +52,8 @@ const EventCard: React.FC = () => {
         <EventTitle />
         {/* Description */}
         <EventDescription />
-        {/* Bottom row: bazarche, stars */}
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
+        {/* Bottom row: bazarche, stars - Centered */}
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
           <div>
             <BazaarcheButton>بازارچه</BazaarcheButton>
           </div>

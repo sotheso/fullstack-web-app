@@ -17,52 +17,28 @@ const HomePage: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState(0);
 
   return (
-    <div style={{ paddingLeft: '94px', paddingRight: '94px' }}>
-      <style jsx>{`
-        @media (max-width: 700px) {
-          div[style*='padding-left: 94px'] {
-            padding-left: 54px !important;
-            padding-right: 54px !important;
-          }
-        }
-      `}</style>
-      
-      
+    <div className="home-container">
       <TopBar />
 
       <div style={{ height: 64 }} />
-
 
       {/* Banner Card - New Position */}
       <SectionTitle>!اگه قرار باشه فقط یه جا بری</SectionTitle>
       <BannerCard />
 
-
       {/* Event Card Carousel - New Position */}
       <SectionTitle>:بهترین هایی که دعوتی</SectionTitle>
-      <div style={{
-        position: 'relative',
-        left: '-94px',
-        width: 'calc(100% + 188px)',
-        paddingLeft: '10px',
-        paddingRight: '10px',
-        boxSizing: 'border-box'
-      }}>
+      <div className="carousel-container">
         <EventCardCarousel />
       </div>
-
 
       <div style={{ height: 60 }} />
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
         <SectionTitle>:همه جاهایی که دعوتی</SectionTitle>
       </div>
 
-
       {/* Filter Buttons */}
-      <div
-        style={{ display: 'flex', gap: 16, justifyContent: 'flex-end', margin: '24px 0' }}
-        className="filter-bar-responsive"
-      >
+      <div className="filter-bar">
         {filterOptions.map((option, idx) => (
           <FilterButton
             key={option.label}
@@ -72,30 +48,9 @@ const HomePage: React.FC = () => {
           />
         ))}
       </div>
-      <style jsx>{`
-        @media (max-width: 700px) {
-          div[style*='padding-left: 94px'] {
-            padding-left: 54px !important;
-            padding-right: 54px !important;
-          }
-          .filter-bar-responsive {
-            justify-content: center !important;
-          }
-        }
-      `}</style>
+
       <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(373px, 1fr))',
-          columnGap: -100, // فاصله افقی کم
-          rowGap: 32,    // فاصله عمودی فعلی
-          margin: '32px auto',
-          maxWidth: (4 * 373) + (3 * 12), // برای ۴ کارت
-          width: '100%',
-          justifyContent: 'center',
-          justifyItems: 'center',
-          direction: 'ltr',
-        }}
+        className="events-grid"
       >
         <EventCard />
         <EventCard />
@@ -106,12 +61,77 @@ const HomePage: React.FC = () => {
         <EventCard />
       </div>
 
-
       <div style={{ height: 64 }} />
-
 
       <SectionTitle>برندها</SectionTitle>
       <BottomImage />
+
+      <style jsx>{`
+        .home-container {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+
+        @media (min-width: 768px) {
+          .home-container {
+            padding-left: 94px;
+            padding-right: 94px;
+          }
+        }
+
+        .carousel-container {
+          position: relative;
+          left: -20px;
+          width: calc(100% + 40px);
+          padding-left: 10px;
+          padding-right: 10px;
+          box-sizing: border-box;
+        }
+
+        @media (min-width: 768px) {
+          .carousel-container {
+            left: -94px;
+            width: calc(100% + 188px);
+          }
+        }
+
+        .filter-bar {
+          display: flex;
+          gap: 16px;
+          justify-content: center;
+          margin: 24px 0;
+        }
+
+        @media (min-width: 768px) {
+          .filter-bar {
+            justify-content: flex-end;
+          }
+        }
+
+        .events-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 32px;
+          margin: 32px auto;
+          width: 100%;
+          max-width: 373px;
+        }
+
+        @media (min-width: 768px) {
+          .events-grid {
+            grid-template-columns: repeat(auto-fit, minmax(373px, 1fr));
+            column-gap: 12px;
+            max-width: none;
+          }
+        }
+
+        @media (min-width: 1200px) {
+          .events-grid {
+            grid-template-columns: repeat(4, 373px);
+            justify-content: center;
+          }
+        }
+      `}</style>
     </div>
   );
 };
