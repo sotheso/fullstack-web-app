@@ -66,7 +66,7 @@ const HomePage: React.FC = () => {
       <SectionTitle>برندها</SectionTitle>
       <BottomImage />
 
-      <div style={{ height: 140 }} />
+      <div style={{ height: 60}} />
 
 
       <style jsx>{`

@@ -1,7 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const TopBar: React.FC = () => {
+  const router = useRouter();
+
+  const handleRegisterClick = () => {
+    router.push('/login');
+  };
+
   return (
     <div
       className="top-bar"
@@ -47,6 +54,7 @@ const TopBar: React.FC = () => {
         
         {/* Registration Button */}
         <button
+          onClick={handleRegisterClick}
           style={{
             position: 'relative',
             display: 'flex',

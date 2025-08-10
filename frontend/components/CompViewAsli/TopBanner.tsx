@@ -3,10 +3,12 @@ import { useRouter } from 'next/router';
 import BazaarcheButton from './CompDetails/ButtonCard/BazaarcheButton';
 import DateButton from './CompDetails/ButtonCard/BazaarcheButton';
 import SectionTitle from './CompDetails/Text/SectionTitle';
+import { getBannerInfo, BannerData } from '../../Functions/topBannerInfo';
 
 const BannerCard: React.FC = () => {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState<undefined | boolean>(undefined);
+  const [bannerData, setBannerData] = useState<BannerData | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -14,10 +16,15 @@ const BannerCard: React.FC = () => {
     };
     handleResize();
     window.addEventListener('resize', handleResize);
+    
+    // Get banner data
+    const data = getBannerInfo();
+    setBannerData(data);
+    
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (isMobile === undefined) return null;
+  if (isMobile === undefined || !bannerData) return null;
 
   return (
     <div style={{ marginBottom: 32, cursor: 'pointer' }} onClick={() => router.push('/details')}>
@@ -69,11 +76,11 @@ const BannerCard: React.FC = () => {
             justifyContent: isMobile ? 'center' : 'flex-start',
           }}
         >
-          <BazaarcheButton>دانش</BazaarcheButton>
-          <BazaarcheButton>موزیک</BazaarcheButton>
-          <BazaarcheButton>بازارچه</BazaarcheButton>
+          {bannerData.tags.map((tag, index) => (
+            <BazaarcheButton key={index}>{tag}</BazaarcheButton>
+          ))}
           <div style={{ marginLeft: 32 }}>
-            <DateButton>پنجشنبه، ۲۴ فروردین</DateButton>
+            <DateButton>{bannerData.date}</DateButton>
           </div>
         </div>
         {/* Orange circle absolutely positioned in bottom left */}
@@ -107,10 +114,10 @@ const BannerCard: React.FC = () => {
           }}
         >
           <BannerTitle style={{ marginBottom: 8 }}>
-            ایونت بساط
+            {bannerData.eventName}
           </BannerTitle>
           <BannerParagraph>
-            وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه! پس سیخ یادتون نره!وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه! پس سیخ یادتون نره!
+            {bannerData.eventDescription}
           </BannerParagraph>
         </div>
       </div>

@@ -2,8 +2,27 @@ import React from 'react';
 import BazaarcheButton from './CompDetails/ButtonCard/BazaarcheButton';
 import RoundIconButton from './CompDetails/ButtonCard/RoundIconButton';
 import DateButton from './CompDetails/ButtonCard/DateButton';
+import { EventCardData } from '../../Functions/eventCardInfo';
 
-const EventCard: React.FC = () => {
+interface EventCardProps {
+  eventData?: EventCardData;
+}
+
+const EventCard: React.FC<EventCardProps> = ({ eventData }) => {
+  // Default data if no props provided
+  const defaultData: EventCardData = {
+    id: 'default-event',
+    image: '/banner.png',
+    eventName: 'ایونت بساط',
+    description: 'وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه!',
+    date: 'پنجشنبه، ۲۴ فروردین',
+    tags: ['بازارچه'],
+    filterTag: 'بازارچه',
+    detailsLink: '/details'
+  };
+
+  const data = eventData || defaultData;
+
   return (
     <div className="event-card" style={{
       position: 'relative', 
@@ -30,7 +49,7 @@ const EventCard: React.FC = () => {
             width: 126.481,
             height: 126.481,
             borderRadius: 27,
-            backgroundImage: "url('/banner.png')",
+            backgroundImage: `url('${data.image}')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             transform: 'scaleX(-1)',
@@ -44,18 +63,20 @@ const EventCard: React.FC = () => {
           }}
         />
         {/* Date box */}
-        <DateButton>پنجشنبه، ۲۴ فروردین</DateButton>
+        <DateButton>{data.date}</DateButton>
       </div>
       {/* Left column: Title, description, bottom row */}
       <div style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', paddingTop: 4}}>
         {/* Title at the top */}
-        <EventTitle />
+        <EventTitle title={data.eventName} />
         {/* Description */}
-        <EventDescription />
+        <EventDescription description={data.description} />
         {/* Bottom row: bazarche, stars - Centered */}
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
           <div>
-            <BazaarcheButton>بازارچه</BazaarcheButton>
+            {data.tags.map((tag, index) => (
+              <BazaarcheButton key={index}>{tag}</BazaarcheButton>
+            ))}
           </div>
         </div>
       </div>
@@ -69,16 +90,16 @@ const EventCard: React.FC = () => {
 };
 
 // Description component
-const EventDescription: React.FC = () => (
+const EventDescription: React.FC<{ description: string }> = ({ description }) => (
   <p style={{margin: 0, textAlign: 'right', fontSize: 12, color: '#444', marginBottom: 36}}>
-    وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه!
+    {description}
   </p>
 );
 
 // Title component
-const EventTitle: React.FC = () => (
+const EventTitle: React.FC<{ title: string }> = ({ title }) => (
   <h3 style={{fontWeight: 700, fontSize: 16, margin: 0, textAlign: 'right', marginBottom: 8}}>
-    ایونت بساط
+    {title}
   </h3>
 );
 

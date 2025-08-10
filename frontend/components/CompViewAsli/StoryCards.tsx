@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import EventCard from './EventCard';
 import SectionTitle from './CompDetails/Text/SectionTitle';
-import { useCarousel } from '../../Functions/useCarousel';
+import { getStoryCardsInfo, StoryCardData } from '../../Functions/storyCardsInfo';
 
 const EventCardCarousel: React.FC = () => {
   const [isMobile, setIsMobile] = useState<undefined | boolean>(undefined);
-  // مقدار اولیه امن برای جلوگیری از خطای هوک
-  const { currentIndex, goToPrevious, goToNext, setCurrentIndex } = useCarousel(0, 3500);
+  const [stories, setStories] = useState<StoryCardData[]>([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -14,37 +13,35 @@ const EventCardCarousel: React.FC = () => {
     };
     handleResize();
     window.addEventListener('resize', handleResize);
+    
+    // Get stories data
+    const storiesData = getStoryCardsInfo();
+    setStories(storiesData);
+    
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // 9 total cards
-  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  if (isMobile === undefined || stories.length === 0) return null;
+
   const cardWidth = 350.462;
   const cardGap = 30;
-  // Desktop: 3 at a time, Mobile: 1 at a time
-  const cardsPerView = isMobile ? 1 : 3;
-  const sidePeek = isMobile ? 30 : 60; // مقدار دیده شدن کارت بعدی/قبلی
-  const visibleCardsWidth = (cardWidth * cardsPerView) + (cardGap * (cardsPerView - 1)) - (2 * sidePeek);
-  const maxIndex = cards.length - cardsPerView;
-
-  // وقتی مقدار واقعی isMobile مشخص شد، مقدار maxIndex را ست کن
-  useEffect(() => {
-    if (isMobile !== undefined) {
-      setCurrentIndex(0); // همیشه به اول برگردد
-    }
-  }, [isMobile, setCurrentIndex]);
-
-  if (isMobile === undefined) return null;
-
-  // Check if buttons should be disabled
-  const isPreviousDisabled = currentIndex === 0;
-  const isNextDisabled = currentIndex === maxIndex;
 
   return (
     <div style={{
       width: '100%',
-      overflowX: 'hidden', // جلوگیری از اسکرول افقی
+      overflowX: 'auto', // Enable horizontal scrolling
+      overflowY: 'hidden',
+      direction: 'rtl', // Set direction to right-to-left
+      // Hide scrollbar
+      scrollbarWidth: 'none', // Firefox
+      msOverflowStyle: 'none', // IE and Edge
     }}>
+      {/* Hide scrollbar for WebKit browsers (Chrome, Safari) */}
+      <style jsx>{`
+        div::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
       <div style={{ 
         display: 'flex', 
         flexDirection: 'column', 
@@ -53,30 +50,33 @@ const EventCardCarousel: React.FC = () => {
         margin: '32px 0',
         width: '100%'
       }}>
-        {/* Cards Container - Show visible cards */}
+        {/* Cards Container - Horizontally scrollable from right to left */}
         <div style={{
           display: 'flex',
-          justifyContent: 'flex-start',
+          justifyContent: 'flex-end', // Start from right side
           alignItems: 'center',
           minHeight: '620.953px',
           overflow: 'visible',
           position: 'relative',
-          width: '100vw', // تغییر داده شد
+          width: '100%',
+          paddingLeft: '94px',
+          paddingRight: '20px', // Reduced from 94px to 20px
+          boxSizing: 'border-box',
+          direction: 'ltr', // Reset direction for the cards container
         }}>
           <div 
             style={{
               display: 'flex',
               gap: `${cardGap}px`,
-              transform: `translateX(-${currentIndex * (cardWidth + cardGap)}px)` ,
-              transition: 'transform 0.5s ease-in-out',
-              width: `${cards.length * (cardWidth + cardGap)}px`,
+              width: `${stories.length * (cardWidth + cardGap)}px`,
               flexShrink: 0,
               overflow: 'visible',
+              transform: 'translateX(0)', // Start position
             }}
           >
-            {cards.map((cardId, idx) => (
+            {stories.map((story, idx) => (
               <div 
-                key={cardId} 
+                key={story.id} 
                 style={{
                   width: `${cardWidth}px`,
                   height: '620.953px',
@@ -94,104 +94,40 @@ const EventCardCarousel: React.FC = () => {
                   e.currentTarget.style.transform = 'scale(1)';
                 }}
               >
-                {/* Gray circle in bottom-left corner */}
+                {/* Gray circle in bottom-right corner with event name */}
                 <div style={{
-                  width: '40px',
-                  height: '40px',
-                  background: '#F3F4F6',
-                  borderRadius: '9999px',
-                  flexShrink: 0,
                   position: 'absolute',
                   bottom: '16px',
-                  left: '16px'
-                }} />
+                  right: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  {/* Event name */}
+                  <span style={{
+                    color: '#fff',
+                    fontSize: '16px',
+                    fontFamily: 'Ravi',
+                    fontWeight: '600',
+                    textAlign: 'right'
+                  }}>
+                    {story.eventName}
+                  </span>
+                  {/* Profile circle */}
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    background: '#fff',
+                    borderRadius: '9999px',
+                    flexShrink: 0,
+                    backgroundImage: `url('${story.profileImage}')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }} />
+                </div>
               </div>
             ))}
           </div>
-        </div>
-        {/* Navigation Buttons - Below Cards */}
-        <div style={{
-          display: 'flex',
-          gap: '8px',
-          justifyContent: 'flex-start',
-          marginTop: '16px',
-          width: '100%',
-          paddingLeft: '94px',
-          paddingRight: '94px',
-          boxSizing: 'border-box'
-        }}>
-          {/* Left Arrow */}
-          <button
-            onClick={goToPrevious}
-            disabled={isPreviousDisabled}
-            onMouseDown={(e) => e.preventDefault()}
-            style={{
-              width: '48px',
-              height: '48px',
-              background: isPreviousDisabled ? '#E5E7EB' : '#F3F4F6',
-              borderRadius: '9999px',
-              border: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: isPreviousDisabled ? 'not-allowed' : 'pointer',
-              flexShrink: 0,
-              transition: 'all 0.2s ease',
-              opacity: isPreviousDisabled ? 0.5 : 1
-            }}
-            onMouseEnter={(e) => {
-              if (!isPreviousDisabled) {
-                e.currentTarget.style.background = '#E5E7EB';
-                e.currentTarget.style.transform = 'scale(1.1)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!isPreviousDisabled) {
-                e.currentTarget.style.background = '#F3F4F6';
-                e.currentTarget.style.transform = 'scale(1)';
-              }
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 18L9 12L15 6" stroke={isPreviousDisabled ? "#999" : "#666"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-          {/* Right Arrow */}
-          <button
-            onClick={goToNext}
-            disabled={isNextDisabled}
-            onMouseDown={(e) => e.preventDefault()}
-            style={{
-              width: '48px',
-              height: '48px',
-              background: isNextDisabled ? '#E5E7EB' : '#F3F4F6',
-              borderRadius: '9999px',
-              border: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: isNextDisabled ? 'not-allowed' : 'pointer',
-              flexShrink: 0,
-              transition: 'all 0.2s ease',
-              opacity: isNextDisabled ? 0.5 : 1
-            }}
-            onMouseEnter={(e) => {
-              if (!isNextDisabled) {
-                e.currentTarget.style.background = '#E5E7EB';
-                e.currentTarget.style.transform = 'scale(1.1)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!isNextDisabled) {
-                e.currentTarget.style.background = '#F3F4F6';
-                e.currentTarget.style.transform = 'scale(1)';
-              }
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 18L15 12L9 6" stroke={isNextDisabled ? "#999" : "#666"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
         </div>
       </div>
     </div>
