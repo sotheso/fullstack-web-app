@@ -63,4 +63,14 @@ export const brandsAPI = {
   deleteBrand: (id: number) => api.delete(`/brands/${id}`),
 };
 
+export const eventsAPI = {
+  getAllEvents: () => api.get('/events'),
+  getEventById: (id: number) => api.get(`/events/${id}`),
+  createEvent: (data: { image?: string; eventName: string; description: string; date: string; tags?: string[]; filterTag?: string; detailsLink?: string }) =>
+    api.post('/events', data),
+  updateEvent: (id: number, data: { image?: string; eventName?: string; description?: string; date?: string; tags?: string[]; filterTag?: string; detailsLink?: string }) =>
+    api.put(`/events/${id}`, data),
+  deleteEvent: (id: number) => api.delete(`/events/${id}`),
+};
+
 export default api; 

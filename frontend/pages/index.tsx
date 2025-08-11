@@ -6,6 +6,8 @@ import BannerCard from '../components/CompViewAsli/TopBanner';
 import SectionTitle from '../components/CompViewAsli/CompDetails/Text/SectionTitle';
 import FilterButton from '../components/CompViewAsli/CompDetails/ButtonCard/FilterButton';
 import BottomImage from '../components/CompViewAsli/BottomImage';
+import { useEventCard } from '../Functions/useEventInfo';
+import { EventCardData } from '../Functions/eventCardInfo';
 
 const filterOptions = [
   { label: 'نزدیک‌ترین' },
@@ -15,6 +17,19 @@ const filterOptions = [
 
 const HomePage: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState(0);
+
+  const { events, loading, error } = useEventCard();
+
+  const toEventCardData = (e: any): EventCardData => ({
+    id: String(e.id),
+    image: e.image,
+    eventName: e.eventName,
+    description: e.description,
+    date: e.date,
+    tags: Array.isArray(e.tags) ? e.tags : [],
+    filterTag: e.filterTag,
+    detailsLink: e.detailsLink || '/details',
+  });
 
   return (
     <div className="home-container">
@@ -52,13 +67,21 @@ const HomePage: React.FC = () => {
       <div
         className="events-grid"
       >
-        <EventCard />
-        <EventCard />
-        <EventCard />
-        <EventCard />
-        <EventCard />
-        <EventCard />
-        <EventCard />
+        {loading && (
+          <>
+            <EventCard />
+            <EventCard />
+          </>
+        )}
+        {!loading && !error && events.map((e) => (
+          <EventCard key={e.id} eventData={toEventCardData(e)} />
+        ))}
+        {!loading && error && (
+          <>
+            <EventCard />
+            <EventCard />
+          </>
+        )}
       </div>
 
       <div style={{ height: 64 }} />
@@ -127,6 +150,7 @@ const HomePage: React.FC = () => {
             grid-template-columns: repeat(auto-fit, minmax(373px, 1fr));
             column-gap: 12px;
             max-width: none;
+            padding: 0 200px;
           }
         }
 

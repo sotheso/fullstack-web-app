@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { eventsAPI } from '../services/api';
 import OrangeCapsule from '../components/CompViewDetails/OrangeCapsule';
 import BazaarcheButton from '../components/CompViewAsli/CompDetails/ButtonCard/BazaarcheButton';
 
@@ -58,6 +59,53 @@ interface EventInfoProps {
   images?: string[];
   brands?: string[];
 }
+
+export const useEventCard = () => {
+  const [events, setEvents] = useState<Array<{
+    id: number;
+    image: string;
+    eventName: string;
+    description: string;
+    date: string;
+    tags: string[];
+    filterTag: string;
+    detailsLink: string;
+  }>>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        setLoading(true);
+        const response = await eventsAPI.getAllEvents();
+        setEvents(response.data);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching events:', err);
+        setError('خطا در بارگذاری ایونت‌ها');
+        // fallback sample
+        setEvents([
+          {
+            id: 1,
+            image: '/banner.png',
+            eventName: 'ایونت بساط',
+            description: 'وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه!',
+            date: 'پنجشنبه، ۲۴ فروردین',
+            tags: ['بازارچه'],
+            filterTag: 'بازارچه',
+            detailsLink: '/details',
+          },
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEvents();
+  }, []);
+
+  return { events, loading, error };
+};
 
 const EventInfo: React.FC<EventInfoProps> = ({
   name,
