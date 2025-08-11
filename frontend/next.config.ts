@@ -1,11 +1,12 @@
 import type { NextConfig } from "next";
 
-// Static export for GitHub Pages; using basePath/assetPrefix for project pages under /pro
+// Configuration for GitHub Pages
 const nextConfig: NextConfig = {
-  output: 'export',
+  output: 'standalone',
   images: { unoptimized: true },
   basePath: '/pro',
-  assetPrefix: '/pro/'
+  assetPrefix: '/pro/',
+  trailingSlash: true
 };
 
 export default nextConfig;
