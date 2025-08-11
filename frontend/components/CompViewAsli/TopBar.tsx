@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 
 const TopBar: React.FC = () => {
-  const router = useRouter();
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleRegisterClick = () => {
-    router.push('/login');
+    setShowAlert(true);
   };
 
   return (
@@ -76,6 +75,66 @@ const TopBar: React.FC = () => {
           ثبت نام
         </button>
       </div>
+
+      {showAlert && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setShowAlert(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.45)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 2000,
+            paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)',
+            paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 16px)',
+            paddingLeft: 'calc(env(safe-area-inset-left, 0px) + 16px)',
+            paddingRight: 'calc(env(safe-area-inset-right, 0px) + 16px)',
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: 'min(90vw, 320px)',
+              background: '#fff',
+              borderRadius: 16,
+              boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+              padding: 16,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              gap: 10,
+              boxSizing: 'border-box',
+              direction: 'rtl',
+              margin: '100px auto 0',
+            }}
+          >
+            <Image src="/work.png" alt="درحال توسعه" width={110} height={110} />
+            <div style={{ fontFamily: 'Ravi', fontSize: 16, fontWeight: 700 }}>
+              برنامه نویسان مشغول کار اند
+            </div>
+            <button
+              onClick={() => setShowAlert(false)}
+              style={{
+                marginTop: 4,
+                backgroundColor: 'rgba(242, 100, 48, 1)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 12,
+                padding: '8px 16px',
+                fontFamily: 'Ravi',
+                cursor: 'pointer',
+              }}
+            >
+              خداقوت
+            </button>
+          </div>
+        </div>
+      )}
 
       <style jsx>{`
         .top-bar {

@@ -169,7 +169,7 @@ const EventInfo: React.FC<EventInfoProps> = ({
     {/* برندها */}
     {brands && brands.length > 0 && (
       <>
-        <BannerTitle style={{ color: '#F26430', marginBottom: 24 }}>:برندها</BannerTitle>
+        <BannerTitle style={{ color: '#F26430'}}>:برندها</BannerTitle>
         <BannerParagraph>
           {brands.join('، ')}
         </BannerParagraph>

@@ -6,6 +6,7 @@ import { getStoryCardsInfo, StoryCardData } from '../../Functions/storyCardsInfo
 const EventCardCarousel: React.FC = () => {
   const [isMobile, setIsMobile] = useState<undefined | boolean>(undefined);
   const [stories, setStories] = useState<StoryCardData[]>([]);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -85,7 +86,8 @@ const EventCardCarousel: React.FC = () => {
                   position: 'relative',
                   flexShrink: 0,
                   transform: 'scale(1)',
-                  transition: 'transform 0.2s ease'
+                  transition: 'transform 0.2s ease',
+                  cursor: 'pointer',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'scale(1.02)';
@@ -93,6 +95,7 @@ const EventCardCarousel: React.FC = () => {
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'scale(1)';
                 }}
+                onClick={() => setActiveIndex(idx)}
               >
                 {/* Gray circle in bottom-right corner with event name */}
                 <div style={{
@@ -129,6 +132,88 @@ const EventCardCarousel: React.FC = () => {
             ))}
           </div>
         </div>
+        {activeIndex !== null && (
+          <div
+            role="dialog"
+            aria-modal="true"
+            onClick={() => setActiveIndex(null)}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0,0,0,0.95)',
+              zIndex: 3000,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 0,
+            }}
+          >
+            {/* Back button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveIndex(null);
+              }}
+              style={{
+                position: 'absolute',
+                top: 16,
+                right: 16,
+                background: 'rgba(255,255,255,0.9)',
+                border: 'none',
+                borderRadius: 12,
+                padding: '8px 14px',
+                fontFamily: 'Ravi',
+                cursor: 'pointer',
+                zIndex: 2,
+              }}
+            >
+              بازگشت
+            </button>
+            {/* Story content container (stops click bubbling) */}
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: '100vw',
+                height: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                zIndex: 1,
+              }}
+            >
+              <div
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundImage: `url('${stories[activeIndex].posterImage}')`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  backgroundSize: 'contain',
+                }}
+              />
+              {/* Caption at bottom */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 24,
+                  left: 0,
+                  right: 0,
+                  textAlign: 'center',
+                  color: '#fff',
+                  fontFamily: 'Ravi',
+                  fontSize: 16,
+                  textShadow: '0 2px 8px rgba(0,0,0,0.5)'
+                }}
+              >
+                {stories[activeIndex].eventName}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
