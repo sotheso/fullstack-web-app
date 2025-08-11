@@ -31,7 +31,7 @@ jobs:
         working-directory: frontend
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-          NEXT_PUBLIC_BASE_PATH: /pro
+          NEXT_PUBLIC_BASE_PATH: /fullstack-web-app
         run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

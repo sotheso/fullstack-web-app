@@ -4,8 +4,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: { unoptimized: true },
-  basePath: '/pro',
-  assetPrefix: '/pro/',
+  basePath: '/fullstack-web-app',
+  assetPrefix: '/fullstack-web-app/',
   trailingSlash: true
 };
 
