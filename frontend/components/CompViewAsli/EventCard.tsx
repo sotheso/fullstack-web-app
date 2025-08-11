@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import BazaarcheButton from './CompDetails/ButtonCard/BazaarcheButton';
 import RoundIconButton from './CompDetails/ButtonCard/RoundIconButton';
 import DateButton from './CompDetails/ButtonCard/DateButton';
@@ -10,6 +11,7 @@ interface EventCardProps {
 }
 
 const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
+  const router = useRouter();
   // Default data if no props provided
   const defaultData: EventCardData = {
     id: 'default-event',
@@ -25,13 +27,16 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
   const data = eventData || defaultData;
 
   return (
-    <div className="event-card" style={{
+    <div
+      className="event-card"
+      onClick={() => router.push(data.detailsLink || '/details')}
+      style={{
       position: 'relative', 
       display: 'flex', 
       flexDirection: 'row-reverse', 
       alignItems: 'stretch', 
       width: 349.444, 
-      height: 180, 
+      height: 200, 
       flexShrink: 0,
       borderRadius: 24,
       border: '1px solid #EDEDED',
@@ -40,8 +45,10 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
       gap: 8, 
       boxSizing: 'border-box', 
       overflow: 'hidden',
+      cursor: 'pointer',
       paddingBottom: 7,
-    }}>
+    }}
+    >
       {/* Right column: Banner and Date */}
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', height: '100%', minWidth: 120}}>
         {/* Banner with icon placeholder */}
@@ -63,18 +70,29 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
             justifyContent: 'center',
           }}
         />
-        {/* Date box */}
-        <DateButton>{data.date}</DateButton>
+        {/* Date box anchored to bottom */}
+        <div style={{marginTop: 'auto'}}>
+          <DateButton>{data.date}</DateButton>
+        </div>
       </div>
       {/* Left column: Title, description, bottom row */}
-      <div style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', paddingTop: 4}}>
+      <div className="event-left-col" style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        height: '100%',
+        paddingTop: 4,
+        gap: 8,
+        minWidth: 0,
+      }}>
         {/* Title at the top */}
         <EventTitle title={data.eventName} />
         {/* Description */}
         <EventDescription description={data.description} />
-        {/* Bottom row: bazarche, stars - Centered */}
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-          <div>
+        {/* Bottom row: tags - spaced and aligned with date (bottom) */}
+        <div className="event-tags" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 'auto'}}>
+          <div style={{maxWidth: '100%', overflow: 'hidden', width: '100%', textAlign: 'center', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center'}}>
             {data.tags.map((tag, index) => (
               <BazaarcheButton
                 key={index}
@@ -94,22 +112,69 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
           <path d="M11.2432 5.77704L6.20262 0.736437L1.16208 5.77704" stroke="white" strokeWidth="1.13" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </RoundIconButton>
+      <style jsx>{`
+        @media (max-width: 700px) {
+          .event-card { height: 190px !important; }
+          .event-left-col { gap: 4px; }
+          .event-description { margin-bottom: 4px !important; }
+          .event-tags { margin-top: 2px; }
+        }
+      `}</style>
     </div>
   );
 };
 
 // Description component
 const EventDescription: React.FC<{ description: string }> = ({ description }) => (
-  <p style={{margin: 0, textAlign: 'right', fontSize: 12, color: '#444', marginBottom: 36}}>
+  <p
+    className="event-description"
+    style={{
+      margin: 0,
+      textAlign: 'right',
+      fontSize: 12,
+      color: '#444',
+      marginBottom: 24,
+      display: '-webkit-box',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      WebkitLineClamp: 2 as unknown as number,
+      WebkitBoxOrient: 'vertical' as unknown as any,
+      lineHeight: '16px',
+      maxHeight: '32px',
+    }}
+  >
     {description}
   </p>
 );
 
 // Title component
 const EventTitle: React.FC<{ title: string }> = ({ title }) => (
-  <h3 style={{fontWeight: 700, fontSize: 16, margin: 0, textAlign: 'right', marginBottom: 8}}>
+  <h3
+    style={{
+      fontWeight: 700,
+      fontSize: 16,
+      margin: 0,
+      textAlign: 'right',
+      marginBottom: 8,
+      display: '-webkit-box',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      WebkitLineClamp: 2 as unknown as number,
+      WebkitBoxOrient: 'vertical' as unknown as any,
+      lineHeight: '18px',
+      maxHeight: '36px',
+    }}
+  >
     {title}
   </h3>
 );
 
 export default EventCard; 
+
+/* Mobile spacing tweaks */
+<style jsx>{`
+  @media (max-width: 700px) {
+    .event-left-col { gap: 6px; }
+    .event-description { margin-bottom: 8px !important; }
+  }
+`}</style>

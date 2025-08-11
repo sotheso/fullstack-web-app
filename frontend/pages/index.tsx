@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import EventCard from '../components/CompViewAsli/EventCard';
 import TopBar from '../components/CompViewAsli/TopBar';
 import EventCardCarousel from '../components/CompViewAsli/StoryCards';
@@ -32,16 +32,6 @@ const HomePage: React.FC = () => {
     ? events.filter((e: any) => e.filterTag === activeFilterTag)
     : events;
 
-  const uniqueFilterTags = useMemo<string[]>(() => {
-    const tags = new Set<string>();
-    (events || []).forEach((e: any) => {
-      if (e && typeof e.filterTag === 'string' && e.filterTag.trim().length > 0) {
-        tags.add(e.filterTag);
-      }
-    });
-    return Array.from(tags);
-  }, [events]);
-
   return (
     <div className="home-container">
       <TopBar />
@@ -63,7 +53,7 @@ const HomePage: React.FC = () => {
         <SectionTitle>:همه جاهایی که دعوتی</SectionTitle>
       </div>
 
-      {/* Filter Buttons */}
+      {/* Filter Buttons - fixed categories */}
       <div className="filter-bar">
         <FilterButton
           key="all"
@@ -74,17 +64,24 @@ const HomePage: React.FC = () => {
             setActiveFilterTag(null);
           }}
         />
-        {uniqueFilterTags.map((tag, idx) => (
-          <FilterButton
-            key={tag}
-            label={tag}
-            active={activeFilter === idx + 1}
-            onClick={() => {
-              setActiveFilter(idx + 1);
-              setActiveFilterTag(tag);
-            }}
-          />
-        ))}
+        <FilterButton
+          key="popular"
+          label="محبوب‌ترین"
+          active={activeFilter === 1}
+          onClick={() => {
+            setActiveFilter(1);
+            setActiveFilterTag('محبوب‌ترین');
+          }}
+        />
+        <FilterButton
+          key="newest"
+          label="جدید ترین"
+          active={activeFilter === 2}
+          onClick={() => {
+            setActiveFilter(2);
+            setActiveFilterTag('جدید ترین');
+          }}
+        />
       </div>
 
       <div
@@ -177,13 +174,13 @@ const HomePage: React.FC = () => {
             grid-template-columns: repeat(auto-fit, minmax(373px, 1fr));
             column-gap: 12px;
             max-width: none;
-            padding: 0 200px;
+            padding: 0px;
           }
         }
 
         @media (min-width: 1200px) {
           .events-grid {
-            grid-template-columns: repeat(4, 373px);
+            grid-template-columns: repeat(3, 373px);
             justify-content: center;
           }
         }

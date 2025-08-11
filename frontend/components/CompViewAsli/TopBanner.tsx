@@ -28,7 +28,7 @@ const BannerCard: React.FC = () => {
         style={{
           width: '100%',
           maxWidth: 1104,
-          minHeight: isMobile ? 400 : 240,
+          minHeight: isMobile ? 360 : 240,
           height: 'auto',
           borderRadius: 40,
           border: '1px solid #EDEDED',
@@ -54,7 +54,7 @@ const BannerCard: React.FC = () => {
             flexShrink: 0,
             borderRadius: 24,
             background: '#F26430',
-            margin: isMobile ? '0 auto 16px auto' : 16,
+            margin: isMobile ? '0 auto 8px auto' : 16,
           }}
         />
         {/* Button row absolutely positioned at bottom left of orange block */}
@@ -67,7 +67,7 @@ const BannerCard: React.FC = () => {
             flexDirection: 'row',
             alignItems: 'center',
             gap: 8,
-            marginTop: isMobile ? 16 : 0,
+            marginTop: isMobile ? 8 : 0,
             justifyContent: isMobile ? 'center' : 'flex-start',
           }}
         >
@@ -105,7 +105,7 @@ const BannerCard: React.FC = () => {
             flexDirection: 'column',
             alignItems: 'flex-end',
             margin: isMobile ? '0 auto' : 0,
-            marginTop: isMobile ? 16 : 0,
+            marginTop: isMobile ? 8 : 0,
           }}
         >
           <BannerTitle style={{ marginBottom: 8 }}>

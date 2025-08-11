@@ -93,7 +93,17 @@ const BottomImage: React.FC = () => {
               fontSize: 11,
               fontWeight: 400,
             }}>
-              {brand.brandField}
+              {(() => {
+                const words = String(brand.brandField || '').trim().split(/\s+/);
+                if (words.length <= 4) return brand.brandField;
+                return (
+                  <>
+                    {words.slice(0, 4).join(' ')}
+                    <br />
+                    {words.slice(4).join(' ')}
+                  </>
+                );
+              })()}
             </div>
           </div>
         </div>
