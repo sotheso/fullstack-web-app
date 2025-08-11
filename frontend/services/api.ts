@@ -73,4 +73,14 @@ export const eventsAPI = {
   deleteEvent: (id: number) => api.delete(`/events/${id}`),
 };
 
+export const bannersAPI = {
+  getAllBanners: () => api.get('/banners'),
+  getBannerById: (id: number) => api.get(`/banners/${id}`),
+  createBanner: (data: { image?: string; date: string; tags?: string[]; eventName: string; eventDescription: string; detailsLink?: string }) =>
+    api.post('/banners', data),
+  updateBanner: (id: number, data: { image?: string; date?: string; tags?: string[]; eventName?: string; eventDescription?: string; detailsLink?: string }) =>
+    api.put(`/banners/${id}`, data),
+  deleteBanner: (id: number) => api.delete(`/banners/${id}`),
+};
+
 export default api; 

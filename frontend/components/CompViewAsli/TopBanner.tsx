@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import BazaarcheButton from './CompDetails/ButtonCard/BazaarcheButton';
-import DateButton from './CompDetails/ButtonCard/BazaarcheButton';
+import DateButton from './CompDetails/ButtonCard/DateButton';
 import SectionTitle from './CompDetails/Text/SectionTitle';
-import { getBannerInfo, BannerData } from '../../Functions/topBannerInfo';
+import { useBanner } from '../../Functions/useBanner';
 
 const BannerCard: React.FC = () => {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState<undefined | boolean>(undefined);
-  const [bannerData, setBannerData] = useState<BannerData | null>(null);
+  const { banner, loading } = useBanner();
 
   useEffect(() => {
     const handleResize = () => {
@@ -16,15 +16,10 @@ const BannerCard: React.FC = () => {
     };
     handleResize();
     window.addEventListener('resize', handleResize);
-    
-    // Get banner data
-    const data = getBannerInfo();
-    setBannerData(data);
-    
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (isMobile === undefined || !bannerData) return null;
+  if (isMobile === undefined || loading || !banner) return null;
 
   return (
     <div style={{ marginBottom: 32, cursor: 'pointer' }} onClick={() => router.push('/details')}>
@@ -76,11 +71,11 @@ const BannerCard: React.FC = () => {
             justifyContent: isMobile ? 'center' : 'flex-start',
           }}
         >
-          {bannerData.tags.map((tag, index) => (
+          {banner.tags.map((tag, index) => (
             <BazaarcheButton key={index}>{tag}</BazaarcheButton>
           ))}
           <div style={{ marginLeft: 32 }}>
-            <DateButton>{bannerData.date}</DateButton>
+            <DateButton>{banner.date}</DateButton>
           </div>
         </div>
         {/* Orange circle absolutely positioned in bottom left */}
@@ -114,10 +109,10 @@ const BannerCard: React.FC = () => {
           }}
         >
           <BannerTitle style={{ marginBottom: 8 }}>
-            {bannerData.eventName}
+            {banner.eventName}
           </BannerTitle>
           <BannerParagraph>
-            {bannerData.eventDescription}
+            {banner.eventDescription}
           </BannerParagraph>
         </div>
       </div>
