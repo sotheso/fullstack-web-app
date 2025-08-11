@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import EventCard from '../components/CompViewAsli/EventCard';
 import TopBar from '../components/CompViewAsli/TopBar';
 import EventCardCarousel from '../components/CompViewAsli/StoryCards';
@@ -9,14 +9,11 @@ import BottomImage from '../components/CompViewAsli/BottomImage';
 import { useEventCard } from '../Functions/useEventInfo';
 import { EventCardData } from '../Functions/eventCardInfo';
 
-const filterOptions = [
-  { label: 'نزدیک‌ترین' },
-  { label: 'محبوب‌ترین' },
-  { label: 'جدیدترین' },
-];
+// دکمه‌های فیلتر را از روی مقادیر filterTag ایونت‌ها می‌سازیم
 
 const HomePage: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState(0);
+  const [activeFilterTag, setActiveFilterTag] = useState<string | null>(null);
 
   const { events, loading, error } = useEventCard();
 
@@ -30,6 +27,20 @@ const HomePage: React.FC = () => {
     filterTag: e.filterTag,
     detailsLink: e.detailsLink || '/details',
   });
+
+  const filteredEvents = activeFilterTag
+    ? events.filter((e: any) => e.filterTag === activeFilterTag)
+    : events;
+
+  const uniqueFilterTags = useMemo<string[]>(() => {
+    const tags = new Set<string>();
+    (events || []).forEach((e: any) => {
+      if (e && typeof e.filterTag === 'string' && e.filterTag.trim().length > 0) {
+        tags.add(e.filterTag);
+      }
+    });
+    return Array.from(tags);
+  }, [events]);
 
   return (
     <div className="home-container">
@@ -54,12 +65,24 @@ const HomePage: React.FC = () => {
 
       {/* Filter Buttons */}
       <div className="filter-bar">
-        {filterOptions.map((option, idx) => (
+        <FilterButton
+          key="all"
+          label="همه"
+          active={activeFilter === 0}
+          onClick={() => {
+            setActiveFilter(0);
+            setActiveFilterTag(null);
+          }}
+        />
+        {uniqueFilterTags.map((tag, idx) => (
           <FilterButton
-            key={option.label}
-            label={option.label}
-            active={activeFilter === idx}
-            onClick={() => setActiveFilter(idx)}
+            key={tag}
+            label={tag}
+            active={activeFilter === idx + 1}
+            onClick={() => {
+              setActiveFilter(idx + 1);
+              setActiveFilterTag(tag);
+            }}
           />
         ))}
       </div>
@@ -73,8 +96,12 @@ const HomePage: React.FC = () => {
             <EventCard />
           </>
         )}
-        {!loading && !error && events.map((e) => (
-          <EventCard key={e.id} eventData={toEventCardData(e)} />
+        {!loading && !error && filteredEvents.map((e) => (
+          <EventCard
+            key={e.id}
+            eventData={toEventCardData(e)}
+            onFilter={(tag) => setActiveFilterTag(tag)}
+          />
         ))}
         {!loading && error && (
           <>
@@ -125,15 +152,14 @@ const HomePage: React.FC = () => {
 
         .filter-bar {
           display: flex;
+          flex-direction: row-reverse;
           gap: 16px;
-          justify-content: center;
+          justify-content: center; /* وسط چین در موبایل */
           margin: 24px 0;
         }
 
         @media (min-width: 768px) {
-          .filter-bar {
-            justify-content: flex-end;
-          }
+          .filter-bar { justify-content: flex-start; } /* راست‌چین در دسکتاپ */
         }
 
         .events-grid {
@@ -143,6 +169,7 @@ const HomePage: React.FC = () => {
           margin: 32px auto;
           width: 100%;
           max-width: 373px;
+          justify-items: center; /* وسط چین کارت‌ها در موبایل */
         }
 
         @media (min-width: 768px) {

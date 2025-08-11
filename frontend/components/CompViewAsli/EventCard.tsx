@@ -6,9 +6,10 @@ import { EventCardData } from '../../Functions/eventCardInfo';
 
 interface EventCardProps {
   eventData?: EventCardData;
+  onFilter?: (filterTag: string) => void;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ eventData }) => {
+const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
   // Default data if no props provided
   const defaultData: EventCardData = {
     id: 'default-event',
@@ -75,7 +76,15 @@ const EventCard: React.FC<EventCardProps> = ({ eventData }) => {
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
           <div>
             {data.tags.map((tag, index) => (
-              <BazaarcheButton key={index}>{tag}</BazaarcheButton>
+              <BazaarcheButton
+                key={index}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (onFilter) onFilter(data.filterTag);
+                }}
+              >
+                {tag}
+              </BazaarcheButton>
             ))}
           </div>
         </div>
