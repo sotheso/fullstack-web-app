@@ -24,13 +24,16 @@ api.interceptors.request.use(
 );
 
 // Response interceptor to handle errors
+// Respect basePath on hard redirects when unauthorized
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      window.location.href = `${BASE_PATH}/login`;
     }
     return Promise.reject(error);
   }

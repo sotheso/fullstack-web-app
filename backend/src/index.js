@@ -12,7 +12,13 @@ const PORT = process.env.PORT || 5001;
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://<username>.github.io',
+    'https://<username>.github.io/pro',
+    process.env.ALLOWED_ORIGIN || ''
+  ].filter(Boolean)
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

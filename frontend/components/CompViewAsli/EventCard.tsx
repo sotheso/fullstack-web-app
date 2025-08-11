@@ -12,6 +12,7 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
   const router = useRouter();
+  const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
   // Default data if no props provided
   const defaultData: EventCardData = {
     id: 'default-event',
@@ -29,7 +30,14 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
   return (
     <div
       className="event-card"
-      onClick={() => router.push(data.detailsLink || '/details')}
+      onClick={() => {
+        const link = data.detailsLink || '/details';
+        if (link.startsWith('/')) {
+          router.push(`${BASE_PATH}${link}`);
+        } else {
+          router.push(link);
+        }
+      }}
       style={{
       position: 'relative', 
       display: 'flex', 
@@ -57,7 +65,9 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
             width: 126.481,
             height: 126.481,
             borderRadius: 27,
-            backgroundImage: `url('${data.image}')`,
+            backgroundImage: data.image?.startsWith('/')
+              ? `url('${BASE_PATH}${data.image}')`
+              : `url('${data.image}')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             transform: 'scaleX(-1)',

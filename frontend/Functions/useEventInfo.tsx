@@ -88,13 +88,13 @@ export const useEventCard = () => {
         setEvents([
           {
             id: 1,
-            image: '/banner.png',
+            image: (process.env.NEXT_PUBLIC_BASE_PATH || '') + '/banner.png',
             eventName: 'ایونت بساط',
             description: 'وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه!',
             date: 'پنجشنبه، ۲۴ فروردین',
             tags: ['بازارچه'],
             filterTag: 'بازارچه',
-            detailsLink: '/details',
+            detailsLink: ((process.env.NEXT_PUBLIC_BASE_PATH || '') + '/details'),
           },
         ]);
       } finally {

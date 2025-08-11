@@ -33,14 +33,14 @@ export const useBrandCard = () => {
             description: "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز.",
             brandName: "اسم برند",
             brandField: "حوزه فعالیت برند",
-            avatarSrc: "/iconProfile.svg"
+            avatarSrc: (process.env.NEXT_PUBLIC_BASE_PATH || '') + "/iconProfile.svg"
           },
           {
             id: 2,
             description: "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز",
             brandName: "اسم برند",
             brandField: "حوزه فعالیت برند",
-            avatarSrc: "/iconProfile.svg"
+            avatarSrc: (process.env.NEXT_PUBLIC_BASE_PATH || '') + "/iconProfile.svg"
           }
         ]);
       } finally {

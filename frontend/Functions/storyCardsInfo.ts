@@ -8,60 +8,61 @@ export interface StoryCardData {
 
 // Function to get story cards information
 export const getStoryCardsInfo = (): StoryCardData[] => {
+  const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
   return [
     {
       id: 'story-1',
       eventName: 'ایونت بساط',
-      profileImage: '/profile1.png',
-      posterImage: '/poster1.png'
+      profileImage: `${BASE_PATH}/profile1.png`,
+      posterImage: `${BASE_PATH}/poster1.png`
     },
     {
       id: 'story-2',
       eventName: 'کنسرت موسیقی',
-      profileImage: '/profile2.png',
-      posterImage: '/poster2.png'
+      profileImage: `${BASE_PATH}/profile2.png`,
+      posterImage: `${BASE_PATH}/poster2.png`
     },
     {
       id: 'story-3',
       eventName: 'کارگاه آموزشی',
-      profileImage: '/profile3.png',
-      posterImage: '/poster3.png'
+      profileImage: `${BASE_PATH}/profile3.png`,
+      posterImage: `${BASE_PATH}/poster3.png`
     },
     {
       id: 'story-4',
       eventName: 'نمایشگاه هنر',
-      profileImage: '/profile4.png',
-      posterImage: '/poster4.png'
+      profileImage: `${BASE_PATH}/profile4.png`,
+      posterImage: `${BASE_PATH}/poster4.png`
     },
     {
       id: 'story-5',
       eventName: 'مسابقه ورزشی',
-      profileImage: '/profile5.png',
-      posterImage: '/poster5.png'
+      profileImage: `${BASE_PATH}/profile5.png`,
+      posterImage: `${BASE_PATH}/poster5.png`
     },
     {
       id: 'story-6',
       eventName: 'جشنواره غذا',
-      profileImage: '/profile6.png',
-      posterImage: '/poster6.png'
+      profileImage: `${BASE_PATH}/profile6.png`,
+      posterImage: `${BASE_PATH}/poster6.png`
     },
     {
       id: 'story-7',
       eventName: 'سخنرانی علمی',
-      profileImage: '/profile7.png',
-      posterImage: '/poster7.png'
+      profileImage: `${BASE_PATH}/profile7.png`,
+      posterImage: `${BASE_PATH}/poster7.png`
     },
     {
       id: 'story-8',
       eventName: 'نمایش تئاتر',
-      profileImage: '/profile8.png',
-      posterImage: '/poster8.png'
+      profileImage: `${BASE_PATH}/profile8.png`,
+      posterImage: `${BASE_PATH}/poster8.png`
     },
     {
       id: 'story-9',
       eventName: 'بازارچه محلی',
-      profileImage: '/profile9.png',
-      posterImage: '/poster9.png'
+      profileImage: `${BASE_PATH}/profile9.png`,
+      posterImage: `${BASE_PATH}/poster9.png`
     }
   ];
 };

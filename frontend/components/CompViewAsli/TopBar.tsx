@@ -8,6 +8,8 @@ const TopBar: React.FC = () => {
     setShowAlert(true);
   };
 
+  const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
   return (
     <div
       className="top-bar"
@@ -41,7 +43,7 @@ const TopBar: React.FC = () => {
       }}>
         {/* Logo */}
         <Image
-          src="/DavvatLogo.png"
+          src={`${BASE_PATH}/DavvatLogo.png`}
           alt="Davvat Logo"
           width={80}
           height={80}
@@ -113,7 +115,7 @@ const TopBar: React.FC = () => {
               margin: '100px auto 0',
             }}
           >
-            <Image src="/work.png" alt="درحال توسعه" width={110} height={110} />
+            <Image src={`${BASE_PATH}/work.png`} alt="درحال توسعه" width={110} height={110} />
             <div style={{ fontFamily: 'Ravi', fontSize: 16, fontWeight: 700 }}>
               برنامه نویسان مشغول کار اند
             </div>

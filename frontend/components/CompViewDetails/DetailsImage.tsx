@@ -19,10 +19,13 @@ const DetailsImage: React.FC<DetailsImageProps> = ({ images }) => {
   let bg: string | undefined = undefined;
   let src: string | undefined = undefined;
   if (typeof current === 'string') {
-    src = current;
+    const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    src = current.startsWith('/') ? `${BASE_PATH}${current}` : current;
   } else {
     bg = current.bg;
-    src = 'src' in current ? current.src : undefined;
+    const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    const raw = 'src' in current ? current.src : undefined;
+    src = raw && raw.startsWith('/') ? `${BASE_PATH}${raw}` : raw;
   }
   // اگر bg وجود نداشت، رنگ پیش‌فرض بگذار
   if (!bg) bg = '#F26430';

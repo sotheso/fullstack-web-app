@@ -7,6 +7,7 @@ const EventCardCarousel: React.FC = () => {
   const [isMobile, setIsMobile] = useState<undefined | boolean>(undefined);
   const [stories, setStories] = useState<StoryCardData[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
   useEffect(() => {
     const handleResize = () => {
@@ -123,7 +124,9 @@ const EventCardCarousel: React.FC = () => {
                     background: '#fff',
                     borderRadius: '9999px',
                     flexShrink: 0,
-                    backgroundImage: `url('${story.profileImage}')`,
+                    backgroundImage: story.profileImage.startsWith('/')
+                      ? `url('${BASE_PATH}${story.profileImage}')`
+                      : `url('${story.profileImage}')`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center'
                   }} />
@@ -189,7 +192,9 @@ const EventCardCarousel: React.FC = () => {
                 style={{
                   width: '100%',
                   height: '100%',
-                  backgroundImage: `url('${stories[activeIndex].posterImage}')`,
+                  backgroundImage: stories[activeIndex].posterImage.startsWith('/')
+                    ? `url('${BASE_PATH}${stories[activeIndex].posterImage}')`
+                    : `url('${stories[activeIndex].posterImage}')`,
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center',
                   backgroundSize: 'contain',

@@ -8,7 +8,8 @@ const AuthPage: React.FC = () => {
   const router = useRouter();
 
   const handleSuccess = () => {
-    router.push('/');
+    const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    router.push(`${BASE_PATH}/`);
   };
 
   const handleSwitchToRegister = () => {

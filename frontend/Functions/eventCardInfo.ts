@@ -12,36 +12,37 @@ export interface EventCardData {
 
 // Function to get event card information
 export const getEventCardInfo = (): EventCardData[] => {
+  const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
   return [
     {
       id: 'event-1',
-      image: '/banner.png',
+      image: `${BASE_PATH}/banner.png`,
       eventName: 'ایونت بساط',
       description: 'وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه!',
       date: 'پنجشنبه، ۲۴ فروردین',
       tags: ['بازارچه'],
       filterTag: 'بازارچه',
-      detailsLink: '/details'
+      detailsLink: `${BASE_PATH}/details`
     },
     {
       id: 'event-2',
-      image: '/banner.png',
+      image: `${BASE_PATH}/banner.png`,
       eventName: 'کنسرت موسیقی',
       description: 'شب موسیقی و هنر با بهترین نوازندگان شهر',
       date: 'شنبه، ۲۶ فروردین',
       tags: ['موزیک', 'هنر'],
       filterTag: 'موزیک',
-      detailsLink: '/details'
+      detailsLink: `${BASE_PATH}/details`
     },
     {
       id: 'event-3',
-      image: '//banner.png',
+      image: `${BASE_PATH}/banner.png`,
       eventName: 'کارگاه آموزشی',
       description: 'آموزش مهارت‌های جدید در حوزه تکنولوژی',
       date: 'یکشنبه، ۲۷ فروردین',
       tags: ['دانش', 'تکنولوژی'],
       filterTag: 'دانش',
-      detailsLink: '/details'
+      detailsLink: `${BASE_PATH}/details`
     }
   ];
 };
