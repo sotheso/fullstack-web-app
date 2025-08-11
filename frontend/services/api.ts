@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -51,6 +51,16 @@ export const userAPI = {
   getUserById: (id: string) => api.get(`/users/${id}`),
   updateUser: (id: string, data: { username?: string; email?: string }) =>
     api.put(`/users/${id}`, data),
+};
+
+export const brandsAPI = {
+  getAllBrands: () => api.get('/brands'),
+  getBrandById: (id: number) => api.get(`/brands/${id}`),
+  createBrand: (data: { description: string; brandName: string; brandField: string; avatarSrc?: string }) =>
+    api.post('/brands', data),
+  updateBrand: (id: number, data: { description?: string; brandName?: string; brandField?: string; avatarSrc?: string }) =>
+    api.put(`/brands/${id}`, data),
+  deleteBrand: (id: number) => api.delete(`/brands/${id}`),
 };
 
 export default api; 

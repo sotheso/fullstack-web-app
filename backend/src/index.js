@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
 // API routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
+app.use('/api/brands', require('./routes/brands'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
