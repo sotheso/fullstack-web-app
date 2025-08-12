@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # MySQL Database for Development
+  mysql_dev:
+    image: mysql:8.0
+    container_name: davvvat_mysql_dev
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 11331133
+      MYSQL_DATABASE: DavvvatDB_Dev
+      MYSQL_USER: davvvat_dev
+      MYSQL_PASSWORD: dev_password
+    ports:
+      - "3307:3306"  # Different port to avoid conflicts
+    volumes:
+      - mysql_dev_data:/var/lib/mysql
+      - ./database_dump.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - davvvat_dev_network
+
+  # Backend API for Development
+  backend_dev:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: davvvat_backend_dev
+    restart: unless-stopped
+    ports:
+      - "5002:5001"  # Different port to avoid conflicts
+    environment:
+      - NODE_ENV=development
+      - PORT=5001
+      - DB_HOST=mysql_dev
+      - DB_PORT=3306
+      - DB_NAME=DavvvatDB_Dev
+      - DB_USER=davvvat_dev
+      - DB_PASSWORD=dev_password
+      - JWT_SECRET=dev_jwt_secret
+      - ALLOWED_ORIGIN=http://localhost:3001
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - mysql_dev
+    networks:
+      - davvvat_dev_network
+    command: npm run dev
+
+  # Frontend for Development
+  frontend_dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: davvvat_frontend_dev
+    restart: unless-stopped
+    ports:
+      - "3001:3000"  # Different port to avoid conflicts
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:5002
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend_dev
+    networks:
+      - davvvat_dev_network
+    command: npm run dev
+
+volumes:
+  mysql_dev_data:
+
+networks:
+  davvvat_dev_network:
+    driver: bridge
