@@ -15,12 +15,21 @@ if (databaseUrl) {
         require: true,
         rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED === 'true'
       }
-    } : {},
+    } : {
+      // Add these options to fix connection issues
+      charset: 'utf8mb4',
+      collate: 'utf8mb4_unicode_ci',
+      supportBigNumbers: true,
+      bigNumberStrings: true
+    },
     pool: {
-      max: 5,
+      max: 10,
       min: 0,
-      acquire: 30000,
+      acquire: 60000,
       idle: 10000
+    },
+    retry: {
+      max: 3
     }
   });
 } else {
@@ -39,12 +48,21 @@ if (databaseUrl) {
           require: true,
           rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED === 'true'
         }
-      } : {},
+      } : {
+        // Add these options to fix connection issues
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_unicode_ci',
+        supportBigNumbers: true,
+        bigNumberStrings: true
+      },
       pool: {
-        max: 5,
+        max: 10,
         min: 0,
-        acquire: 30000,
+        acquire: 60000,
         idle: 10000
+      },
+      retry: {
+        max: 3
       }
     }
   );
@@ -55,12 +73,13 @@ const connectDB = async () => {
     await sequelize.authenticate();
     console.log('MySQL Database Connected Successfully');
     
-    // Sync all models with database
-    await sequelize.sync({ alter: true });
+    // Sync all models with database (use force: false to avoid data loss)
+    await sequelize.sync({ alter: false });
     console.log('Database synchronized');
   } catch (error) {
     console.error('Error connecting to MySQL Database:', error.message);
-    process.exit(1);
+    // Don't exit process, let it retry
+    throw error;
   }
 };
 

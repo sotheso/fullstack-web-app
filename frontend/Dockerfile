@@ -1,5 +1,8 @@
 FROM node:18-alpine AS base
 
+# Install curl for health checks
+RUN apk add --no-cache curl
+
 # Install dependencies only when needed
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
@@ -46,7 +49,7 @@ ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
   CMD curl -f http://localhost:3000/ || exit 1
 
 CMD ["node", "server.js"]
