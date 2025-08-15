@@ -14,8 +14,9 @@ connectDB();
 // Middleware
 app.use(cors({
   origin: [
-    'https://<username>.github.io',
-    'https://<username>.github.io/pro',
+    'http://frontend:3000',
+    'http://localhost:3000',
+    'https://davvvat.ir',
     process.env.ALLOWED_ORIGIN || ''
   ].filter(Boolean)
 }));
