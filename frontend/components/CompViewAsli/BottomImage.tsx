@@ -47,11 +47,30 @@ const responsiveContainer: React.CSSProperties = {
 };
 
 const BottomImage: React.FC = () => {
-  const { brands } = useBrandCard();
+  const { brands, loading, error } = useBrandCard();
+
+  console.log('BottomImage brands:', brands);
+  console.log('BottomImage loading:', loading);
+  console.log('BottomImage error:', error);
 
   return (
     <div style={responsiveContainer}>
-      {brands.map((brand) => (
+      {loading && (
+        <div style={{ color: '#666', textAlign: 'center', width: '100%' }}>
+          در حال بارگذاری برندها...
+        </div>
+      )}
+      {error && (
+        <div style={{ color: '#f44336', textAlign: 'center', width: '100%' }}>
+          {error}
+        </div>
+      )}
+      {!loading && !error && brands.length === 0 && (
+        <div style={{ color: '#666', textAlign: 'center', width: '100%' }}>
+          هیچ برندی یافت نشد
+        </div>
+      )}
+      {!loading && !error && brands.map((brand) => (
         <div
           key={brand.id}
           style={bannerStyle as React.CSSProperties}

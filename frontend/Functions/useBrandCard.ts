@@ -20,7 +20,9 @@ export const useBrandCard = () => {
     const fetchBrands = async () => {
       try {
         setLoading(true);
+        console.log('Fetching brands from API...');
         const response = await brandsAPI.getAllBrands();
+        console.log('Brands API response:', response.data);
         setBrands(response.data);
         setError(null);
       } catch (err) {

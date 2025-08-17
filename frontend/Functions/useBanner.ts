@@ -20,13 +20,25 @@ export const useBanner = () => {
     const fetchBanner = async () => {
       try {
         setLoading(true);
+        console.log('Fetching banner from API...');
         const res = await bannersAPI.getAllBanners();
+        console.log('Banner API response:', res.data);
         const list: BannerData[] = res.data || [];
         setBanner(list[0] || null);
         setError(null);
       } catch (err) {
         console.error('Error fetching banner:', err);
         setError('خطا در بارگذاری بنر');
+        // Fallback banner data
+        setBanner({
+          id: 1,
+          image: '/banner-image.jpg',
+          date: 'پنجشنبه، ۲۴ فروردین',
+          tags: ['دانش', 'موزیک'],
+          eventName: 'ایونت بساط',
+          eventDescription: 'ایونت بساط جایی است که شور و هیجان، خلاقیت و ارتباطات در کنار هم جمع می‌شوند.',
+          detailsLink: '/details'
+        });
       } finally {
         setLoading(false);
       }

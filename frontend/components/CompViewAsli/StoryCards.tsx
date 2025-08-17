@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import EventCard from './EventCard';
 import SectionTitle from './CompDetails/Text/SectionTitle';
-import { getStoryCardsInfo, StoryCardData } from '../../Functions/storyCardsInfo';
+import { useStoryCardsInfo, StoryCardData } from '../../Functions/storyCardsInfo';
 
 const EventCardCarousel: React.FC = () => {
   const [isMobile, setIsMobile] = useState<undefined | boolean>(undefined);
-  const [stories, setStories] = useState<StoryCardData[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const { stories, loading, error } = useStoryCardsInfo();
   const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
   useEffect(() => {
@@ -16,14 +16,34 @@ const EventCardCarousel: React.FC = () => {
     handleResize();
     window.addEventListener('resize', handleResize);
     
-    // Get stories data
-    const storiesData = getStoryCardsInfo();
-    setStories(storiesData);
-    
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (isMobile === undefined || stories.length === 0) return null;
+  if (isMobile === undefined) return null;
+  
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
+        در حال بارگذاری استوری‌ها...
+      </div>
+    );
+  }
+  
+  if (error) {
+    return (
+      <div style={{ textAlign: 'center', padding: '20px', color: '#f44336' }}>
+        {error}
+      </div>
+    );
+  }
+  
+  if (stories.length === 0) {
+    return (
+      <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
+        هیچ استوری‌ای یافت نشد
+      </div>
+    );
+  }
 
   const cardWidth = 350.462;
   const cardGap = 30;
