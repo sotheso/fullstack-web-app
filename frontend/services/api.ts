@@ -9,52 +9,15 @@ const api = axios.create({
   },
 });
 
-// Request interceptor to add auth token
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
 // Response interceptor to handle errors
-// Respect basePath on hard redirects when unauthorized
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
-
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = `${BASE_PATH}/login`;
-    }
     return Promise.reject(error);
   }
 );
 
-export const authAPI = {
-  register: (data: { username: string; email: string; password: string }) =>
-    api.post('/auth/register', data),
-  
-  login: (data: { email: string; password: string }) =>
-    api.post('/auth/login', data),
-  
-  getCurrentUser: () => api.get('/auth/me'),
-};
 
-export const userAPI = {
-  getAllUsers: () => api.get('/users'),
-  getUserById: (id: string) => api.get(`/users/${id}`),
-  updateUser: (id: string, data: { username?: string; email?: string }) =>
-    api.put(`/users/${id}`, data),
-};
 
 export const brandsAPI = {
   getAllBrands: () => api.get('/brands'),

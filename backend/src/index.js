@@ -29,8 +29,6 @@ app.get('/', (req, res) => {
 });
 
 // API routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/users', require('./routes/users'));
 app.use('/api/brands', require('./routes/brands'));
 app.use('/api/events', require('./routes/events'));
 app.use('/api/banners', require('./routes/banners'));
