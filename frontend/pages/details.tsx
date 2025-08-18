@@ -1,5 +1,4 @@
 import React from 'react';
-import TopBar from '../components/CompViewAsli/TopBar';
 import DetailsImage from '../components/CompViewDetails/DetailsImage';
 import BazaarcheButton from '../components/CompViewAsli/CompDetails/ButtonCard/BazaarcheButton';
 import CapsuleButtonGroup from '../components/CompViewDetails/CapsuleButtonGroup';
@@ -10,8 +9,7 @@ const DetailsPage: React.FC = () => {
     <div>
       <div className="details-container">
         <div style={{ height: 16 }} />
-        <TopBar />
-        <div style={{ height: 120 }} />
+        <div style={{ height: 20 }} />
         {/* Main content */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 32 }}>
           {/* Banner box */}

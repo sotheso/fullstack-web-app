@@ -101,8 +101,8 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         {/* Description */}
         <EventDescription description={data.description} />
         {/* Bottom row: tags - spaced and aligned with date (bottom) */}
-        <div className="event-tags" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 'auto'}}>
-          <div style={{maxWidth: '100%', overflow: 'hidden', width: '100%', textAlign: 'center', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center'}}>
+        <div className="event-tags" style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center', width: '100%', marginTop: 'auto'}}>
+          <div style={{maxWidth: '100%', overflow: 'hidden', width: '100%', textAlign: 'right', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end'}}>
             {data.tags.map((tag, index) => (
               <BazaarcheButton
                 key={index}

@@ -14,13 +14,9 @@ const TopBar: React.FC = () => {
     <div
       className="top-bar"
       style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
+        // Not fixed: allow it to scroll away with the page
         width: 'calc(100vw - 40px)',
         height: '80px',
-        zIndex: 1000,
         backgroundColor: 'rgba(255, 255, 255, 0.7)',
         backdropFilter: 'blur(5px)',
         border: '2.5px solid rgb(255, 255, 255)',

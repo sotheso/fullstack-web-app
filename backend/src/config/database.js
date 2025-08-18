@@ -6,22 +6,12 @@ const databaseUrl = process.env.DATABASE_URL;
 let sequelize;
 
 if (databaseUrl) {
-  // Parse DATABASE_URL (format: mysql://user:password@host:port/database)
-  sequelize = new Sequelize(databaseUrl, {
-    dialect: 'mysql',
+  // Auto-detect dialect from DATABASE_URL (e.g., mysql://, sqlite:, postgres://)
+  const lowerUrl = databaseUrl.toLowerCase();
+  const isMySQL = lowerUrl.startsWith('mysql://');
+
+  const baseOptions = {
     logging: false,
-    dialectOptions: process.env.DB_SSL === 'true' ? {
-      ssl: {
-        require: true,
-        rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED === 'true'
-      }
-    } : {
-      // Add these options to fix connection issues
-      charset: 'utf8mb4',
-      collate: 'utf8mb4_unicode_ci',
-      supportBigNumbers: true,
-      bigNumberStrings: true
-    },
     pool: {
       max: 10,
       min: 0,
@@ -31,6 +21,24 @@ if (databaseUrl) {
     retry: {
       max: 3
     }
+  };
+
+  // Only apply MySQL-specific options when using MySQL
+  const mysqlDialectOptions = process.env.DB_SSL === 'true' ? {
+    ssl: {
+      require: true,
+      rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED === 'true'
+    }
+  } : {
+    charset: 'utf8mb4',
+    collate: 'utf8mb4_unicode_ci',
+    supportBigNumbers: true,
+    bigNumberStrings: true
+  };
+
+  sequelize = new Sequelize(databaseUrl, {
+    ...(isMySQL ? { dialectOptions: mysqlDialectOptions } : {}),
+    ...baseOptions
   });
 } else {
   // Fallback to individual variables

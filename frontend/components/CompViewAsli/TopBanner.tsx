@@ -74,7 +74,12 @@ const BannerCard: React.FC = () => {
           {banner.tags.map((tag, index) => (
             <BazaarcheButton key={index}>{tag}</BazaarcheButton>
           ))}
-          <div style={{ marginLeft: 32 }}>
+          <div style={{
+            marginRight: isMobile ? 0 : 42,
+            marginLeft: isMobile ? 24 : 0,
+            display: 'flex',
+            justifyContent: isMobile ? 'center' : 'flex-start'
+          }}>
             <DateButton>{banner.date}</DateButton>
           </div>
         </div>

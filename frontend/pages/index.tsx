@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import EventCard from '../components/CompViewAsli/EventCard';
-import TopBar from '../components/CompViewAsli/TopBar';
 import EventCardCarousel from '../components/CompViewAsli/StoryCards';
 import BannerCard from '../components/CompViewAsli/TopBanner';
 import SectionTitle from '../components/CompViewAsli/CompDetails/Text/SectionTitle';
@@ -34,9 +33,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="home-container">
-      <TopBar />
-
-      <div style={{ height: 120 }} />
+      <div style={{ height: 20 }} />
 
       {/* Banner Card - New Position */}
       <SectionTitle>!اگه قرار باشه فقط یه جا بری</SectionTitle>
@@ -53,35 +50,39 @@ const HomePage: React.FC = () => {
         <SectionTitle>:همه جاهایی که دعوتی</SectionTitle>
       </div>
 
-      {/* Filter Buttons - fixed categories */}
-      <div className="filter-bar">
-        <FilterButton
-          key="all"
-          label="همه"
-          active={activeFilter === 0}
-          onClick={() => {
-            setActiveFilter(0);
-            setActiveFilterTag(null);
-          }}
-        />
-        <FilterButton
-          key="popular"
-          label="محبوب‌ترین"
-          active={activeFilter === 1}
-          onClick={() => {
-            setActiveFilter(1);
-            setActiveFilterTag('محبوب‌ترین');
-          }}
-        />
-        <FilterButton
-          key="newest"
-          label="جدید ترین"
-          active={activeFilter === 2}
-          onClick={() => {
-            setActiveFilter(2);
-            setActiveFilterTag('جدید ترین');
-          }}
-        />
+      {/* Filter Buttons - wrapped in capsule background */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '24px 0', width: '100%' }}>
+        <div className="glassy-action-bar-inner">
+          <div className="filter-bar" style={{ margin: 0 }}>
+            <FilterButton
+              key="all"
+              label="همه"
+              active={activeFilter === 0}
+              onClick={() => {
+                setActiveFilter(0);
+                setActiveFilterTag(null);
+              }}
+            />
+            <FilterButton
+              key="popular"
+              label="محبوب‌ترین"
+              active={activeFilter === 1}
+              onClick={() => {
+                setActiveFilter(1);
+                setActiveFilterTag('محبوب‌ترین');
+              }}
+            />
+            <FilterButton
+              key="newest"
+              label="جدید ترین"
+              active={activeFilter === 2}
+              onClick={() => {
+                setActiveFilter(2);
+                setActiveFilterTag('جدید ترین');
+              }}
+            />
+          </div>
+        </div>
       </div>
 
       <div
@@ -135,8 +136,8 @@ const HomePage: React.FC = () => {
           position: relative;
           left: -20px;
           width: calc(100% + 40px);
-          padding-left: 10px;
-          padding-right: 10px;
+          padding-left: 0px;
+          padding-right: 0px;
           box-sizing: border-box;
         }
 
@@ -144,6 +145,8 @@ const HomePage: React.FC = () => {
           .carousel-container {
             left: -94px;
             width: calc(100% + 188px);
+            padding-left: 10px;
+            padding-right: 10px;
           }
         }
 
@@ -151,7 +154,7 @@ const HomePage: React.FC = () => {
           display: flex;
           flex-direction: row-reverse;
           gap: 16px;
-          justify-content: center; /* وسط چین در موبایل */
+          justify-content: flex-start; /* راست‌چین در موبایل */
           margin: 24px 0;
         }
 
@@ -163,10 +166,10 @@ const HomePage: React.FC = () => {
           display: grid;
           grid-template-columns: 1fr;
           gap: 32px;
-          margin: 32px auto;
+          margin: 32px 0 32px auto;
           width: 100%;
           max-width: 373px;
-          justify-items: center; /* وسط چین کارت‌ها در موبایل */
+          justify-items: end; /* راست‌چین کارت‌ها در موبایل */
         }
 
         @media (min-width: 768px) {
@@ -175,13 +178,14 @@ const HomePage: React.FC = () => {
             column-gap: 12px;
             max-width: none;
             padding: 0px;
+            justify-content: end; /* راست‌چین در دسکتاپ */
           }
         }
 
         @media (min-width: 1200px) {
           .events-grid {
             grid-template-columns: repeat(3, 373px);
-            justify-content: center;
+            justify-content: end;
           }
         }
       `}</style>

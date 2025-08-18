@@ -49,4 +49,14 @@ export const bannersAPI = {
   deleteBanner: (id: number) => api.delete(`/banners/${id}`),
 };
 
+export const storiesAPI = {
+  getAllStories: () => api.get('/stories'),
+  getStoryById: (id: number) => api.get(`/stories/${id}`),
+  createStory: (data: { eventName: string; profileImage?: string; posterImage?: string }) =>
+    api.post('/stories', data),
+  updateStory: (id: number, data: { eventName?: string; profileImage?: string; posterImage?: string }) =>
+    api.put(`/stories/${id}`, data),
+  deleteStory: (id: number) => api.delete(`/stories/${id}`),
+};
+
 export default api; 
