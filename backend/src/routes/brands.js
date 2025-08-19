@@ -1,11 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const Brand = require('../models/Brand');
+const cors = require('cors'); // فعال کردن CORS
 
-// Get all brands
+// فعال‌سازی CORS برای این روت
+router.use(cors());
+
+// Get all brands with optional filters
 router.get('/', async (req, res) => {
   try {
-    const brands = await Brand.findAll();
+    const { brandName, brandField } = req.query;
+    const where = {};
+    if (brandName) where.brandName = brandName;
+    if (brandField) where.brandField = brandField;
+
+    const brands = await Brand.findAll({ where });
     res.json(brands);
   } catch (error) {
     console.error('Get brands error:', error);

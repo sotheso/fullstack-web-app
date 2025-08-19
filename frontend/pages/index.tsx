@@ -156,10 +156,14 @@ const HomePage: React.FC = () => {
           gap: 16px;
           justify-content: flex-start; /* راست‌چین در موبایل */
           margin: 24px 0;
+          margin-right: -10px; /* کمی کشیده‌تر به راست */
         }
 
         @media (min-width: 768px) {
-          .filter-bar { justify-content: flex-start; } /* راست‌چین در دسکتاپ */
+          .filter-bar { 
+            justify-content: flex-start; /* راست‌چین در دسکتاپ */
+            margin-right:-100px; /* کمی کشیده‌تر به راست در دسکتاپ */
+          }
         }
 
         .events-grid {

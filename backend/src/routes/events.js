@@ -1,11 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const Event = require('../models/Event');
+const cors = require('cors'); // فعال کردن CORS
 
-// Get all events
+// فعال‌سازی CORS برای این روت
+router.use(cors());
+
+// Get all events with optional filters
 router.get('/', async (req, res) => {
   try {
-    const events = await Event.findAll();
+    const { filterTag, date } = req.query;
+    const where = {};
+    if (filterTag) where.filterTag = filterTag;
+    if (date) where.date = date;  // برای فیلتر کردن بر اساس تاریخ
+
+    const events = await Event.findAll({ where });
     res.json(events);
   } catch (error) {
     console.error('Get events error:', error);

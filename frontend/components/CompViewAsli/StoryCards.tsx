@@ -183,22 +183,16 @@ const EventCardCarousel: React.FC = () => {
         </div>
       </div>
       
-      {/* Navigation buttons - Fixed outside scroll container */}
+      {/* Navigation buttons - placed below the carousel */}
       <div style={{
-        position: 'fixed',
-        bottom: '120px',
-        left: isMobile ? '50%' : 'auto',
-        right: isMobile ? 'auto' : '94px',
-        transform: isMobile ? 'translateX(-50%)' : 'none',
+        width: '100%',
         display: 'flex',
         gap: '12px',
-        justifyContent: 'center',
-        zIndex: 1000,
-        background: 'rgba(255, 255, 255, 0.9)',
-        padding: '12px',
-        borderRadius: '30px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-        backdropFilter: 'blur(10px)'
+        justifyContent: isMobile ? 'center' : 'flex-end',
+        marginTop: '12px',
+        paddingLeft: isMobile ? '20px' : '94px',
+        paddingRight: isMobile ? '20px' : '94px',
+        boxSizing: 'border-box',
       }}>
         <button
           onClick={() => {

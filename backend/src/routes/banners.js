@@ -1,17 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const Banner = require('../models/Banner');
+const cors = require('cors'); // فعال کردن CORS
 
-// Get all banners
+router.use(cors());
+
+// Get all banners with optional tag filter
 router.get('/', async (req, res) => {
   try {
-    const banners = await Banner.findAll();
+    const { tag } = req.query; // دریافت فیلتر تگ از URL
+    const banners = tag ? await Banner.findAll({ where: { tags: { [Op.contains]: [tag] } } }) : await Banner.findAll();
     res.json(banners);
   } catch (error) {
     console.error('Get banners error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
+
 
 // Get banner by ID
 router.get('/:id', async (req, res) => {
