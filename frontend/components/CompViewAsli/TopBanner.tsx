@@ -35,7 +35,7 @@ const BannerCard: React.FC = () => {
           background: '#FCFCFC',
           display: 'flex',
           flexDirection: isMobile ? 'column' : 'row',
-          gap: 16,
+          gap: isMobile ? 4 : 16,
           alignItems: isMobile ? 'stretch' : 'center',
           position: 'relative',
           padding: isMobile ? 16 : 0,
@@ -50,11 +50,16 @@ const BannerCard: React.FC = () => {
             width: isMobile ? '100%' : '33%',
             minWidth: isMobile ? 0 : 200,
             maxWidth: isMobile ? '100%' : 370,
-            height: isMobile ? 120 : 200,
+            height: isMobile ? 200 : 200,
             flexShrink: 0,
             borderRadius: 24,
             background: '#F26430',
+            backgroundImage: banner.image ? `url(${banner.image})` : undefined,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
             margin: isMobile ? '0 auto 8px auto' : 16,
+            order: isMobile ? 1 : undefined,
           }}
         />
         {/* Button row absolutely positioned at bottom left of orange block */}
@@ -69,6 +74,7 @@ const BannerCard: React.FC = () => {
             gap: 8,
             marginTop: isMobile ? 8 : 0,
             justifyContent: isMobile ? 'center' : 'flex-start',
+            order: isMobile ? 3 : undefined,
           }}
         >
           {banner.tags.map((tag, index) => (
@@ -111,6 +117,7 @@ const BannerCard: React.FC = () => {
             alignItems: 'flex-end',
             margin: isMobile ? '0 auto' : 0,
             marginTop: isMobile ? 8 : 0,
+            order: isMobile ? 2 : undefined,
           }}
         >
           <BannerTitle style={{ marginBottom: 8 }}>

@@ -40,7 +40,7 @@ const EventCardCarousel: React.FC = () => {
     <div style={{
       width: '100%',
       overflowX: 'auto', // Enable horizontal scrolling
-      overflowY: 'hidden',
+      overflowY: 'visible',
       direction: 'rtl', // Set direction to right-to-left
       // Hide scrollbar
       scrollbarWidth: 'none', // Firefox
@@ -189,43 +189,10 @@ const EventCardCarousel: React.FC = () => {
         display: 'flex',
         gap: '12px',
         justifyContent: isMobile ? 'center' : 'flex-end',
-        marginTop: '12px',
         paddingLeft: isMobile ? '20px' : '94px',
         paddingRight: isMobile ? '20px' : '94px',
         boxSizing: 'border-box',
       }}>
-        <button
-          onClick={() => {
-            if (scrollContainerRef.current) {
-              const scrollAmount = 200; // Reduced scroll amount
-              scrollContainerRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-            }
-          }}
-          style={{
-            width: '48px',
-            height: '48px',
-            background: '#F26430',
-            border: 'none',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(242, 100, 48, 0.3)',
-            transition: 'all 0.2s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.05)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-          }}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 18L9 12L15 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        
         <button
           onClick={() => {
             if (scrollContainerRef.current) {
@@ -255,6 +222,38 @@ const EventCardCarousel: React.FC = () => {
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9 18L15 12L9 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+        
+        <button
+          onClick={() => {
+            if (scrollContainerRef.current) {
+              const scrollAmount = 200; // Reduced scroll amount
+              scrollContainerRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            }
+          }}
+          style={{
+            width: '48px',
+            height: '48px',
+            background: '#F26430',
+            border: 'none',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(242, 100, 48, 0.3)',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18L9 12L15 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
       </div>

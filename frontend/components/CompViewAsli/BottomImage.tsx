@@ -41,8 +41,8 @@ const responsiveContainer: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: '24px',
-  margin: '48px 0',
+  gap: '12px',
+  margin: '16px 0',
   flexWrap: 'wrap',
 };
 

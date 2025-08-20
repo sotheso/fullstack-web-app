@@ -33,11 +33,14 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="home-container">
-      <div style={{ height: 20 }} />
+      <div style={{ height: 36}} />
 
       {/* Banner Card - New Position */}
-      <SectionTitle>!اگه قرار باشه فقط یه جا بری</SectionTitle>
-      <BannerCard />
+      <div>
+        <SectionTitle>!اگه قرار باشه فقط یه جا بری</SectionTitle>
+        <div style={{ height: 16}} />
+        <BannerCard />
+      </div>
 
       {/* Event Card Carousel - New Position */}
       <SectionTitle>:بهترین هایی که دعوتی</SectionTitle>
@@ -45,7 +48,7 @@ const HomePage: React.FC = () => {
         <EventCardCarousel />
       </div>
 
-      <div style={{ height: 60 }} />
+      <div style={{ height: 48 }} />
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
         <SectionTitle>:همه جاهایی که دعوتی</SectionTitle>
       </div>
@@ -109,12 +112,12 @@ const HomePage: React.FC = () => {
         )}
       </div>
 
-      <div style={{ height: 64 }} />
+      <div style={{ height: 32 }} />
 
       <SectionTitle>برندها</SectionTitle>
       <BottomImage />
 
-      <div style={{ height: 60}} />
+      <div style={{ height: 32}} />
 
 
       <style jsx>{`

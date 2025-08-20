@@ -10,8 +10,8 @@ const FilterButton: React.FC<FilterButtonProps> = ({ label, active = false, onCl
   return (
     <div
       style={{
-        width: 104,
-        height: 32,
+        width: 92,
+        height: 28,
         flexShrink: 0,
         background: active ? '#F2C1AE' : '#F3F3F3',
         borderRadius: 30,
@@ -30,7 +30,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ label, active = false, onCl
           display: 'flex',
           flexDirection: 'column',
           color: active ? '#F26430' : 'black',
-          fontSize: 16,
+          fontSize: 14,
           fontFamily: 'Ravi',
           fontWeight: 500,
           wordWrap: 'break-word',

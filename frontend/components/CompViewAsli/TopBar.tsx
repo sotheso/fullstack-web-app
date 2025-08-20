@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 
 const TopBar: React.FC = () => {
-  const [showAlert, setShowAlert] = useState(false);
-
-  const handleRegisterClick = () => {
-    setShowAlert(true);
-  };
+  const router = useRouter();
+  // const [showAlert, setShowAlert] = useState(false);
+  // const handleRegisterClick = () => {
+  //   setShowAlert(true);
+  // };
 
   const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
@@ -15,8 +16,8 @@ const TopBar: React.FC = () => {
       className="top-bar"
       style={{
         // Not fixed: allow it to scroll away with the page
-        width: 'calc(100vw - 40px)',
-        height: '80px',
+        width: 'clamp(220px, 35vw, 520px)',
+        height: '68px',
         backgroundColor: 'rgba(255, 255, 255, 0.7)',
         backdropFilter: 'blur(5px)',
         border: '2.5px solid rgb(255, 255, 255)',
@@ -25,9 +26,9 @@ const TopBar: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: '20px',
-        marginLeft: '20px',
-        marginRight: '20px',
-        borderRadius: '28px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        borderRadius: '9999px',
       }}
     >
       {/* Centered Logo and Button Container */}
@@ -41,15 +42,23 @@ const TopBar: React.FC = () => {
         <Image
           src={`${BASE_PATH}/DavvatLogo.png`}
           alt="Davvat Logo"
-          width={80}
-          height={80}
+          width={82}
+          height={82}
           style={{ 
             objectFit: 'contain',
             aspectRatio: '1/1'
           }}
+          onClick={() => {
+            const homePath = '/';
+            router.push(`${BASE_PATH}${homePath}`);
+          }}
+          role="button"
+          aria-label="بازگشت به صفحه اصلی"
+          title="خانه"
         />
         
-        {/* Registration Button */}
+        {/* Registration Button (temporarily disabled) */}
+        {/**
         <button
           onClick={handleRegisterClick}
           style={{
@@ -72,8 +81,10 @@ const TopBar: React.FC = () => {
         >
           ثبت نام
         </button>
+        */}
       </div>
 
+      {/** Signup modal temporarily disabled
       {showAlert && (
         <div
           role="dialog"
@@ -133,6 +144,7 @@ const TopBar: React.FC = () => {
           </div>
         </div>
       )}
+      */}
 
       <style jsx>{`
         .top-bar {

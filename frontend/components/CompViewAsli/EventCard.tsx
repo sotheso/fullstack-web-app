@@ -44,7 +44,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
       flexDirection: 'row-reverse', 
       alignItems: 'stretch', 
       width: 349.444, 
-      height: 200, 
+      height: 185, 
       flexShrink: 0,
       borderRadius: 24,
       border: '1px solid #EDEDED',
@@ -80,8 +80,8 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
             justifyContent: 'center',
           }}
         />
-        {/* Date box anchored to bottom */}
-        <div style={{marginTop: 'auto'}}>
+        {/* Date directly below the image */}
+        <div style={{marginTop: 2}}>
           <DateButton>{data.date}</DateButton>
         </div>
       </div>
@@ -100,7 +100,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         <EventTitle title={data.eventName} />
         {/* Description */}
         <EventDescription description={data.description} />
-        {/* Bottom row: tags - spaced and aligned with date (bottom) */}
+        {/* Bottom row: tags - anchored to bottom; padding responsive via CSS */}
         <div className="event-tags" style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center', width: '100%', marginTop: 'auto'}}>
           <div style={{maxWidth: '100%', overflow: 'hidden', width: '100%', textAlign: 'right', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end'}}>
             {data.tags.map((tag, index) => (
@@ -123,11 +123,12 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         </svg>
       </RoundIconButton>
       <style jsx>{`
+        .event-tags { padding-bottom: 6px; }
         @media (max-width: 700px) {
           .event-card { height: 190px !important; }
           .event-left-col { gap: 4px; }
           .event-description { margin-bottom: 4px !important; }
-          .event-tags { margin-top: 2px; }
+          .event-tags { margin-top: 2px; padding-bottom: 8px; }
         }
       `}</style>
     </div>
@@ -184,7 +185,7 @@ export default EventCard;
 /* Mobile spacing tweaks */
 <style jsx>{`
   @media (max-width: 700px) {
-    .event-left-col { gap: 6px; }
-    .event-description { margin-bottom: 8px !important; }
+    .event-left-col { gap: 8px; }
+    .event-description { margin-bottom: 6.5px !important; }
   }
 `}</style>

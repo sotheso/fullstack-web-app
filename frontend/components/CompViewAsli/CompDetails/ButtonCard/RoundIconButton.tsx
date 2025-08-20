@@ -15,7 +15,7 @@ const RoundIconButton: React.FC<RoundIconButtonProps> = ({ children, ...props })
     style={{
       position: 'absolute',
       left: 8,
-      bottom: 8,
+      bottom: 12,
       background: '#ff7043',
       color: '#fff',
       border: 'none',
