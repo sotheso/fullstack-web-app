@@ -1,12 +1,13 @@
 {
-  "name": "Davvvat",
-  "short_name": "Davvvat",
-  "description": "بهترین رویدادها و برندها",
+  "name": "Davvat - ایونت‌های ویژه",
+  "short_name": "Davvat",
+  "description": "پلتفرم ایونت‌های ویژه و بازارچه‌های آخر هفته",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#FCFCFC",
   "theme_color": "#F26430",
-  "orientation": "portrait-primary",
+  "orientation": "portrait",
+  "scope": "/",
   "icons": [
     {
       "src": "/icon-192.png",
@@ -19,6 +20,14 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
     }
-  ]
+  ],
+  "categories": ["events", "lifestyle", "shopping"],
+  "lang": "fa",
+  "dir": "rtl"
 }
