@@ -80,7 +80,8 @@ const BottomImage: React.FC = () => {
           <div style={{
             flex: 1,
             color: '#FFF',
-            textAlign: 'right',
+            textAlign: 'justify',
+            textAlignLast: 'right',
             fontFamily: 'Inter',
             fontSize: 13,
             fontWeight: 400,

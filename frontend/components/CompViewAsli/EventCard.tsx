@@ -141,7 +141,8 @@ const EventDescription: React.FC<{ description: string }> = ({ description }) =>
     className="event-description"
     style={{
       margin: 0,
-      textAlign: 'right',
+      textAlign: 'justify',
+      textAlignLast: 'right',
       fontSize: 12,
       color: '#444',
       marginBottom: 24,
@@ -165,7 +166,8 @@ const EventTitle: React.FC<{ title: string }> = ({ title }) => (
       fontWeight: 700,
       fontSize: 16,
       margin: 0,
-      textAlign: 'right',
+      textAlign: 'justify',
+      textAlignLast: 'right',
       marginBottom: 8,
       display: '-webkit-box',
       overflow: 'hidden',

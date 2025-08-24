@@ -10,7 +10,8 @@ export const BannerTitle: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ ch
     style={{
       flexShrink: 0,
       color: '#000',
-      textAlign: 'right',
+      textAlign: 'justify',
+      textAlignLast: 'right',
       fontFamily: 'Ravi',
       fontSize: 24,
       fontStyle: 'normal',
@@ -32,7 +33,8 @@ export const BannerParagraph: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
     style={{
       flexShrink: 0,
       color: '#000',
-      textAlign: 'right',
+      textAlign: 'justify',
+      textAlignLast: 'right',
       fontFamily: 'Ravi',
       fontSize: 20,
       fontStyle: 'normal',
