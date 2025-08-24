@@ -25,6 +25,16 @@ const AddToHomeScreen: React.FC = () => {
     };
   }, [showInstallPrompt, showIOSPrompt]);
 
+  // Additional cleanup when component unmounts or when prompts are hidden
+  React.useEffect(() => {
+    return () => {
+      // Ensure body overflow is restored when component unmounts
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = 'unset';
+      }
+    };
+  }, []);
+
   const handleInstallClick = async () => {
     await installApp();
   };
