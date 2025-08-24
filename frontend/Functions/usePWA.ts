@@ -88,8 +88,6 @@ export const usePWA = (): PWAState => {
         // Save to localStorage that user has installed the app
         if (typeof window !== 'undefined') {
           localStorage.setItem('pwa-prompt-dismissed', 'true');
-          // Restore body overflow
-          document.body.style.overflow = 'unset';
         }
         return true;
       } else {
@@ -106,8 +104,6 @@ export const usePWA = (): PWAState => {
     // Save to localStorage that user has dismissed the prompt
     if (typeof window !== 'undefined') {
       localStorage.setItem('pwa-prompt-dismissed', 'true');
-      // Restore body overflow
-      document.body.style.overflow = 'unset';
     }
   };
 
