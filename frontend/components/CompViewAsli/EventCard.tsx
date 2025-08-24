@@ -117,11 +117,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
           </div>
         </div>
       </div>
-      <RoundIconButton>
-        <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M11.2432 5.77704L6.20262 0.736437L1.16208 5.77704" stroke="white" strokeWidth="1.13" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </RoundIconButton>
+      <RoundIconButton />
       <style jsx>{`
         .event-tags { padding-bottom: 6px; }
         @media (max-width: 700px) {
