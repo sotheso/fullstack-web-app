@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles/footer.css';
 
 // آیکون‌های SVG برای شبکه‌های اجتماعی
 const TwitterIcon = () => (
