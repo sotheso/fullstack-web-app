@@ -5,6 +5,7 @@ import BannerCard from '../components/CompViewAsli/TopBanner';
 import SectionTitle from '../components/CompViewAsli/CompDetails/Text/SectionTitle';
 import FilterButton from '../components/CompViewAsli/CompDetails/ButtonCard/FilterButton';
 import BottomImage from '../components/CompViewAsli/BottomImage';
+import Footer from '../components/Footer';
 import { useEventCard } from '../Functions/useEventInfo';
 import { EventCardData } from '../Functions/eventCardInfo';
 
@@ -121,6 +122,8 @@ const HomePage: React.FC = () => {
 
       <div style={{ height: 32}} />
 
+      {/* Footer */}
+      <Footer />
 
       <style jsx>{`
         .home-container {

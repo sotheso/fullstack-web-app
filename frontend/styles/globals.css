@@ -1,3 +1,6 @@
+/* Import Footer Styles */
+@import url('./footer.css');
+
 @font-face {
   font-family: 'Ravi';
   src: url('/fonts/Ravi-Thin.woff2') format('woff2');
