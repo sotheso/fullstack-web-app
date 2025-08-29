@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import BazaarcheButton from './CompDetails/ButtonCard/BazaarcheButton';
 import RoundIconButton from './CompDetails/ButtonCard/RoundIconButton';
 import DateButton from './CompDetails/ButtonCard/DateButton';
 import { EventCardData } from '../../Functions/eventCardInfo';
@@ -43,8 +42,8 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
       display: 'flex', 
       flexDirection: 'row-reverse', 
       alignItems: 'stretch', 
-      width: 349.444, 
-      height: 185, 
+      width: 360, 
+      height: 145, 
       flexShrink: 0,
       borderRadius: 24,
       border: '1px solid #EDEDED',
@@ -80,8 +79,13 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
             justifyContent: 'center',
           }}
         />
-        {/* Date directly below the image */}
-        <div style={{marginTop: 2}}>
+        {/* Date positioned next to the image */}
+        <div style={{
+          position: 'absolute',
+          top: 107,
+          right: 140,
+          zIndex: 1,
+        }}>
           <DateButton>{data.date}</DateButton>
         </div>
       </div>
@@ -100,31 +104,14 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         <EventTitle title={data.eventName} />
         {/* Description */}
         <EventDescription description={data.description} />
-        {/* Bottom row: tags - anchored to bottom; padding responsive via CSS */}
-        <div className="event-tags" style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center', width: '100%', marginTop: 'auto'}}>
-          <div style={{maxWidth: '100%', overflow: 'hidden', width: '100%', textAlign: 'right', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end'}}>
-            {data.tags.map((tag, index) => (
-              <BazaarcheButton
-                key={index}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (onFilter) onFilter(data.filterTag);
-                }}
-              >
-                {tag}
-              </BazaarcheButton>
-            ))}
-          </div>
-        </div>
+        {/* Tags section removed - no more موزیک، دانش، هنر tags */}
       </div>
       <RoundIconButton />
       <style jsx>{`
-        .event-tags { padding-bottom: 6px; }
         @media (max-width: 700px) {
-          .event-card { height: 190px !important; }
+          .event-card { height: 145px !important; }
           .event-left-col { gap: 4px; }
           .event-description { margin-bottom: 4px !important; }
-          .event-tags { margin-top: 2px; padding-bottom: 8px; }
         }
       `}</style>
     </div>

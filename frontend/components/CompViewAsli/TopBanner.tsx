@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import BazaarcheButton from './CompDetails/ButtonCard/BazaarcheButton';
 import DateButton from './CompDetails/ButtonCard/DateButton';
 import SectionTitle from './CompDetails/Text/SectionTitle';
 import { useBanner } from '../../Functions/useBanner';
@@ -77,12 +76,10 @@ const BannerCard: React.FC = () => {
             order: isMobile ? 3 : undefined,
           }}
         >
-          {banner.tags.map((tag, index) => (
-            <BazaarcheButton key={index}>{tag}</BazaarcheButton>
-          ))}
+          {/* Tags removed - no more موزیک، دانش، هنر tags */}
           <div style={{
             marginRight: isMobile ? 0 : 42,
-            marginLeft: isMobile ? 24 : 0,
+            marginLeft: isMobile ? 0 : 24,
             display: 'flex',
             justifyContent: isMobile ? 'center' : 'flex-start'
           }}>
