@@ -39,6 +39,7 @@ const BannerCard: React.FC = () => {
           position: 'relative',
           padding: isMobile ? 16 : 0,
           boxSizing: 'border-box',
+          margin: isMobile ? '0 auto' : '0 auto', // Center in both mobile and desktop
         }}
       >
         {/* Left section - Empty for spacing */}
@@ -57,7 +58,7 @@ const BannerCard: React.FC = () => {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            margin: isMobile ? '0 auto 8px auto' : 16,
+            margin: isMobile ? '0 auto 8px auto' : '16px 32px', // Equal left and right margins
             order: isMobile ? 1 : undefined,
           }}
         />
@@ -78,12 +79,12 @@ const BannerCard: React.FC = () => {
         >
           {/* Tags removed - no more موزیک، دانش، هنر tags */}
           <div style={{
-            marginRight: isMobile ? 0 : 42,
+            marginRight: isMobile ? 0 : 32,
             marginLeft: isMobile ? 0 : 24,
             display: 'flex',
             justifyContent: isMobile ? 'center' : 'flex-start'
           }}>
-            <DateButton>{banner.date}</DateButton>
+            {!isMobile && <DateButton>{banner.date}</DateButton>}
           </div>
         </div>
         {/* Orange circle absolutely positioned in bottom left */}
@@ -104,9 +105,9 @@ const BannerCard: React.FC = () => {
         <div
           style={{
             position: isMobile ? 'static' : 'absolute',
-            right: isMobile ? 'auto' : '40%',
+            right: isMobile ? 'auto' : '39%', // Reduced from 40% to bring text closer
             top: isMobile ? 'auto' : '24px',
-            width: isMobile ? '100%' : '58%',
+            width: isMobile ? '100%' : '63%', // Increased from 58% to compensate
             minWidth: 200,
             maxWidth: 637,
             display: 'flex',
@@ -117,9 +118,12 @@ const BannerCard: React.FC = () => {
             order: isMobile ? 2 : undefined,
           }}
         >
-          <BannerTitle style={{ marginBottom: 8 }}>
-            {banner.eventName}
-          </BannerTitle>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8}}>
+            {isMobile && <DateButton>{banner.date}</DateButton>}
+            <BannerTitle style={{ marginBottom: 0 }}>
+              {banner.eventName}
+            </BannerTitle>
+          </div>
           <BannerParagraph>
             {banner.eventDescription}
           </BannerParagraph>
