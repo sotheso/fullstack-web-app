@@ -19,10 +19,7 @@ const Footer: React.FC = () => {
     // اینجا می‌توانید منطق ناوبری را اضافه کنید
   };
 
-  const handleSocialClick = (platform: string) => {
-    console.log(`Clicked on: ${platform}`);
-    // اینجا می‌توانید لینک‌های شبکه‌های اجتماعی را اضافه کنید
-  };
+
 
   return (
     <footer className="footer">
@@ -31,15 +28,19 @@ const Footer: React.FC = () => {
         <div className="footer-left">
           <div className="social-icons">
             <a 
+              href="https://x.com/davvvat?s=21"
+              target="_blank"
+              rel="noopener noreferrer"
               className="social-icon" 
-              onClick={() => handleSocialClick('twitter')}
               title="توییتر"
             >
               <TwitterIcon />
             </a>
             <a 
+              href="https://www.instagram.com/davvvat?igsh=dGUwaTNwbHozY3Zu"
+              target="_blank"
+              rel="noopener noreferrer"
               className="social-icon" 
-              onClick={() => handleSocialClick('instagram')}
               title="اینستاگرام"
             >
               <InstagramIcon />
