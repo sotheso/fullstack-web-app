@@ -126,14 +126,21 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
           <button
             onClick={handleViewClick}
             style={{
-              background: 'none',
-              border: 'none',
+              padding: '6px 12px',
+              background: 'transparent',
               color: '#F26430',
-              fontSize: '14px',
-              fontWeight: '600',
+              border: 'none',
+              fontSize: '12px',
+              fontFamily: 'Ravi',
+              fontWeight: 600,
               cursor: 'pointer',
-              padding: '4px 8px',
-              fontFamily: 'Ravi, sans-serif',
+              transition: 'color 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = '#E55A2B';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = '#F26430';
             }}
           >
             مشاهده

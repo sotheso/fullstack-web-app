@@ -135,7 +135,7 @@ const HomePage: React.FC = () => {
         @media (min-width: 768px) {
           .home-container {
             padding-left: 94px;
-            padding-right: 110px;
+            padding-right: 105px;
             padding-top: 0;
           }
         }

@@ -21,7 +21,7 @@ const BannerCard: React.FC = () => {
   if (isMobile === undefined || loading || !banner) return null;
 
   return (
-    <div style={{ marginBottom: 32, cursor: 'pointer' }} onClick={() => router.push('/details')}>
+    <div style={{ marginBottom: 32, cursor: 'default' }}>
       {/* Main banner card */}
       <div
         style={{
@@ -29,7 +29,7 @@ const BannerCard: React.FC = () => {
           maxWidth: 1104,
           minHeight: isMobile ? 360 : 240,
           height: 'auto',
-          borderRadius: 40,
+          borderRadius: 24,
           border: '1px solid #EDEDED',
           background: '#FCFCFC',
           display: 'flex',
@@ -72,7 +72,7 @@ const BannerCard: React.FC = () => {
             flexDirection: 'row',
             alignItems: 'center',
             gap: 8,
-            marginTop: isMobile ? 8 : 0,
+            marginTop: isMobile ? 0 : 0,
             justifyContent: isMobile ? 'center' : 'flex-start',
             order: isMobile ? 3 : undefined,
           }}
@@ -82,24 +82,75 @@ const BannerCard: React.FC = () => {
             marginRight: isMobile ? 0 : 32,
             marginLeft: isMobile ? 0 : 24,
             display: 'flex',
-            justifyContent: isMobile ? 'center' : 'flex-start'
+            justifyContent: isMobile ? 'space-between' : 'flex-start',
+            alignItems: 'center',
+            width: isMobile ? '100%' : 'auto'
           }}>
-            {!isMobile && <DateButton>{banner.date}</DateButton>}
+            {isMobile && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  router.push('/details');
+                }}
+                style={{
+                  padding: '6px 12px',
+                  background: 'transparent',
+                  color: '#F26430',
+                  border: 'none',
+                  fontSize: '12px',
+                  fontFamily: 'Ravi',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'color 0.2s ease',
+                  marginLeft: 0,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#E55A2B';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#F26430';
+                }}
+              >
+                مشاهده
+              </button>
+            )}
+            {isMobile && (
+              <div style={{ marginLeft: 'auto' }}>
+                <DateButton>{banner.date}</DateButton>
+              </div>
+            )}
           </div>
         </div>
-        {/* Orange circle absolutely positioned in bottom left */}
+        {/* View button absolutely positioned in bottom left */}
         {!isMobile && (
-          <div
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push('/details');
+            }}
             style={{
               position: 'absolute',
               left: 16,
               bottom: 16,
-              width: 24,
-              height: 24,
-              background: '#F26430',
-              borderRadius: '50%',
+              padding: '8px 16px',
+              background: 'transparent',
+              color: '#F26430',
+              border: 'none',
+              fontSize: '14px',
+              fontFamily: 'Ravi',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'color 0.2s ease',
             }}
-          />
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = '#E55A2B';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = '#F26430';
+            }}
+          >
+            مشاهده
+          </button>
         )}
         {/* Centered description text with spacing from the orange block */}
         <div
@@ -119,14 +170,25 @@ const BannerCard: React.FC = () => {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8}}>
-            {isMobile && <DateButton>{banner.date}</DateButton>}
+            {!isMobile && <DateButton>{banner.date}</DateButton>}
             <BannerTitle style={{ marginBottom: 0 }}>
               {banner.eventName}
             </BannerTitle>
           </div>
-          <BannerParagraph>
+          <BannerParagraph isMobile={isMobile}>
             {banner.eventDescription}
           </BannerParagraph>
+          {/* Divider line for mobile */}
+          {isMobile && (
+            <div
+              style={{
+                width: '100%',
+                height: '1px',
+                background: '#E5E5E5',
+                margin: '4px 0',
+              }}
+            />
+          )}
         </div>
       </div>
     </div>
@@ -169,7 +231,7 @@ const BannerTitle: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children,
 );
 
 // BannerParagraph component
-const BannerParagraph: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children, ...props }) => (
+const BannerParagraph: React.FC<React.HTMLAttributes<HTMLDivElement> & { isMobile?: boolean }> = ({ children, isMobile, ...props }) => (
   <div
     style={{
       width: '100%',
@@ -185,6 +247,12 @@ const BannerParagraph: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ child
       lineHeight: 'clamp(22px, 2.2vw, 35px)',
       display: 'flex',
       alignItems: 'flex-start',
+      ...(isMobile && {
+        overflow: 'hidden',
+        maxHeight: 'calc(2 * clamp(22px, 2.2vw, 35px))',
+        display: 'block',
+        lineHeight: 'clamp(22px, 2.2vw, 35px)',
+      }),
     }}
     {...props}
   >
