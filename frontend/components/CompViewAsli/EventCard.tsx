@@ -26,17 +26,19 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
 
   const data = eventData || defaultData;
 
+  const handleViewClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const link = data.detailsLink || '/details';
+    if (link.startsWith('/')) {
+      router.push(`${BASE_PATH}${link}`);
+    } else {
+      router.push(link);
+    }
+  };
+
   return (
     <div
       className="event-card"
-      onClick={() => {
-        const link = data.detailsLink || '/details';
-        if (link.startsWith('/')) {
-          router.push(`${BASE_PATH}${link}`);
-        } else {
-          router.push(link);
-        }
-      }}
       style={{
       position: 'relative', 
       display: 'flex', 
@@ -52,7 +54,6 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
       gap: 8, 
       boxSizing: 'border-box', 
       overflow: 'hidden',
-      cursor: 'pointer',
       paddingBottom: 7,
     }}
     >
@@ -88,6 +89,17 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         }}>
           <DateButton>{data.date}</DateButton>
         </div>
+        
+        {/* Divider line below description */}
+        <div style={{
+          position: 'absolute',
+          top: 100,
+          left: 15,
+          width: '200px',
+          height: '1px',
+          background: '#E0E0E0',
+          zIndex: 1,
+        }} />
       </div>
       {/* Left column: Title, description, bottom row */}
       <div className="event-left-col" style={{
@@ -104,9 +116,30 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         <EventTitle title={data.eventName} />
         {/* Description */}
         <EventDescription description={data.description} />
-        {/* Tags section removed - no more موزیک، دانش، هنر tags */}
+        {/* View button instead of round icon */}
+        <div style={{
+          position: 'absolute',
+          bottom: 8,
+          left: 8,
+          zIndex: 2,
+        }}>
+          <button
+            onClick={handleViewClick}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#F26430',
+              fontSize: '14px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              padding: '4px 8px',
+              fontFamily: 'Ravi, sans-serif',
+            }}
+          >
+            مشاهده
+          </button>
+        </div>
       </div>
-      <RoundIconButton />
       <style jsx>{`
         @media (max-width: 700px) {
           .event-card { height: 145px !important; }

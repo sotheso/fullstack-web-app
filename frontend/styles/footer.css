@@ -100,24 +100,8 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .footer-container {
-    flex-direction: row;
-    text-align: center;
-    gap: 1rem;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-  }
-  
-  .footer-links {
-    gap: 1rem;
-    flex-wrap: nowrap;
-    justify-content: center;
-  }
-  
-  .social-icons {
-    justify-content: center;
-    gap: 0.6rem;
+  .footer {
+    display: none;
   }
 }
 

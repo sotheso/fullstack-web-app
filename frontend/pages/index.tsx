@@ -128,14 +128,14 @@ const HomePage: React.FC = () => {
       <style jsx>{`
         .home-container {
           padding-left: 20px;
-          padding-right: 20px;
+          padding-right: 26px;
           padding-top: 0;
         }
 
         @media (min-width: 768px) {
           .home-container {
             padding-left: 94px;
-            padding-right: 94px;
+            padding-right: 110px;
             padding-top: 0;
           }
         }
