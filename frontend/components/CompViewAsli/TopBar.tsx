@@ -1,166 +1,121 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
 const TopBar: React.FC = () => {
   const router = useRouter();
-  // const [showAlert, setShowAlert] = useState(false);
-  // const handleRegisterClick = () => {
-  //   setShowAlert(true);
-  // };
-
   const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const decide = () => setIsMobile(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+    decide();
+    window.addEventListener('resize', decide);
+    return () => window.removeEventListener('resize', decide);
+  }, []);
+
+  const Item: React.FC<{ label: string; onClick?: () => void; icon?: React.ReactNode; circleStyle?: React.CSSProperties }>
+    = ({ label, onClick, icon, circleStyle }) => (
+    <button
+      onClick={onClick}
+      style={{
+        background: 'transparent',
+        border: 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        fontFamily: 'Ravi',
+      }}
+    >
+      <div
+        style={{
+          width: 68,
+          height: 68,
+          borderRadius: 999,
+          background: 'rgba(255,255,255,0.6)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0,
+          ...circleStyle,
+        }}
+      >
+        {icon}
+      </div>
+      {!isMobile && <span style={{ color: '#000', fontSize: 12 }}>{label}</span>}
+    </button>
+  );
 
   return (
     <div
-      className="top-bar"
       style={{
-        // Not fixed: allow it to scroll away with the page
-        width: 'clamp(220px, 35vw, 520px)',
-        height: '68px',
-        backgroundColor: 'rgba(255, 255, 255, 0.7)',
-        backdropFilter: 'blur(5px)',
-        border: '2.5px solid rgb(255, 255, 255)',
-        boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
+        position: 'fixed',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        bottom: 16,
+        zIndex: 1000,
+        width: isMobile ? 262 : 262,
+        height: isMobile ? 80 : 95,
+        borderRadius: isMobile ? 9999 : 16,
+        background: 'rgba(255, 255, 255, 0.10)',
+        boxShadow: '0 -1px 24px 0 rgba(0, 0, 0, 0.12)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.64)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: '20px',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        borderRadius: '9999px',
+        padding: isMobile ? 8 : 12,
       }}
     >
-      {/* Centered Logo and Button Container */}
-      <div style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        gap: '16px'
-      }}>
-        {/* Logo */}
-        <Image
-          src={`${BASE_PATH}/DavvatLogo.png`}
-          alt="Davvat Logo"
-          width={82}
-          height={82}
-          style={{ 
-            objectFit: 'contain',
-            aspectRatio: '1/1'
-          }}
-          onClick={() => {
-            const homePath = '/';
-            router.push(`${BASE_PATH}${homePath}`);
-          }}
-          role="button"
-          aria-label="بازگشت به صفحه اصلی"
-          title="خانه"
-        />
-        
-        {/* Registration Button (temporarily disabled) */}
-        {/**
-        <button
-          onClick={handleRegisterClick}
-          style={{
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'rgba(242, 100, 48, 1)',
-            border: '1px solid rgba(255, 255, 255, 0.5)',
-            boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
-            width: '120px',
-            height: '40px',
-            borderRadius: '16px',
-            color: '#fff',
-            fontSize: '16px',
-            fontWeight: '600',
-            fontFamily: 'Ravi',
-            cursor: 'pointer',
-          }}
-        >
-          ثبت نام
-        </button>
-        */}
-      </div>
-
-      {/** Signup modal temporarily disabled
-      {showAlert && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setShowAlert(false)}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(0,0,0,0.45)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 2000,
-            paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)',
-            paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 16px)',
-            paddingLeft: 'calc(env(safe-area-inset-left, 0px) + 16px)',
-            paddingRight: 'calc(env(safe-area-inset-right, 0px) + 16px)',
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              width: 'min(90vw, 320px)',
-              background: '#fff',
-              borderRadius: 16,
-              boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
-              padding: 16,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              textAlign: 'center',
-              gap: 10,
-              boxSizing: 'border-box',
-              direction: 'rtl',
-              margin: '100px auto 0',
-            }}
-          >
-            <Image src={`${BASE_PATH}/work.png`} alt="درحال توسعه" width={110} height={110} />
-            <div style={{ fontFamily: 'Ravi', fontSize: 16, fontWeight: 700 }}>
-              برنامه نویسان مشغول کار اند
-            </div>
-            <button
-              onClick={() => setShowAlert(false)}
-              style={{
-                marginTop: 4,
-                backgroundColor: 'rgba(242, 100, 48, 1)',
-                color: '#fff',
-                border: 'none',
-                borderRadius: 12,
-                padding: '8px 16px',
-                fontFamily: 'Ravi',
-                cursor: 'pointer',
-              }}
-            >
-              خداقوت
-            </button>
-          </div>
-        </div>
-      )}
-      */}
-
-      <style jsx>{`
-        .top-bar {
-          margin-left: calc(-20px);
-          margin-right: calc(-20px);
-        }
-        
-        @media (min-width: 768px) {
-          .top-bar {
-            margin-left: calc(-94px);
-            margin-right: calc(-94px);
+      <div style={{ display: 'flex', gap: isMobile ? 8 : 12 }}>
+        <Item
+          label="دعوت"
+          onClick={() => router.push(`${BASE_PATH}/`)}
+          circleStyle={{ background: '#F26430', boxShadow: '0 0 0 1px rgba(237,237,237,0.8)' }}
+          icon={
+            <Image
+              src={`${BASE_PATH}/Logo.svg`}
+              alt="Davvat"
+              width={68}
+              height={68}
+              style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: 999 }}
+            />
           }
-        }
-      `}</style>
+        />
+        <Item
+          label="ایونت ها"
+          onClick={() => router.push(`${BASE_PATH}/`)}
+          circleStyle={{ borderRadius: 54.925, border: '1px solid #EDEDED', background: '#F3F3F3' }}
+          icon={
+            <div style={{ width: 28, height: 28 }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M19.202 3.94484C14.3852 3.47379 9.53401 3.47379 4.71725 3.94484C4.284 3.98721 3.91916 4.28435 3.78585 4.69502C3.25433 6.33239 3.25433 8.11851 3.78585 9.75588C3.91916 10.1665 4.284 10.4637 4.71725 10.5061C9.53401 10.9771 14.3852 10.9771 19.202 10.5061C19.6353 10.4637 20.0001 10.1665 20.1334 9.75588C20.6649 8.11851 20.6649 6.33239 20.1334 4.69502C20.0001 4.28435 19.6353 3.98721 19.202 3.94484Z" fill="#F26430"/>
+                <path d="M19.202 13.4128C14.3852 12.9417 9.53401 12.9417 4.71725 13.4128C4.284 13.4551 3.91916 13.7523 3.78585 14.1629C3.25433 15.8003 3.25433 17.5864 3.78585 19.2238C3.91916 19.6345 4.284 19.9316 4.71725 19.974C9.53401 20.445 14.3852 20.445 19.202 19.974C19.6353 19.9316 20.0001 19.6345 20.1334 19.2238C20.6649 17.5864 20.6649 15.8003 20.1334 14.1629C20.0001 13.7523 19.6353 13.4551 19.202 13.4128Z" fill="#F26430"/>
+              </svg>
+            </div>
+          }
+        />
+        <Item
+          label="پروفایل"
+          onClick={() => router.push(`${BASE_PATH}/`)}
+          circleStyle={{ borderRadius: 54.925, border: '1px solid #EDEDED', background: '#F3F3F3' }}
+          icon={
+            <div style={{ width: 28, height: 28 }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5Z" fill="#F26430"/>
+                <path d="M4 20c0-3.314 3.582-6 8-6s8 2.686 8 6v1H4v-1Z" fill="#F26430"/>
+              </svg>
+            </div>
+          }
+        />
+      </div>
+      
     </div>
   );
 };
 
-export default TopBar; 
+export default TopBar;
