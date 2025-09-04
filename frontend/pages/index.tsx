@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import EventCard from '../components/CompViewAsli/EventCard';
 import EventCardCarousel from '../components/CompViewAsli/StoryCards';
 import BannerCard from '../components/CompViewAsli/TopBanner';
+import ReadInvite from '../components/CompViewAsli/ReadInvite';
 import SectionTitle from '../components/CompViewAsli/CompDetails/Text/SectionTitle';
 import FilterButton from '../components/CompViewAsli/CompDetails/ButtonCard/FilterButton';
+import MoreEventsButton from '../components/CompViewAsli/CompDetails/ButtonCard/MoreEventsButton';
 import BottomImage from '../components/CompViewAsli/BottomImage';
 import Footer from '../components/Footer';
 import { useEventCard } from '../Functions/useEventInfo';
 import { EventCardData } from '../Functions/eventCardInfo';
+import { useResponsiveLoadMore, LoadMoreControls } from '../Functions/useResponsiveLoadMore';
 
 // دکمه‌های فیلتر را از روی مقادیر filterTag ایونت‌ها می‌سازیم
 
 const HomePage: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState(0);
   const [activeFilterTag, setActiveFilterTag] = useState<string | null>(null);
+  // visibleCount logic moved to useResponsiveLoadMore
 
   const { events, loading, error } = useEventCard();
 
@@ -31,6 +35,8 @@ const HomePage: React.FC = () => {
   const filteredEvents = activeFilterTag
     ? events.filter((e: any) => e.filterTag === activeFilterTag)
     : events;
+
+  const { visibleItems: visibleEvents, hasMore, handleLoadMore } = useResponsiveLoadMore(filteredEvents);
 
   return (
     <div className="home-container">
@@ -92,7 +98,7 @@ const HomePage: React.FC = () => {
             <EventCard />
           </>
         )}
-        {!loading && !error && filteredEvents.map((e) => (
+        {!loading && !error && visibleEvents.map((e: any) => (
           <EventCard
             key={e.id}
             eventData={toEventCardData(e)}
@@ -107,6 +113,11 @@ const HomePage: React.FC = () => {
         )}
       </div>
 
+      {/* Load more controls */}
+      {!loading && !error && hasMore && (
+        <LoadMoreControls onClick={handleLoadMore} />
+      )}
+
       <div style={{ height: 48 }} />
 
       {/* Event Card Carousel - Moved below event cards */}
@@ -116,6 +127,10 @@ const HomePage: React.FC = () => {
       </div>
 
       <div style={{ height: 32 }} />
+
+      <SectionTitle>دعوت به خواندن</SectionTitle>
+      <div style={{ height: 16}} />
+      <ReadInvite />
 
       <SectionTitle>برندها</SectionTitle>
       <BottomImage />
