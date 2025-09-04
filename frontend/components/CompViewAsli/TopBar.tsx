@@ -71,7 +71,7 @@ const TopBar: React.FC = () => {
         padding: isMobile ? 8 : 12,
       }}
     >
-      <div style={{ display: 'flex', gap: isMobile ? 8 : 12 }}>
+      <div style={{ display: 'flex', gap: isMobile ? 1 : 12 }}>
         <Item
           label="دعوت"
           onClick={() => router.push(`${BASE_PATH}/`)}
