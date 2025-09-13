@@ -1,11 +1,13 @@
 import type { AppProps } from 'next/app';
+import { useEffect } from 'react';
 import '../styles/globals.css';
 import '../styles/footer.css';
 import TopBar from '../components/CompViewAsli/TopBar';
 import AddToHomeScreen from '../components/AddToHomeScreen';
 
 export default function App({ Component, pageProps }: AppProps) {
-  if (typeof window !== 'undefined') {
+  useEffect(() => {
+    // Set BASE_PATH on client side only
     (window as any).__BASE_PATH__ = process.env.NEXT_PUBLIC_BASE_PATH || '';
     
     // Register Service Worker for PWA functionality
@@ -18,7 +20,8 @@ export default function App({ Component, pageProps }: AppProps) {
           console.log('Service Worker registration failed:', error);
         });
     }
-  }
+  }, []);
+
   return (
     <>
       <TopBar />
