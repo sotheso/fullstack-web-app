@@ -1,7 +1,5 @@
 import React from 'react';
 import DetailsImage from '../components/CompViewDetails/DetailsImage';
-import BazaarcheButton from '../components/CompViewAsli/CompDetails/ButtonCard/BazaarcheButton';
-import CapsuleButtonGroup from '../components/CompViewDetails/CapsuleButtonGroup';
 import EventInfo from '../Functions/useEventInfo';
 
 const DetailsPage: React.FC = () => {
@@ -14,11 +12,61 @@ const DetailsPage: React.FC = () => {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 32 }}>
           {/* Banner box */}
           <DetailsImage images={["image1.jpg", "image2.jpg"]} />
+          
+          {/* Title and Description Section */}
+          <div style={{
+            width: 288,
+            height: 126,
+            flexShrink: 0,
+            borderRadius: 16,
+            border: '1px solid #EDEDED',
+            background: '#FCFCFC',
+            padding: 16,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 8,
+            alignItems: 'flex-end'
+          }}>
+            {/* Title */}
+            <div style={{
+              display: 'flex',
+              width: 62,
+              height: 15,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              flexShrink: 0,
+              color: '#F26430',
+              textAlign: 'right',
+              fontFamily: 'Ravi',
+              fontSize: 12,
+              fontStyle: 'normal',
+              fontWeight: 500,
+              lineHeight: 'normal'
+            }}>
+              ایونت بساط
+            </div>
+            
+            {/* Description */}
+            <div style={{
+              color: '#000',
+              textAlign: 'right',
+              fontFamily: 'Ravi',
+              fontSize: 10,
+              fontStyle: 'normal',
+              fontWeight: 400,
+              lineHeight: 'normal',
+              flex: 1,
+              width: '100%'
+            }}>
+              وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه! پس سیخ یادتون نره!وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه! پس سیخ یادتون نره!وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه! پس سیخ یادتون نره!وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه! پس سیخ یادتون نره!
+            </div>
+          </div>
+
           {/* Info section */}
           <EventInfo
-            name="ایونت بساط"
-            description="وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه! پس سیخ یادتون نره!وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه! پس سیخ یادتون نره!وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه! پس سیخ یادتون نره!وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه! پس سیخ یادتون نره!"
-            tags={["بازارچه", "بازارچه", "بازارچه", "بازارچه", "بازارچه"]}
+            name=""
+            description=""
+            tags={[]}
             address="خیابان ایرانشهر، تقاطع بهشتی، کوچه علیمرادی، پلاک ۱۲، کافه عمارت دل"
             time="۲۵ فروردین الی ۳ اسفند - از ساعت ۲۲ تا ۴ صبح"
             programs={[
@@ -33,24 +81,6 @@ const DetailsPage: React.FC = () => {
       <div style={{ height: 12}} />
       <div style={{ height: 100 }} />
 
-      </div>
-      {/* Fixed Action Buttons at Bottom */}
-      <div
-        className="glassy-action-bar"
-        style={{
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          display: 'flex',
-          justifyContent: 'center',
-          padding: '16px 0',
-          zIndex: 1000,
-        }}
-      >
-        <div className="glassy-action-bar-inner">
-          <CapsuleButtonGroup />
-        </div>
       </div>
     </div>
   );
