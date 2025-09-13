@@ -45,7 +45,7 @@ const EventProgramCard: React.FC<EventProgramCardProps> = ({ programs }) => {
           font-family: Ravi;
           font-size: 16px;
           font-style: normal;
-          font-weight: 600;
+          font-weight: 500;
           line-height: normal;
         }
         

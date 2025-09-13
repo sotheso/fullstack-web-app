@@ -47,7 +47,7 @@ const AddressCard: React.FC<AddressCardProps> = ({ address, mapUrl }) => {
           font-family: Ravi;
           font-size: 16px;
           font-style: normal;
-          font-weight: 600;
+          font-weight: 500;
           line-height: normal;
         }
         

@@ -59,7 +59,7 @@ const BrandsCard: React.FC<BrandsCardProps> = ({ brands, onBrandSelect }) => {
           font-family: Ravi;
           font-size: 16px;
           font-style: normal;
-          font-weight: 600;
+          font-weight: 500;
           line-height: normal;
         }
         

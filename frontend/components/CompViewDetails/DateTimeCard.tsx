@@ -40,7 +40,7 @@ const DateTimeCard: React.FC<DateTimeCardProps> = ({ time, date }) => {
           font-family: Ravi;
           font-size: 16px;
           font-style: normal;
-          font-weight: 600;
+          font-weight: 500;
           line-height: normal;
         }
         
