@@ -1,5 +1,8 @@
-.signin-page { min-height: 100vh; background: #FCFCFC; display:flex; align-items:center; justify-content:center; padding:24px; }
+.signin-page { min-height: 100vh; background: #FCFCFC; display:flex; align-items:flex-start; justify-content:center; padding:16px; padding-top: 100px; }
 .signin-container { width: 100%; max-width: 720px; text-align: center; margin: 0 auto; }
+.signin-container { margin-top: 0; }
+.signin-logo { text-align: center; margin-bottom: 16px; }
+.signin-logo-img { width: 80px; height: 80px; border-radius: 9999px; object-fit: cover; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
 .signin-title { color:#000; text-align:center; font-family: Ravi, sans-serif; font-size:32px; font-style:normal; font-weight:500; line-height:normal; margin: 0 0 12px 0; }
 .signin-subtitle { color:#000; text-align:center; font-family:Ravi, sans-serif; font-size:16px; font-style:normal; font-weight:300; line-height:normal; margin: 0 0 20px 0; }
 .signin-link { color:#F26430; text-decoration:none; font-weight:600; }
@@ -14,6 +17,13 @@
 .signin-error { color:#B91C1C; background:#FEF2F2; border:1px solid #FECACA; padding:8px 12px; border-radius:10px; width:520px; max-width:100%; }
 .signin-terms { display:flex; gap:8px; width:520px; max-width:100%; align-items:flex-start; justify-content:flex-start; color:#000; font-size:16px; font-weight:300; line-height:normal; text-align:right; direction: rtl; }
 .signin-terms a { color:#F26430; text-decoration:none; }
-.signin-button { background:#F26430; color:#fff; border:none; border-radius:12px; padding:12px 20px; cursor:pointer; font-weight:600; box-shadow:0 8px 20px rgba(242,100,48,0.2); }
+.signin-terms input[type="checkbox"] { width: 16px; height: 16px; accent-color: #F26430; }
+.signin-button { width:520px; max-width:100%; display:block; background:#F26430; color:#fff; border:none; border-radius:12px; padding:12px 20px; cursor:pointer; font-weight:600; box-shadow:0 8px 20px rgba(242,100,48,0.2); }
 .signin-button:disabled { opacity:.6; cursor:not-allowed; }
+
+@media (max-width: 640px) { .signin-input-wrap { width: 90%; } }
+
+@media (max-width: 640px) {
+  .signin-input { font-size: 14px; }
+}
 
