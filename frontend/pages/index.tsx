@@ -135,7 +135,7 @@ const HomePage: React.FC = () => {
       <SectionTitle>برندها</SectionTitle>
       <BottomImage />
 
-      <div style={{ height: 32}} />
+      <div style={{ height: 100}} />
 
       {/* Footer */}
       <Footer />
