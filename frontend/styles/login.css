@@ -96,6 +96,8 @@
 .login-link { color: #F26430; text-decoration: none; }
 .login-link:hover { opacity: .9; }
 
+.login-remember-sep { color: #9CA3AF; margin: 0 8px; }
+
 .login-error {
   background: #FEF2F2;
   color: #B91C1C;

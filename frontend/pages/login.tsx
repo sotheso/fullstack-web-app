@@ -84,7 +84,8 @@ export default function Login() {
                 <input id="remember-me" name="remember-me" type="checkbox" className="login-checkbox" />
                 <label htmlFor="remember-me" className="login-remember-label">مرا به خاطر بسپار</label>
               </div>
-              <a href="#" className="login-link">فراموشی رمز عبور؟</a>
+              <span className="login-remember-sep">|</span>
+              <a href="/signin" className="login-link">فراموشی رمز عبور؟</a>
             </div>
 
             {error && (<ErrorNotice>{error}</ErrorNotice>)}
