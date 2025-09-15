@@ -59,6 +59,7 @@ html, body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  background: #FFFFFF;
 }
 
 html, body, * {
@@ -67,6 +68,7 @@ html, body, * {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Ravi', sans-serif !important;
 }
+
 
 .font-thin { font-weight: 100 !important; }
 .font-light { font-weight: 300 !important; }

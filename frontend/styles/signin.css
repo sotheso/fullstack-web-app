@@ -1,0 +1,19 @@
+.signin-page { min-height: 100vh; background: #FCFCFC; display:flex; align-items:center; justify-content:center; padding:24px; }
+.signin-container { width: 100%; max-width: 720px; text-align: center; margin: 0 auto; }
+.signin-title { color:#000; text-align:center; font-family: Ravi, sans-serif; font-size:32px; font-style:normal; font-weight:500; line-height:normal; margin: 0 0 12px 0; }
+.signin-subtitle { color:#000; text-align:center; font-family:Ravi, sans-serif; font-size:16px; font-style:normal; font-weight:300; line-height:normal; margin: 0 0 20px 0; }
+.signin-link { color:#F26430; text-decoration:none; font-weight:600; }
+.signin-link:hover { opacity:.9; }
+.signin-form { display:flex; flex-direction:column; align-items:center; gap: 16px; }
+.signin-input-wrap { position: relative; width: 520px; max-width: 100%; background: #FCFCFC; border: 1px solid #EDEDED; border-radius: 9999px; padding: 10px 18px 10px 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.06) inset; transition: box-shadow .2s ease, border-color .2s ease; }
+.signin-input-dot { position:absolute; right: 14px; top:50%; transform: translateY(-50%); width: 28px; height: 28px; background:#F26430; border-radius:9999px; opacity:.2; transition: opacity .2s ease, transform .2s ease; }
+.signin-input-wrap:focus-within { border-color: #F26430; box-shadow: 0 0 0 3px rgba(242,100,48,0.2), 0 8px 30px rgba(0,0,0,0.06) inset; }
+.signin-input-wrap:focus-within .signin-input-dot { opacity: .35; transform: translateY(-50%) scale(1.1); }
+.signin-input { width: 100%; border: none; outline: none; background: transparent; text-align: center; color:#111; font-size:16px; }
+.signin-input::placeholder { color:#D1D5DB; }
+.signin-error { color:#B91C1C; background:#FEF2F2; border:1px solid #FECACA; padding:8px 12px; border-radius:10px; width:520px; max-width:100%; }
+.signin-terms { display:flex; gap:8px; width:520px; max-width:100%; align-items:flex-start; justify-content:flex-start; color:#000; font-size:16px; font-weight:300; line-height:normal; text-align:right; direction: rtl; }
+.signin-terms a { color:#F26430; text-decoration:none; }
+.signin-button { background:#F26430; color:#fff; border:none; border-radius:12px; padding:12px 20px; cursor:pointer; font-weight:600; box-shadow:0 8px 20px rgba(242,100,48,0.2); }
+.signin-button:disabled { opacity:.6; cursor:not-allowed; }
+

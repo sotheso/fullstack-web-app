@@ -14,7 +14,7 @@ const TopBar: React.FC = () => {
     const path = router.pathname;
     if (path === '/') return 'دعوت';
     if (path === '/events') return 'ایونت ها';
-    if (path === '/login') return 'پروفایل';
+    if (path === '/login' || path === '/signin') return 'پروفایل';
     return null;
   };
 
@@ -201,7 +201,7 @@ const TopBar: React.FC = () => {
             />
             <Item
               label="پروفایل"
-              onClick={() => router.push('/login')}
+              onClick={() => router.push('/signin')}
               circleStyle={{ borderRadius: 54.925, border: '1px solid #EDEDED', background: '#F3F3F3' }}
               icon={
                 <div style={{ width: 24, height: 24}}>

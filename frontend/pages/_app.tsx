@@ -4,6 +4,8 @@ import '../styles/globals.css';
 import '../styles/footer.css';
 import TopBar from '../components/CompViewAsli/TopBar';
 import AddToHomeScreen from '../components/AddToHomeScreen';
+import '../styles/login.css';
+import '../styles/signin.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
