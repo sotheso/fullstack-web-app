@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Loader from '../components/Loader';
 import EventCard from '../components/CompViewAsli/EventCard';
 import SectionTitle from '../components/CompViewAsli/CompDetails/Text/SectionTitle';
 import FilterButton from '../components/CompViewAsli/CompDetails/ButtonCard/FilterButton';
@@ -42,9 +43,8 @@ const EventsPage: React.FC = () => {
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
           <SectionTitle>:همه ایونت‌ها</SectionTitle>
         </div>
-        <div className="events-grid">
-          <EventCard />
-          <EventCard />
+        <div className="events-grid" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <Loader />
         </div>
       </div>
     );
@@ -95,10 +95,9 @@ const EventsPage: React.FC = () => {
 
       <div className="events-grid">
         {loading && (
-          <>
-            <EventCard />
-            <EventCard />
-          </>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <Loader />
+          </div>
         )}
         {!loading && !error && visibleEvents.map((e: any) => (
           <EventCard

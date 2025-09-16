@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import Loader from '../components/Loader';
 import EventCard from '../components/CompViewAsli/EventCard';
 import EventCardCarousel from '../components/CompViewAsli/StoryCards';
 import BannerCard from '../components/CompViewAsli/TopBanner';
@@ -93,10 +94,9 @@ const HomePage: React.FC = () => {
         className="events-grid"
       >
         {loading && (
-          <>
-            <EventCard />
-            <EventCard />
-          </>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <Loader />
+          </div>
         )}
         {!loading && !error && visibleEvents.map((e: any) => (
           <EventCard
