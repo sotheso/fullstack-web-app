@@ -45,7 +45,6 @@ export default function SignIn() {
 
           <form onSubmit={handleSubmit} className="signin-form" dir="rtl">
             <div className="signin-input-wrap">
-              <span className="signin-input-dot" />
               <input
                 className="signin-input"
                 type="tel"

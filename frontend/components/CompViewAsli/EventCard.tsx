@@ -55,7 +55,9 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
       boxSizing: 'border-box', 
       overflow: 'hidden',
       paddingBottom: 7,
+      cursor: 'pointer',
     }}
+      onClick={handleViewClick}
     >
       {/* Right column: Banner and Date */}
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', height: '100%', minWidth: 120}}>

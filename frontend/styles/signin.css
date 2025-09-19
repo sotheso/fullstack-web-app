@@ -18,7 +18,7 @@
 .signin-terms { display:flex; gap:8px; width:520px; max-width:100%; align-items:flex-start; justify-content:flex-start; color:#000; font-size:16px; font-weight:300; line-height:normal; text-align:right; direction: rtl; }
 .signin-terms a { color:#F26430; text-decoration:none; }
 .signin-terms input[type="checkbox"] { width: 16px; height: 16px; accent-color: #F26430; }
-.signin-button { width:520px; max-width:100%; display:block; background:#F26430; color:#fff; border:none; border-radius:12px; padding:12px 20px; cursor:pointer; font-weight:600; box-shadow:0 8px 20px rgba(242,100,48,0.2); }
+.signin-button { width:520px; max-width:100%; display:block; background:#F26430; color:#fff; border:none; border-radius:12px; padding:12px 20px; cursor:pointer; font-weight:500; box-shadow:0 8px 20px rgba(242,100,48,0.2); font-size:18px; line-height:1.5; }
 .signin-button:disabled { opacity:.6; cursor:not-allowed; }
 
 @media (max-width: 640px) { .signin-input-wrap { width: 90%; } }

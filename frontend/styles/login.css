@@ -110,13 +110,15 @@
   width: 100%;
   background: #F26430;
   color: #fff;
-  font-weight: 600;
+  font-weight: 500;
   padding: 12px 16px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
   box-shadow: 0 8px 20px rgba(242,100,48,0.3);
   transition: background .2s, transform .05s ease-in;
+  font-size: 18px;
+  line-height: 1.5;
 }
 .login-button:hover { background: #e05525; }
 .login-button:disabled { opacity: .6; cursor: not-allowed; }

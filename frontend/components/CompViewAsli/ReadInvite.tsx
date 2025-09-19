@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const ReadInvite: React.FC = () => {
   const [isMobile, setIsMobile] = useState<undefined | boolean>(undefined);
+  const router = useRouter();
 
   useEffect(() => {
     const handleResize = () => {
@@ -13,6 +15,11 @@ const ReadInvite: React.FC = () => {
   }, []);
 
   if (isMobile === undefined) return null;
+
+  const goToDetails = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    router.push('/details');
+  };
 
   return (
     <div style={{ marginBottom: 32, cursor: 'default' }}>
@@ -33,7 +40,9 @@ const ReadInvite: React.FC = () => {
           padding: isMobile ? 16 : 0,
           boxSizing: 'border-box',
           margin: '0 auto',
+          cursor: 'pointer',
         }}
+        onClick={goToDetails}
       >
         {!isMobile && <div style={{ flex: 1, minWidth: 0 }} />}
 

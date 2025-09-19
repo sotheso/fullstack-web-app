@@ -20,6 +20,11 @@ const BannerCard: React.FC = () => {
 
   if (isMobile === undefined || loading || !banner) return null;
 
+  const goToDetails = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    router.push('/details');
+  };
+
   return (
     <div style={{ marginBottom: 32, cursor: 'default' }}>
       {/* Main banner card */}
@@ -40,7 +45,9 @@ const BannerCard: React.FC = () => {
           padding: isMobile ? 16 : 0,
           boxSizing: 'border-box',
           margin: isMobile ? '0 auto' : '0 auto', // Center in both mobile and desktop
+          cursor: 'pointer',
         }}
+        onClick={goToDetails}
       >
         {/* Left section - Empty for spacing */}
         {!isMobile && <div style={{ flex: 1, minWidth: 0 }} />}
