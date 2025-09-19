@@ -14,7 +14,7 @@ const TopBar: React.FC = () => {
     const path = router.pathname;
     if (path === '/') return 'دعوت';
     if (path === '/events') return 'ایونت ها';
-    if (path === '/login' || path === '/signin') return 'پروفایل';
+    if (path === '/profile') return 'پروفایل';
     return null;
   };
 
@@ -198,8 +198,8 @@ const TopBar: React.FC = () => {
                 isActive ? (
                   <div
                     style={{
-                      width: 46, // همان اندازه آیکون غیرفعال
-                      height: 46, // همان اندازه آیکون غیرفعال
+                      width: 33, // کاهش 10% از 37px
+                      height: 33, // کاهش 10% از 37px
                       backgroundColor: '#EDEDED',
                       WebkitMaskImage: `url(${BASE_PATH}/icon-512.svg)`,
                       maskImage: `url(${BASE_PATH}/icon-512.svg)`,
@@ -208,17 +208,16 @@ const TopBar: React.FC = () => {
                       WebkitMaskPosition: 'center',
                       maskPosition: 'center',
                       WebkitMaskSize: 'contain',
-                      maskSize: 'contain',
-                      borderRadius: 999
+                      maskSize: 'contain'
                     }}
                   />
                 ) : (
                   <Image
                     src={`${BASE_PATH}/icon-512.svg`}
                     alt="Davvat"
-                    width={46} // کاهش 20% از 46px
-                    height={46} // کاهش 20% از 46px
-                    style={{ objectFit: 'contain', borderRadius: 999 }}
+                    width={33} // کاهش 10% از 37px
+                    height={33} // کاهش 10% از 37px
+                    style={{ objectFit: 'contain' }}
                   />
                 )
               )}
@@ -239,7 +238,19 @@ const TopBar: React.FC = () => {
             />
             <Item
               label="پروفایل"
-              onClick={() => router.push('/signin')}
+              onClick={() => {
+                console.log('Profile button clicked, navigating to /profile');
+                console.log('Current path:', router.pathname);
+                try {
+                  router.push('/profile').then(() => {
+                    console.log('Navigation completed to /profile');
+                  }).catch((error) => {
+                    console.error('Navigation error:', error);
+                  });
+                } catch (error) {
+                  console.error('Navigation error:', error);
+                }
+              }}
               activeCircleStyle={{ background: '#F26430', boxShadow: '0 0 0 1px rgba(237,237,237,0.8)' }}
               inactiveCircleStyle={{ borderRadius: 54.925, border: '1px solid #EDEDED', background: '#F3F3F3' }}
               renderIcon={(isActive) => (

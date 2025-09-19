@@ -80,7 +80,7 @@ const EventCardCarousel: React.FC = () => {
           flexDirection: 'column', 
           alignItems: 'center',
           gap: '24px',
-          margin: '32px 0',
+          margin: '16px 0',
           width: '100%'
         }}>
           {/* Cards Container - Horizontally scrollable from right to left */}

@@ -126,14 +126,15 @@ const HomePage: React.FC = () => {
         <EventCardCarousel />
       </div>
 
-      <div style={{ height: 32 }} />
+      <div style={{ height: 16 }} />
 
       <SectionTitle>دعوت به خواندن</SectionTitle>
-      <div style={{ height: 16}} />
+      <div style={{ height: 8}} />
       <ReadInvite />
 
-      <SectionTitle>برندها</SectionTitle>
-      <BottomImage />
+      {/* Brands section - temporarily disabled */}
+      {/* <SectionTitle>برندها</SectionTitle>
+      <BottomImage /> */}
 
       <div style={{ height: 100}} />
 
@@ -193,7 +194,7 @@ const HomePage: React.FC = () => {
           display: grid;
           grid-template-columns: 1fr;
           gap: 32px;
-          margin: 32px 0 32px auto;
+          margin: 8px 0 32px auto;
           width: 100%;
           max-width: 373px;
           direction: rtl; /* پر شدن از راست به چپ */

@@ -86,12 +86,7 @@ const BrandsCard: React.FC<BrandsCardProps> = ({ brands, onBrandSelect }) => {
           outline: none;
         }
         
-        .brand-tag.selected {
-          background: #F26430;
-          color: #FFF;
-        }
-        
-        .brand-tag.unselected {
+        .brand-tag {
           background: #F5F5F5;
           color: #000;
         }
@@ -147,7 +142,7 @@ const BrandsCard: React.FC<BrandsCardProps> = ({ brands, onBrandSelect }) => {
           {brands.map((brand) => (
             <button
               key={brand.id}
-              className={`brand-tag ${selectedBrands.includes(brand.id) ? 'selected' : 'unselected'}`}
+              className="brand-tag"
               onClick={() => handleBrandClick(brand.id)}
             >
               {brand.name}
