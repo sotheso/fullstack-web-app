@@ -207,7 +207,7 @@ const TopBar: React.FC = () => {
                   />
                 ) : (
                   <Image
-                    src={`${BASE_PATH}/icon-192.png`}
+                    src={`${BASE_PATH}/icon-512.png`}
                     alt="Davvat"
                     fill
                     style={{ objectFit: 'contain', borderRadius: 999 }}

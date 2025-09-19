@@ -56,6 +56,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
       overflow: 'hidden',
       paddingBottom: 7,
       cursor: 'pointer',
+      direction: 'ltr', // محتوای داخل کارت چپ‌چین می‌ماند
     }}
       onClick={handleViewClick}
     >

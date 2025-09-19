@@ -59,7 +59,7 @@ const EventsPage: React.FC = () => {
       </div>
 
       {/* Filter Buttons - wrapped in capsule background */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '24px 0', width: '100%' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '0px 0', width: '100%' }}>
         <div className="glassy-action-bar-inner">
           <div className="filter-bar" style={{ margin: 0 }}>
             <FilterButton
@@ -120,7 +120,7 @@ const EventsPage: React.FC = () => {
       <style jsx>{`
         .home-container {
           padding-left: 20px;
-          padding-right: 26px;
+          padding-right: 14px; /* یکسان کردن فاصله از راست و چپ */
           padding-top: 0;
         }
 
@@ -155,6 +155,7 @@ const EventsPage: React.FC = () => {
           margin: 32px 0 32px auto;
           width: 100%;
           max-width: 373px;
+          direction: rtl; /* پر شدن از راست به چپ */
           justify-items: end; /* راست‌چین کارت‌ها در موبایل */
         }
 
@@ -164,6 +165,7 @@ const EventsPage: React.FC = () => {
             column-gap: 12px;
             max-width: none;
             padding: 0px;
+            direction: rtl; /* پر شدن از راست به چپ در دسکتاپ */
             justify-content: end; /* راست‌چین در دسکتاپ */
           }
         }
@@ -171,6 +173,7 @@ const EventsPage: React.FC = () => {
         @media (min-width: 1200px) {
           .events-grid {
             grid-template-columns: repeat(3, 373px);
+            direction: rtl; /* پر شدن از راست به چپ در نمایشگر بزرگ */
             justify-content: end;
           }
         }

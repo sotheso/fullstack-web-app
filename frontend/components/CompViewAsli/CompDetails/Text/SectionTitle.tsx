@@ -28,7 +28,7 @@ const SectionTitle: React.FC<SectionTitleProps> = ({ children, ...props }) => {
         color: 'black',
         fontSize: isMobile ? 22 : 24,
         fontFamily: 'Ravi',
-        fontWeight: '700',
+        fontWeight: isMobile ? '600' : '700',
         wordWrap: 'break-word',
       }}
       {...props}

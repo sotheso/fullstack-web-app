@@ -46,7 +46,7 @@ const HomePage: React.FC = () => {
       {/* Banner Card - New Position */}
       <div>
         <SectionTitle>!اگه قرار باشه فقط یه جا بری</SectionTitle>
-        <div style={{ height: 24}} />
+        <div style={{ height: 8}} />
         <BannerCard />
       </div>
       <div style={{ height: 16}} />
@@ -56,7 +56,7 @@ const HomePage: React.FC = () => {
       </div>
 
       {/* Filter Buttons - wrapped in capsule background */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '24px 0', width: '100%' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '8px 0', width: '100%' }}>
         <div className="glassy-action-bar-inner">
           <div className="filter-bar" style={{ margin: 0 }}>
             <FilterButton
@@ -143,7 +143,7 @@ const HomePage: React.FC = () => {
       <style jsx>{`
         .home-container {
           padding-left: 20px;
-          padding-right: 26px;
+          padding-right: 14px; /* یکسان کردن فاصله از راست و چپ */
           padding-top: 0;
         }
 
@@ -196,6 +196,7 @@ const HomePage: React.FC = () => {
           margin: 32px 0 32px auto;
           width: 100%;
           max-width: 373px;
+          direction: rtl; /* پر شدن از راست به چپ */
           justify-items: end; /* راست‌چین کارت‌ها در موبایل */
         }
 
@@ -205,6 +206,7 @@ const HomePage: React.FC = () => {
             column-gap: 12px;
             max-width: none;
             padding: 0px;
+            direction: rtl; /* پر شدن از راست به چپ در دسکتاپ */
             justify-content: end; /* راست‌چین در دسکتاپ */
           }
         }
@@ -212,6 +214,7 @@ const HomePage: React.FC = () => {
         @media (min-width: 1200px) {
           .events-grid {
             grid-template-columns: repeat(3, 373px);
+            direction: rtl; /* پر شدن از راست به چپ در نمایشگر بزرگ */
             justify-content: end;
           }
         }
