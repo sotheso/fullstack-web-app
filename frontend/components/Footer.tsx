@@ -52,14 +52,6 @@ const Footer: React.FC = () => {
         <div className="footer-right">
           <nav>
             <ul className="footer-links">
-              <li className="footer-link-item blog-link">
-                <a 
-                  className="footer-link" 
-                  onClick={() => handleLinkClick('blog')}
-                >
-                  بلاگ
-                </a>
-              </li>
               <li className="footer-link-item faq-link">
                 <a 
                   className="footer-link" 
@@ -90,7 +82,7 @@ const Footer: React.FC = () => {
           {/* لوگو */}
           <div className="footer-logo">
             <img 
-              src="/icon-512.png" 
+              src="/icon-512.svg" 
               alt="Davvvat Logo" 
               className="logo-image"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

@@ -75,8 +75,8 @@ const TopBar: React.FC = () => {
       >
         <div
           style={{
-            width: 58,
-            height: 58,
+            width: 58, // برگشت به اندازه قبلی
+            height: 58, // برگشت به اندازه قبلی
             borderRadius: 999,
             background: 'rgba(255,255,255,0.6)',
             display: 'flex',
@@ -112,8 +112,8 @@ const TopBar: React.FC = () => {
     transform: 'translateX(-50%)',
     bottom: 16,
     zIndex: 9999,
-    width: isClient && isMobile ? 220 : 242,
-    height: isClient && isMobile ? 70 : 95,
+    width: isClient && isMobile ? 220 : 242, // برگشت به اندازه قبلی
+    height: isClient && isMobile ? 70 : 95, // برگشت به اندازه قبلی
     borderRadius: isClient && isMobile ? 9999 : 16,
     background: 'rgba(255, 255, 255, 0.10)',
     boxShadow: '0 -1px 24px 0 rgba(0, 0, 0, 0.12)',
@@ -198,11 +198,11 @@ const TopBar: React.FC = () => {
                 isActive ? (
                   <div
                     style={{
-                      width: '100%',
-                      height: '100%',
+                      width: 46, // همان اندازه آیکون غیرفعال
+                      height: 46, // همان اندازه آیکون غیرفعال
                       backgroundColor: '#EDEDED',
-                      WebkitMaskImage: `url(${BASE_PATH}/icon-512.png)`,
-                      maskImage: `url(${BASE_PATH}/icon-512.png)`,
+                      WebkitMaskImage: `url(${BASE_PATH}/icon-512.svg)`,
+                      maskImage: `url(${BASE_PATH}/icon-512.svg)`,
                       WebkitMaskRepeat: 'no-repeat',
                       maskRepeat: 'no-repeat',
                       WebkitMaskPosition: 'center',
@@ -214,9 +214,10 @@ const TopBar: React.FC = () => {
                   />
                 ) : (
                   <Image
-                    src={`${BASE_PATH}/icon-512.png`}
+                    src={`${BASE_PATH}/icon-512.svg`}
                     alt="Davvat"
-                    fill
+                    width={46} // کاهش 20% از 46px
+                    height={46} // کاهش 20% از 46px
                     style={{ objectFit: 'contain', borderRadius: 999 }}
                   />
                 )

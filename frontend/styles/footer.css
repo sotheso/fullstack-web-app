@@ -54,6 +54,7 @@
 .footer-right {
   display: flex;
   align-items: center;
+  gap: 1.5rem; /* فاصله بین لینک‌ها و لوگو */
 }
 
 .footer-links {
@@ -78,8 +79,8 @@
 }
 
 .footer-logo {
-  width: 100px;
-  height: 65px;
+  width: 55px; /* کاهش از 100px */
+  height: 30px; /* کاهش از 65px */
   display: flex;
   align-items: center;
   justify-content: center;

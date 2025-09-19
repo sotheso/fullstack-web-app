@@ -46,7 +46,7 @@ const BrandsCard: React.FC<BrandsCardProps> = ({ brands, onBrandSelect }) => {
         .brands-header {
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 4px;
           width: 100%;
           justify-content: flex-end;
           padding-bottom: 4px;
@@ -54,12 +54,12 @@ const BrandsCard: React.FC<BrandsCardProps> = ({ brands, onBrandSelect }) => {
         }
         
         .brands-title {
-          color: #F26430;
+          color: #000000;
           text-align: right;
           font-family: Ravi;
           font-size: 16px;
           font-style: normal;
-          font-weight: 500;
+          font-weight: 520;
           line-height: normal;
         }
         
@@ -137,6 +137,11 @@ const BrandsCard: React.FC<BrandsCardProps> = ({ brands, onBrandSelect }) => {
       <div className="brands-card">
         <div className="brands-header">
           <div className="brands-title">برندها</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, aspectRatio: '1/1' }}>
+            <path d="M8.00033 7.16669C8.27647 7.16669 8.50033 7.39054 8.50033 7.66669V11C8.50033 11.2762 8.27647 11.5 8.00033 11.5C7.72418 11.5 7.50033 11.2762 7.50033 11V7.66669C7.50033 7.39054 7.72418 7.16669 8.00033 7.16669Z" fill="#F26430"/>
+            <path d="M8.00033 6.00002C8.36852 6.00002 8.66699 5.70154 8.66699 5.33335C8.66699 4.96516 8.36852 4.66669 8.00033 4.66669C7.63214 4.66669 7.33366 4.96516 7.33366 5.33335C7.33366 5.70154 7.63214 6.00002 8.00033 6.00002Z" fill="#F26430"/>
+            <path fillRule="evenodd" clipRule="evenodd" d="M2.16699 8.00002C2.16699 4.77836 4.77866 2.16669 8.00033 2.16669C11.222 2.16669 13.8337 4.77836 13.8337 8.00002C13.8337 11.2217 11.222 13.8334 8.00033 13.8334C4.77866 13.8334 2.16699 11.2217 2.16699 8.00002ZM8.00033 3.16669C5.33095 3.16669 3.16699 5.33064 3.16699 8.00002C3.16699 10.6694 5.33095 12.8334 8.00033 12.8334C10.6697 12.8334 12.8337 10.6694 12.8337 8.00002C12.8337 5.33064 10.6697 3.16669 8.00033 3.16669Z" fill="#F26430"/>
+          </svg>
         </div>
         <div className="brands-content">
           {brands.map((brand) => (
