@@ -64,6 +64,13 @@ const TopBar: React.FC = () => {
           fontFamily: 'Ravi',
           position: 'relative',
           zIndex: 10,
+          WebkitTapHighlightColor: 'transparent', // حذف افکت تاچ در iOS
+          WebkitTouchCallout: 'none', // حذف منوی کانتکست در iOS
+          WebkitUserSelect: 'none', // حذف انتخاب متن
+          userSelect: 'none',
+          outline: 'none', // حذف outline در focus
+          WebkitAppearance: 'none', // حذف استایل پیش‌فرض در WebKit
+          appearance: 'none',
         }}
       >
         <div
