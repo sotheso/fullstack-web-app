@@ -137,7 +137,7 @@ const EventsPage: React.FC = () => {
           flex-direction: row-reverse;
           gap: 16px;
           justify-content: flex-start; /* راست‌چین در موبایل */
-          margin: 24px 0;
+          margin: 16px 0;
           margin-right: -10px; /* کمی کشیده‌تر به راست */
         }
 
@@ -151,8 +151,8 @@ const EventsPage: React.FC = () => {
         .events-grid {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 32px;
-          margin: 32px 0 32px auto;
+          gap: 16px;
+          margin: 16px 0 32px auto;
           width: 100%;
           max-width: 373px;
           direction: rtl; /* پر شدن از راست به چپ */

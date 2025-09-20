@@ -38,8 +38,9 @@ const DetailsImage: React.FC<DetailsImageProps> = ({ images }) => {
   return (
     <div
       style={{
-        width: '350.462px',
-        height: '620.953px',
+        width: '100%',
+        maxWidth: '350px',
+        aspectRatio: '1 / 1.4',
         flexShrink: 0,
         borderRadius: '19px',
         background: (!src || !imgLoaded) ? bg : undefined,

@@ -3,6 +3,7 @@
   min-height: 100vh;
   background: #FCFCFC;
   padding: 20px;
+  padding-bottom: 120px;
   direction: rtl;
 }
 
@@ -33,7 +34,7 @@
   border: none;
   cursor: pointer;
   width: 100%;
-  transition: background-color 0.2s ease;
+  /* transition: background-color 0.2s ease; */
 }
 
 /* .menu-item:hover {
@@ -325,7 +326,7 @@
   .expanded-content .events-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    gap: 24px;
+    gap: 12px;
     justify-items: center;
   }
 

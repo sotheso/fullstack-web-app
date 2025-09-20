@@ -193,7 +193,7 @@ const HomePage: React.FC = () => {
         .events-grid {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 32px;
+          gap: 16px;
           margin: 8px 0 32px auto;
           width: 100%;
           max-width: 373px;
