@@ -21,7 +21,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     if (onBackClick) {
       onBackClick();
     } else {
-      router.back();
+      router.push('/settings');
     }
   };
 
@@ -47,8 +47,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         className="back-button"
         onClick={handleBackClick}
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M19 12H5M12 19L5 12L12 5" stroke="#F26430" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="10" viewBox="0 0 7 10" fill="none">
+          <path fillRule="evenodd" clipRule="evenodd" d="M6.03033 9.53033C5.73744 9.82322 5.26256 9.82322 4.96967 9.53033L0.96967 5.53033C0.676777 5.23744 0.676777 4.76256 0.96967 4.46967L4.96967 0.46967C5.26256 0.176777 5.73744 0.176777 6.03033 0.46967C6.32322 0.762563 6.32322 1.23744 6.03033 1.53033L2.56066 5L6.03033 8.46967C6.32322 8.76256 6.32322 9.23744 6.03033 9.53033Z" fill="#F26430"/>
         </svg>
       </button>
 
