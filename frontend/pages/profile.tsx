@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import EventCard from '../components/CompViewAsli/EventCard';
 import ProfileHeader from '../components/CompProfile/ProfileHeader';
 import { EventCardData } from '../Functions/eventCardInfo';
-import '../styles/profile.css';
 
 const ProfilePage: React.FC = () => {
   const router = useRouter();

@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 import '../styles/globals.css';
 import '../styles/footer.css';
+import '../styles/profile.css';
 import TopBar from '../components/CompViewAsli/TopBar';
 import AddToHomeScreen from '../components/AddToHomeScreen';
 import LoadingScreen from '../components/LoadingScreen';
