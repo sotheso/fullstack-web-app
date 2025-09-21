@@ -224,7 +224,7 @@ const ProfilePage: React.FC = () => {
                 {item.id === 'invite' && (
                   <div className="invite-content">
                     <p className="invite-text">
-                      دوستان خود را به اپلیکیشن داوات دعوت کنید و از امکانات ویژه بهره‌مند شوید!
+                      دوستان خود را به اپلیکیشن دعوت کنید و از امکانات ویژه بهره‌مند شوید!
                     </p>
                     <div className="invite-actions">
                       <button className="invite-button primary">
