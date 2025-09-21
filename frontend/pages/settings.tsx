@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import LogoutModal from '../components/CompSetting/LogoutModal';
 
 const SettingsPage: React.FC = () => {
   const router = useRouter();
@@ -12,6 +13,9 @@ const SettingsPage: React.FC = () => {
     email: 'saj.kangarani@gmail.com'
   });
 
+  // Modal state
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
   const handleInputChange = (field: string, value: string) => {
     setUserData(prev => ({
       ...prev,
@@ -20,9 +24,17 @@ const SettingsPage: React.FC = () => {
   };
 
   const handleLogout = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const handleLogoutConfirm = () => {
     // Handle logout logic here
     console.log('Logging out...');
-    router.push('/login');
+    setIsLogoutModalOpen(false);
+  };
+
+  const handleLogoutCancel = () => {
+    setIsLogoutModalOpen(false);
   };
 
   return (
@@ -132,6 +144,13 @@ const SettingsPage: React.FC = () => {
           خروج از حساب کاربری
         </button>
       </div>
+
+      {/* Logout Modal */}
+      <LogoutModal
+        isOpen={isLogoutModalOpen}
+        onClose={handleLogoutCancel}
+        onConfirm={handleLogoutConfirm}
+      />
 
     </div>
   );

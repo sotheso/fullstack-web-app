@@ -251,6 +251,111 @@
   color: #fff;
 }
 
+/* Logout Modal */
+.logout-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.logout-modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  width: 265px;
+  height: 137px;
+  flex-shrink: 0;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logout-modal-title {
+  color: #000;
+  text-align: center;
+  font-family: Ravi;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin: 0 0 8px 0;
+}
+
+.logout-modal-divider {
+  width: 100%;
+  height: 1px;
+  background: #EDEDED;
+  margin: 0 0 16px 0;
+}
+
+.logout-modal-message {
+  color: #000;
+  text-align: center;
+  font-family: Ravi;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0 0 8px 0;
+}
+
+.logout-modal-divider-bottom {
+  width: 100%;
+  height: 1px;
+  background: #EDEDED;
+  margin: 0 0 8px 0;
+}
+
+.logout-modal-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.logout-modal-button {
+  width: 104px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 30px;
+  border: 1px solid #EDEDED;
+  background: #F26430;
+  font-family: Ravi;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.logout-modal-button.confirm {
+  background: #F3F3F3;
+  color: #F26430;
+  border: 1px solid #F26430;
+}
+
+.logout-modal-button.confirm:hover {
+  background: #F26430;
+  color: #fff;
+}
+
+.logout-modal-button.cancel {
+  background: #F26430;
+  color: #fff;
+}
+
+.logout-modal-button.cancel:hover {
+  background: #e55a2b;
+}
+
 /* Responsive Design */
 @media (min-width: 768px) {
   .settings-container {
