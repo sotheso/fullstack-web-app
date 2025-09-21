@@ -25,9 +25,13 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     }
   };
 
+  const handleUserInfoClick = () => {
+    router.push('/settings');
+  };
+
   return (
     <div className="profile-header">
-      <div className="user-info">
+      <div className="user-info" onClick={handleUserInfoClick}>
         <div className="user-avatar">
           <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
             <circle cx="32" cy="32" r="31.5" fill="#F3F3F3" stroke="#EDEDED"/>
@@ -83,6 +87,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           align-items: center;
           gap: 12px;
           flex: 1;
+          cursor: pointer;
         }
 
         .user-details {
