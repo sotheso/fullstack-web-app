@@ -58,7 +58,7 @@ const AddToHomeScreen: React.FC = () => {
           {/* Icon */}
           <div style={{ marginBottom: 12, textAlign: 'center'}}>
             <img
-              src={isIOS ? "/image.png" : "/homeScreen.png"}
+              src={isIOS ? "/sharelogo.png" : "/homeScreen.png"}
               alt="Add to Home Screen"
               style={{
                 width: 48,

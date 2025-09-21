@@ -37,9 +37,6 @@ export default function SignIn() {
 
       <div className="signin-page">
         <div className="signin-container">
-          <div className="signin-logo">
-            <img src="/logoo.png" alt="Davvvat logo" className="signin-logo-img" />
-          </div>
           <h1 className="signin-title">!شما دعوت شدید</h1>
           <p className="signin-subtitle">لطفا شماره‌ات رو وارد کن تا از ایونت‌ها و اتفاقات باخبر باشی. <a href="/login" className="signin-link">قبلا ثبت نام کردم</a></p>
 

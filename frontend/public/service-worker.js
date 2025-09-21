@@ -6,7 +6,6 @@ const urlsToCache = [
   '/_next/static/css/',
   '/_next/static/js/',
   '/banner.png',
-  '/story.png',
   '/DavvatLogo.png'
 ];
 

@@ -61,34 +61,48 @@ const SettingsPage: React.FC = () => {
       <div className="form-section">
         <div className="form-row">
           <div className="form-field">
-            <label className="field-label">اسمت:</label>
             <div className="field-container">
-              <input
-                type="text"
-                value={userData.firstName}
-                onChange={(e) => handleInputChange('firstName', e.target.value)}
-                className="field-input"
-              />
-              <button className="edit-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M11.3333 2.00002C11.5084 1.82491 11.7163 1.68602 11.9453 1.59128C12.1742 1.49654 12.4191 1.44775 12.6667 1.44775C12.9142 1.44775 13.1591 1.49654 13.388 1.59128C13.617 1.68602 13.8249 1.82491 14 2.00002C14.1751 2.17513 14.314 2.38305 14.4087 2.612C14.5035 2.84095 14.5523 3.08581 14.5523 3.33335C14.5523 3.58089 14.5035 3.82575 14.4087 4.0547C14.314 4.28365 14.1751 4.49157 14 4.66668L5.00001 13.6667L1.33334 14.6667L2.33334 11L11.3333 2.00002Z" stroke="#F26430" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
+              <div className="field-content">
+                <div className="field-label">اسمت:</div>
+                <div className="field-divider"></div>
+                <div className="field-value">سجاد</div>
+                <button className="edit-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M10.0911 2.31312C9.99735 2.21935 9.87018 2.16667 9.73757 2.16667C9.60496 2.16667 9.47778 2.21935 9.38402 2.31312L3.25576 8.44138C3.19294 8.50419 3.14799 8.58261 3.12554 8.66857L2.45887 11.2209C2.41401 11.3926 2.46357 11.5753 2.58909 11.7008C2.71461 11.8263 2.89726 11.8758 3.06901 11.831L5.62129 11.1643C5.70724 11.1419 5.78566 11.0969 5.84848 11.0341L11.9767 4.90584C12.172 4.71058 12.172 4.394 11.9767 4.19874L10.0911 2.31312ZM4.05879 9.05255L9.73757 3.37378L10.9161 4.55229L5.23731 10.2311L3.64213 10.6477L4.05879 9.05255Z" fill="#F26430"/>
+                    <path d="M2.6665 12.8333C2.39036 12.8333 2.1665 13.0572 2.1665 13.3333C2.1665 13.6095 2.39036 13.8333 2.6665 13.8333H12.6665C12.9426 13.8333 13.1665 13.6095 13.1665 13.3333C13.1665 13.0572 12.9426 12.8333 12.6665 12.8333H2.6665Z" fill="#F26430"/>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
           
           <div className="form-field">
-            <label className="field-label">نام خانوادگیت:</label>
             <div className="field-container">
-              <input
-                type="text"
-                value={userData.lastName}
-                onChange={(e) => handleInputChange('lastName', e.target.value)}
-                className="field-input"
-              />
+              <div className="field-content">
+                <div className="field-label">نام خانوادگیت:</div>
+                <div className="field-divider"></div>
+                <div className="field-value">کنگرانی</div>
+                <button className="edit-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M10.0911 2.31312C9.99735 2.21935 9.87018 2.16667 9.73757 2.16667C9.60496 2.16667 9.47778 2.21935 9.38402 2.31312L3.25576 8.44138C3.19294 8.50419 3.14799 8.58261 3.12554 8.66857L2.45887 11.2209C2.41401 11.3926 2.46357 11.5753 2.58909 11.7008C2.71461 11.8263 2.89726 11.8758 3.06901 11.831L5.62129 11.1643C5.70724 11.1419 5.78566 11.0969 5.84848 11.0341L11.9767 4.90584C12.172 4.71058 12.172 4.394 11.9767 4.19874L10.0911 2.31312ZM4.05879 9.05255L9.73757 3.37378L10.9161 4.55229L5.23731 10.2311L3.64213 10.6477L4.05879 9.05255Z" fill="#F26430"/>
+                    <path d="M2.6665 12.8333C2.39036 12.8333 2.1665 13.0572 2.1665 13.3333C2.1665 13.6095 2.39036 13.8333 2.6665 13.8333H12.6665C12.9426 13.8333 13.1665 13.6095 13.1665 13.3333C13.1665 13.0572 12.9426 12.8333 12.6665 12.8333H2.6665Z" fill="#F26430"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="form-field full-width">
+          <div className="field-container">
+            <div className="field-content">
+              <div className="field-label">شماره ات:</div>
+              <div className="field-divider"></div>
+              <div className="field-value">{userData.phone}</div>
               <button className="edit-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M11.3333 2.00002C11.5084 1.82491 11.7163 1.68602 11.9453 1.59128C12.1742 1.49654 12.4191 1.44775 12.6667 1.44775C12.9142 1.44775 13.1591 1.49654 13.388 1.59128C13.617 1.68602 13.8249 1.82491 14 2.00002C14.1751 2.17513 14.314 2.38305 14.4087 2.612C14.5035 2.84095 14.5523 3.08581 14.5523 3.33335C14.5523 3.58089 14.5035 3.82575 14.4087 4.0547C14.314 4.28365 14.1751 4.49157 14 4.66668L5.00001 13.6667L1.33334 14.6667L2.33334 11L11.3333 2.00002Z" stroke="#F26430" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path fillRule="evenodd" clipRule="evenodd" d="M10.0911 2.31312C9.99735 2.21935 9.87018 2.16667 9.73757 2.16667C9.60496 2.16667 9.47778 2.21935 9.38402 2.31312L3.25576 8.44138C3.19294 8.50419 3.14799 8.58261 3.12554 8.66857L2.45887 11.2209C2.41401 11.3926 2.46357 11.5753 2.58909 11.7008C2.71461 11.8263 2.89726 11.8758 3.06901 11.831L5.62129 11.1643C5.70724 11.1419 5.78566 11.0969 5.84848 11.0341L11.9767 4.90584C12.172 4.71058 12.172 4.394 11.9767 4.19874L10.0911 2.31312ZM4.05879 9.05255L9.73757 3.37378L10.9161 4.55229L5.23731 10.2311L3.64213 10.6477L4.05879 9.05255Z" fill="#F26430"/>
+                  <path d="M2.6665 12.8333C2.39036 12.8333 2.1665 13.0572 2.1665 13.3333C2.1665 13.6095 2.39036 13.8333 2.6665 13.8333H12.6665C12.9426 13.8333 13.1665 13.6095 13.1665 13.3333C13.1665 13.0572 12.9426 12.8333 12.6665 12.8333H2.6665Z" fill="#F26430"/>
                 </svg>
               </button>
             </div>
@@ -96,36 +110,18 @@ const SettingsPage: React.FC = () => {
         </div>
 
         <div className="form-field full-width">
-          <label className="field-label">شماره ات:</label>
           <div className="field-container">
-            <input
-              type="text"
-              value={userData.phone}
-              onChange={(e) => handleInputChange('phone', e.target.value)}
-              className="field-input"
-            />
-            <button className="edit-button">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M11.3333 2.00002C11.5084 1.82491 11.7163 1.68602 11.9453 1.59128C12.1742 1.49654 12.4191 1.44775 12.6667 1.44775C12.9142 1.44775 13.1591 1.49654 13.388 1.59128C13.617 1.68602 13.8249 1.82491 14 2.00002C14.1751 2.17513 14.314 2.38305 14.4087 2.612C14.5035 2.84095 14.5523 3.08581 14.5523 3.33335C14.5523 3.58089 14.5035 3.82575 14.4087 4.0547C14.314 4.28365 14.1751 4.49157 14 4.66668L5.00001 13.6667L1.33334 14.6667L2.33334 11L11.3333 2.00002Z" stroke="#F26430" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div className="form-field full-width">
-          <label className="field-label">ایمیلت:</label>
-          <div className="field-container">
-            <input
-              type="email"
-              value={userData.email}
-              onChange={(e) => handleInputChange('email', e.target.value)}
-              className="field-input"
-            />
-            <button className="edit-button">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M11.3333 2.00002C11.5084 1.82491 11.7163 1.68602 11.9453 1.59128C12.1742 1.49654 12.4191 1.44775 12.6667 1.44775C12.9142 1.44775 13.1591 1.49654 13.388 1.59128C13.617 1.68602 13.8249 1.82491 14 2.00002C14.1751 2.17513 14.314 2.38305 14.4087 2.612C14.5035 2.84095 14.5523 3.08581 14.5523 3.33335C14.5523 3.58089 14.5035 3.82575 14.4087 4.0547C14.314 4.28365 14.1751 4.49157 14 4.66668L5.00001 13.6667L1.33334 14.6667L2.33334 11L11.3333 2.00002Z" stroke="#F26430" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
+            <div className="field-content">
+              <div className="field-label">ایمیلت:</div>
+              <div className="field-divider"></div>
+              <div className="field-value">{userData.email}</div>
+              <button className="edit-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M10.0911 2.31312C9.99735 2.21935 9.87018 2.16667 9.73757 2.16667C9.60496 2.16667 9.47778 2.21935 9.38402 2.31312L3.25576 8.44138C3.19294 8.50419 3.14799 8.58261 3.12554 8.66857L2.45887 11.2209C2.41401 11.3926 2.46357 11.5753 2.58909 11.7008C2.71461 11.8263 2.89726 11.8758 3.06901 11.831L5.62129 11.1643C5.70724 11.1419 5.78566 11.0969 5.84848 11.0341L11.9767 4.90584C12.172 4.71058 12.172 4.394 11.9767 4.19874L10.0911 2.31312ZM4.05879 9.05255L9.73757 3.37378L10.9161 4.55229L5.23731 10.2311L3.64213 10.6477L4.05879 9.05255Z" fill="#F26430"/>
+                  <path d="M2.6665 12.8333C2.39036 12.8333 2.1665 13.0572 2.1665 13.3333C2.1665 13.6095 2.39036 13.8333 2.6665 13.8333H12.6665C12.9426 13.8333 13.1665 13.6095 13.1665 13.3333C13.1665 13.0572 12.9426 12.8333 12.6665 12.8333H2.6665Z" fill="#F26430"/>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
