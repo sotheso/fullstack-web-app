@@ -8,6 +8,7 @@ import AddToHomeScreen from '../components/AddToHomeScreen';
 import LoadingScreen from '../components/LoadingScreen';
 import '../styles/login.css';
 import '../styles/signin.css';
+import '../styles/settings.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [isLoading, setIsLoading] = useState(true);
