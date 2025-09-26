@@ -17,15 +17,27 @@ export default function App({ Component, pageProps }: AppProps) {
     // Set BASE_PATH on client side only
     (window as any).__BASE_PATH__ = process.env.NEXT_PUBLIC_BASE_PATH || '';
     
-    // Register Service Worker for PWA functionality
+    // Register Service Worker only in production; unregister in development to avoid HMR issues
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then((registration) => {
-          console.log('Service Worker registered with scope:', registration.scope);
-        })
-        .catch((error) => {
-          console.log('Service Worker registration failed:', error);
-        });
+      if (process.env.NODE_ENV === 'production') {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then((registration) => {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch((error) => {
+            console.log('Service Worker registration failed:', error);
+          });
+      } else {
+        navigator.serviceWorker.getRegistrations()
+          .then((registrations) => {
+            registrations.forEach((registration) => registration.unregister());
+          })
+          .catch(() => {});
+        if (typeof window !== 'undefined' && 'caches' in window) {
+          // Clear caches to avoid serving stale assets during development
+          caches.keys().then((keys) => keys.forEach((key) => caches.delete(key))).catch(() => {});
+        }
+      }
     }
   }, []);
 

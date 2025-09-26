@@ -18,7 +18,7 @@ const ReadInvite: React.FC = () => {
 
   const goToDetails = (e: React.MouseEvent) => {
     e.stopPropagation();
-    router.push('/details');
+    router.push('/blogs');
   };
 
   return (

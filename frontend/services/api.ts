@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 // Default to Nginx proxy path in production so client-side requests work in the browser
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
+// const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
 // fo localhost
-// const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api' : '/api');
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'development' ? 'http://localhost:5001/api' : '/api');
 
 const api = axios.create({
   baseURL: API_BASE_URL,
