@@ -32,6 +32,7 @@ app.get('/', (req, res) => {
 app.use('/api/brands', require('./routes/brands'));
 app.use('/api/events', require('./routes/events'));
 app.use('/api/banners', require('./routes/banners'));
+app.use('/api/sms', require('./routes/sms'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
