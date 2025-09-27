@@ -16,6 +16,7 @@ app.use(cors({
   origin: [
     'http://frontend:3000',
     'http://localhost:3000',
+    'http://51.75.17.172:3000',
     'https://davvvat.ir',
     process.env.ALLOWED_ORIGIN || ''
   ].filter(Boolean)
