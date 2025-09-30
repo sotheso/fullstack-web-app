@@ -40,15 +40,15 @@ export const useStories = () => {
         const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
         setError('خطا در بارگذاری استوری‌ها');
         setStories([
-          { id: '1', eventName: 'ایونت بساط', profileImage: `${BASE_PATH}/profile1.png`, posterImage: `${BASE_PATH}/poster1.png` },
-          { id: '2', eventName: 'کنسرت موسیقی', profileImage: `${BASE_PATH}/profile2.png`, posterImage: `${BASE_PATH}/poster2.png` },
-          { id: '3', eventName: 'کارگاه آموزشی', profileImage: `${BASE_PATH}/profile3.png`, posterImage: `${BASE_PATH}/poster3.png` },
-          { id: '4', eventName: 'نمایشگاه هنر', profileImage: `${BASE_PATH}/profile4.png`, posterImage: `${BASE_PATH}/poster4.png` },
-          { id: '5', eventName: 'مسابقه ورزشی', profileImage: `${BASE_PATH}/profile5.png`, posterImage: `${BASE_PATH}/poster5.png` },
-          { id: '6', eventName: 'جشنواره غذا', profileImage: `${BASE_PATH}/profile6.png`, posterImage: `${BASE_PATH}/poster6.png` },
-          { id: '7', eventName: 'سخنرانی علمی', profileImage: `${BASE_PATH}/profile7.png`, posterImage: `${BASE_PATH}/poster7.png` },
-          { id: '8', eventName: 'نمایش تئاتر', profileImage: `${BASE_PATH}/profile8.png`, posterImage: `${BASE_PATH}/poster8.png` },
-          { id: '9', eventName: 'بازارچه محلی', profileImage: `${BASE_PATH}/profile9.png`, posterImage: `${BASE_PATH}/poster9.png` },
+          { id: '1', eventName: 'ایونت بساط', profileImage: `${BASE_PATH}/homeScreen.png`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '2', eventName: 'کنسرت موسیقی', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '3', eventName: 'کارگاه آموزشی', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '4', eventName: 'نمایشگاه هنر', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '5', eventName: 'مسابقه ورزشی', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '6', eventName: 'جشنواره غذا', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '7', eventName: 'سخنرانی علمی', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '8', eventName: 'نمایش تئاتر', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '9', eventName: 'بازارچه محلی', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
         ]);
       } finally {
         setLoading(false);

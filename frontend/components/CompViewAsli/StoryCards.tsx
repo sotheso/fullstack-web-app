@@ -26,13 +26,15 @@ const EventCardCarousel: React.FC = () => {
   
   const skeletonCount = 6;
   
-  if (stories.length === 0) {
-    return (
-      <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
-        هیچ استوری‌ای یافت نشد
-      </div>
-    );
-  }
+  const placeholderCount = 9;
+  const items = stories.length > 0
+    ? stories
+    : Array.from({ length: placeholderCount }).map((_, index) => ({
+        id: `placeholder-${index + 1}`,
+        eventName: 'ایونت',
+        profileImage: '',
+        posterImage: ''
+      }));
 
   const cardWidth = 280; // Slightly increased from 280.37
   const cardHeight = 498; // Slightly increased from 400
@@ -101,7 +103,7 @@ const EventCardCarousel: React.FC = () => {
               style={{
                 display: 'flex',
                 gap: `${cardGap}px`,
-                width: `${(loading ? skeletonCount : stories.length) * (cardWidth + cardGap)}px`,
+                width: `${(loading ? skeletonCount : items.length) * (cardWidth + cardGap)}px`,
                 flexShrink: 0,
                 overflow: 'visible',
                 transform: 'translateX(0)', // Start position
@@ -115,7 +117,8 @@ const EventCardCarousel: React.FC = () => {
                       style={{
                         width: `${cardWidth}px`,
                         height: `${cardHeight}px`,
-                        background: '#F26430',
+                        backgroundColor: '#F26430',
+                        backgroundImage: 'none',
                         borderRadius: '24px',
                         position: 'relative',
                         flexShrink: 0,
@@ -123,13 +126,15 @@ const EventCardCarousel: React.FC = () => {
                       }}
                     />
                   ))
-                : stories.map((story, idx) => (
+                : items.map((story, idx) => (
                     <div 
                       key={story.id} 
                       style={{
                         width: `${cardWidth}px`,
                         height: `${cardHeight}px`,
-                        background: '#F26430',
+                        backgroundColor: '#F26430',
+                        backgroundImage: 'none',
+                        border: '1px solid #F26430',
                         borderRadius: '24px',
                         position: 'relative',
                         flexShrink: 0,
@@ -145,7 +150,7 @@ const EventCardCarousel: React.FC = () => {
                       }}
                       onClick={() => router.push('/details')}
                     >
-                      {/* Gray circle in bottom-right corner with event name */}
+                      {/* Bottom-right label with event name (no profile image) */}
                       <div style={{
                         position: 'absolute',
                         bottom: '16px',
@@ -154,7 +159,6 @@ const EventCardCarousel: React.FC = () => {
                         alignItems: 'center',
                         gap: '8px'
                       }}>
-                        {/* Event name */}
                         <span style={{
                           color: '#fff',
                           fontSize: '16px',
@@ -164,19 +168,6 @@ const EventCardCarousel: React.FC = () => {
                         }}>
                           {story.eventName}
                         </span>
-                        {/* Profile circle */}
-                        <div style={{
-                          width: '40px',
-                          height: '40px',
-                          background: '#fff',
-                          borderRadius: '9999px',
-                          flexShrink: 0,
-                          backgroundImage: story.profileImage.startsWith('/')
-                            ? `url('${BASE_PATH}${story.profileImage}')`
-                            : `url('${story.profileImage}')`,
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center'
-                        }} />
                       </div>
                     </div>
                   ))}

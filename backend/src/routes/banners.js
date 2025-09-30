@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Banner = require('../models/Banner');
+const { Op } = require('sequelize');
 const cors = require('cors'); // فعال کردن CORS
 
 router.use(cors());

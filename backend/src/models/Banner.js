@@ -12,7 +12,7 @@ const Banner = sequelize.define(
     image: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: '/banner-image.jpg',
+      defaultValue: '/banner.png',
     },
     date: {
       type: DataTypes.STRING,
