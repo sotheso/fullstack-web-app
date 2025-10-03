@@ -10,22 +10,21 @@ export const useResponsiveLoadMore = <T,>(items: T[]) => {
     if (typeof window === 'undefined') return;
 
     const computeIsMobile = () => window.innerWidth < 768;
-    const applyBase = (mobile: boolean) => setVisibleCount(prev => {
-      // If prev already set (user may have loaded more), keep it when breakpoint doesn't change
-      const base = mobile ? 4 : 6;
-      // If previous is undefined (initial mount) or smaller than base, at least base
+    const applyBase = () => setVisibleCount(prev => {
+      // Base is always 6 on first render; do not reduce if user loaded more
+      const base = 6;
       return Math.max(base, prev || base);
     });
 
     const initialMobile = computeIsMobile();
     isMobileRef.current = initialMobile;
-    setVisibleCount(initialMobile ? 4 : 6);
+    setVisibleCount(6);
 
     const onResize = () => {
       const mobile = computeIsMobile();
       if (isMobileRef.current !== mobile) {
         isMobileRef.current = mobile;
-        applyBase(mobile);
+        applyBase();
       }
     };
 
@@ -35,7 +34,12 @@ export const useResponsiveLoadMore = <T,>(items: T[]) => {
 
   // When items change, clamp down only if fewer items than currently visible
   useEffect(() => {
-    setVisibleCount(prev => Math.min(prev, items.length));
+    setVisibleCount(prev => {
+      if (!items.length) return 0;
+      const base = 6;
+      const desired = Math.max(base, prev || base);
+      return Math.min(desired, items.length);
+    });
   }, [items.length]);
 
   const visibleItems = useMemo(() => items.slice(0, visibleCount), [items, visibleCount]);
