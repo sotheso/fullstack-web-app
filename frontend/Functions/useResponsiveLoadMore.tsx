@@ -1,26 +1,41 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import MoreEventsButton from '../components/CompViewAsli/CompDetails/ButtonCard/MoreEventsButton';
 
 export const useResponsiveLoadMore = <T,>(items: T[]) => {
   const [visibleCount, setVisibleCount] = useState<number>(6);
+  const isMobileRef = useRef<boolean | null>(null);
 
-  // Detect mobile/desktop once on mount and when viewport changes
+  // Decide base visible count on mount and ONLY when width breakpoint crosses
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const decide = () => {
-      const isMobile = window.innerWidth < 768;
-      setVisibleCount(isMobile ? 4 : 6);
+
+    const computeIsMobile = () => window.innerWidth < 768;
+    const applyBase = (mobile: boolean) => setVisibleCount(prev => {
+      // If prev already set (user may have loaded more), keep it when breakpoint doesn't change
+      const base = mobile ? 4 : 6;
+      // If previous is undefined (initial mount) or smaller than base, at least base
+      return Math.max(base, prev || base);
+    });
+
+    const initialMobile = computeIsMobile();
+    isMobileRef.current = initialMobile;
+    setVisibleCount(initialMobile ? 4 : 6);
+
+    const onResize = () => {
+      const mobile = computeIsMobile();
+      if (isMobileRef.current !== mobile) {
+        isMobileRef.current = mobile;
+        applyBase(mobile);
+      }
     };
-    decide();
-    window.addEventListener('resize', decide);
-    return () => window.removeEventListener('resize', decide);
+
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // Reset visible count when items change
+  // When items change, clamp down only if fewer items than currently visible
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const isMobile = window.innerWidth < 768;
-    setVisibleCount(isMobile ? 4 : 6);
+    setVisibleCount(prev => Math.min(prev, items.length));
   }, [items.length]);
 
   const visibleItems = useMemo(() => items.slice(0, visibleCount), [items, visibleCount]);
