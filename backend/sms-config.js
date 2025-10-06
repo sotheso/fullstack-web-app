@@ -1,14 +1,23 @@
 // SMS Configuration
-// Replace these values with your actual melipayamak credentials
+// SendByBaseNumber API (SOAP)
 
 module.exports = {
-  // Your actual payamak-panel.com credentials
-  username: '989051539473', // Your actual username
-  password: '613ab7e8-7f3e-474a-bd3b-ae07ec7740bb', // Your actual password
-  
-  // Your sender number from payamak-panel
-  from: '50002710039473', // Your actual sender number
-  
+  // پنل پیامکی - احراز هویت با username/password
+  username: '989051539473',
+  password: '613ab7e8-7f3e-474a-bd3b-ae07ec7740bb',
+
+  // شماره فرستنده
+  from: '50002710039473',
+
+  // API endpoint
+  apiUrl: 'http://api.payamak-panel.com/post/send.asmx/SendByBaseNumber',
+
+  // Template ID در پنل
+  bodyId: 376312,
+
+  // Template text: کاربرگرامی، کد ورود به دعوت: {0}
+  // متغیر {0} با کد تأیید جایگزین می‌شود
+
   // Test phone number (for testing purposes)
   testPhone: '09051539473'
 };
