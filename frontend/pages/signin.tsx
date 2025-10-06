@@ -27,7 +27,7 @@ export default function SignIn() {
       
       setIsLoading(true);
       try {
-        const response = await fetch('http://localhost:5001/api/sms/send-code', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/sms/send-code`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export default function SignIn() {
       
       setIsLoading(true);
       try {
-        const response = await fetch('http://localhost:5001/api/sms/verify-code', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/sms/verify-code`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
