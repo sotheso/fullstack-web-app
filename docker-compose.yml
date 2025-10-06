@@ -41,7 +41,7 @@ services:
       - DB_USER=${MYSQL_USER:-davvvat_user}
       - DB_PASSWORD=${MYSQL_PASSWORD:-davvvat_pass}
       - JWT_SECRET=${JWT_SECRET:-your_jwt_secret_here}
-      - ALLOWED_ORIGIN=${ALLOWED_ORIGIN:-http://localhost:3000}
+      - ALLOWED_ORIGIN=${ALLOWED_ORIGIN:-https://davvvat.ir}
     depends_on:
       mysql:
         condition: service_healthy
