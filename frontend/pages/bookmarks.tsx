@@ -24,7 +24,7 @@ const BookmarksPage: React.FC = () => {
           margin: '0 0 20px 0',
           fontFamily: 'Vazir, Tahoma, Arial, sans-serif'
         }}>
-          رویدادهای نشان شده
+          صفحه نشان شده‌ها
         </h1>
         <p style={{
           fontSize: '1rem',
@@ -33,7 +33,7 @@ const BookmarksPage: React.FC = () => {
           lineHeight: '1.6',
           fontFamily: 'Vazir, Tahoma, Arial, sans-serif'
         }}>
-          رویدادهای مورد علاقه خود را در این صفحه مشاهده کنید و به راحتی به آن‌ها دسترسی داشته باشید.
+          این صفحه در حال ساخت است و به زودی قابلیت نشان کردن رویدادها را خواهید داشت.
         </p>
 
         <div style={{
@@ -48,7 +48,7 @@ const BookmarksPage: React.FC = () => {
             fontSize: '1.2rem',
             fontFamily: 'Vazir, Tahoma, Arial, sans-serif'
           }}>
-            🔖 نشان شده‌ها
+            🚧 در حال ساخت
           </h3>
           <p style={{
             margin: '0',
@@ -56,33 +56,8 @@ const BookmarksPage: React.FC = () => {
             opacity: '0.9',
             fontFamily: 'Vazir, Tahoma, Arial, sans-serif'
           }}>
-            هنوز هیچ رویدادی نشان نکرده‌اید.
+            این قابلیت به زودی اضافه خواهد شد.
           </p>
-        </div>
-
-        <div style={{
-          display: 'flex',
-          gap: '16px',
-          justifyContent: 'center'
-        }}>
-          <a
-            href="/"
-            style={{
-              backgroundColor: '#f26430',
-              color: 'white',
-              textDecoration: 'none',
-              padding: '12px 24px',
-              borderRadius: '8px',
-              fontSize: '1rem',
-              fontWeight: '500',
-              transition: 'background-color 0.3s ease',
-              fontFamily: 'Vazir, Tahoma, Arial, sans-serif'
-            }}
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#e05528'}
-            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#f26430'}
-          >
-            مشاهده رویدادها
-          </a>
         </div>
       </div>
     </div>

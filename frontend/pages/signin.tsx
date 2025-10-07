@@ -107,10 +107,13 @@ export default function SignIn() {
                   <input
                     className="signin-input"
                     type="tel"
-                    inputMode="tel"
+                    inputMode="decimal"
+                    lang="en"
+                    pattern="[0-9]*"
+                    autoComplete="tel"
                     placeholder="مثال: 09123456789  -  شماره تماس به انگلیسی"
                     value={phone}
-                    onChange={e => setPhone(e.target.value)}
+                    onChange={e => setPhone(e.target.value.replace(/[^\d]/g, ''))}
                   />
                 </div>
 
@@ -138,10 +141,13 @@ export default function SignIn() {
                   <input
                     className="signin-input"
                     type="text"
-                    inputMode="numeric"
+                    inputMode="decimal"
+                    lang="en"
+                    pattern="[0-9]*"
+                    autoComplete="one-time-code"
                     placeholder="کد ۶ رقمی (به صورت انگلیسی)"
                     value={verificationCode}
-                    onChange={e => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                    onChange={e => setVerificationCode(e.target.value.replace(/[^\d]/g, '').slice(0, 6))}
                     maxLength={6}
                   />
                 </div>

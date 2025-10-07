@@ -12,8 +12,37 @@
 .signin-input-dot { position:absolute; left: 14px; top:50%; transform: translateY(-50%); width: 28px; height: 28px; background:#F26430; border-radius:9999px; opacity:.2; transition: opacity .2s ease, transform .2s ease; }
 .signin-input-wrap:focus-within { border-color: #F26430; box-shadow: 0 0 0 3px rgba(242,100,48,0.2), 0 8px 30px rgba(0,0,0,0.06) inset; }
 .signin-input-wrap:focus-within .signin-input-dot { opacity: .35; transform: translateY(-50%) scale(1.1); }
-.signin-input { width: 100%; border: none; outline: none; background: transparent; text-align: center; color:#111; font-size:16px; }
+.signin-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-align: center;
+  color:#111;
+  font-size:16px;
+  /* Prevent zoom on iOS */
+  font-size: 16px !important;
+  -webkit-text-size-adjust: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
 .signin-input::placeholder { color:#D1D5DB; }
+
+/* Prevent zoom when input is focused */
+@media screen and (max-width: 767px) {
+  .signin-input {
+    font-size: 16px !important;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+
+  .signin-input:focus {
+    font-size: 16px !important;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+}
 .signin-error { color:#B91C1C; background:#FEF2F2; border:1px solid #FECACA; padding:8px 12px; border-radius:10px; width:520px; max-width:100%; }
 .signin-terms { display:flex; gap:8px; width:520px; max-width:100%; align-items:flex-start; justify-content:flex-start; color:#000; font-size:16px; font-weight:300; line-height:normal; text-align:right; direction: rtl; }
 .signin-terms a { color:#F26430; text-decoration:none; }
