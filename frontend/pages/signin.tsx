@@ -139,7 +139,7 @@ export default function SignIn() {
                     className="signin-input"
                     type="text"
                     inputMode="numeric"
-                    placeholder="کد ۶ رقمی"
+                    placeholder="کد ۶ رقمی (به صورت انگلیسی)"
                     value={verificationCode}
                     onChange={e => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                     maxLength={6}
