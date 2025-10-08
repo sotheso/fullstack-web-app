@@ -1,14 +1,13 @@
 const axios = require('axios');
-const smsConfig = require('../../sms-config');
 
 class SMSService {
   constructor() {
     // SendByBaseNumber API - نیاز به احراز هویت دارد
-    this.username = process.env.MELIPAYAMAK_USERNAME || smsConfig.username;
-    this.password = process.env.MELIPAYAMAK_PASSWORD || smsConfig.password;
-    this.from = process.env.MELIPAYAMAK_FROM || smsConfig.from;
-    this.bodyId = process.env.MELIPAYAMAK_BODY_ID || smsConfig.bodyId;
-    this.apiUrl = process.env.MELIPAYAMAK_API_URL || smsConfig.apiUrl;
+    this.username = process.env.MELIPAYAMAK_USERNAME || '989051539473';
+    this.password = process.env.MELIPAYAMAK_PASSWORD || '613ab7e8-7f3e-474a-bd3b-ae07ec7740bb';
+    this.from = process.env.MELIPAYAMAK_FROM || '50002710039473';
+    this.bodyId = process.env.MELIPAYAMAK_BODY_ID || '376312';
+    this.apiUrl = process.env.MELIPAYAMAK_API_URL || 'http://api.payamak-panel.com/post/send.asmx/SendByBaseNumber';
 
     console.log('📱 SendByBaseNumber API فعال شد:');
     console.log('👤 Username:', this.username);
