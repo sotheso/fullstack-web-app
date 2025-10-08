@@ -6,7 +6,7 @@ const urlsToCache = [
   '/_next/static/css/',
   '/_next/static/js/',
   '/banner.png',
-  '/DavvatLogo.png'
+  '/icon-192-dark.svg'
 ];
 
 // Install event - cache resources

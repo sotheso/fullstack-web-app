@@ -41,14 +41,14 @@ export const useStories = () => {
         setError('خطا در بارگذاری استوری‌ها');
         setStories([
           { id: '1', eventName: 'ایونت بساط', profileImage: `${BASE_PATH}/homeScreen.png`, posterImage: `${BASE_PATH}/banner.png` },
-          { id: '2', eventName: 'کنسرت موسیقی', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
-          { id: '3', eventName: 'کارگاه آموزشی', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
-          { id: '4', eventName: 'نمایشگاه هنر', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
-          { id: '5', eventName: 'مسابقه ورزشی', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
-          { id: '6', eventName: 'جشنواره غذا', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
-          { id: '7', eventName: 'سخنرانی علمی', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
-          { id: '8', eventName: 'نمایش تئاتر', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
-          { id: '9', eventName: 'بازارچه محلی', profileImage: `${BASE_PATH}/DavvatLogo.png`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '2', eventName: 'کنسرت موسیقی', profileImage: `${BASE_PATH}/icon-192-dark.svg`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '3', eventName: 'کارگاه آموزشی', profileImage: `${BASE_PATH}/icon-192-dark.svg`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '4', eventName: 'نمایشگاه هنر', profileImage: `${BASE_PATH}/icon-192-dark.svg`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '5', eventName: 'مسابقه ورزشی', profileImage: `${BASE_PATH}/icon-192-dark.svg`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '6', eventName: 'جشنواره غذا', profileImage: `${BASE_PATH}/icon-192-dark.svg`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '7', eventName: 'سخنرانی علمی', profileImage: `${BASE_PATH}/icon-192-dark.svg`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '8', eventName: 'نمایش تئاتر', profileImage: `${BASE_PATH}/icon-192-dark.svg`, posterImage: `${BASE_PATH}/banner.png` },
+          { id: '9', eventName: 'بازارچه محلی', profileImage: `${BASE_PATH}/icon-192-dark.svg=`, posterImage: `${BASE_PATH}/banner.png` },
         ]);
       } finally {
         setLoading(false);

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import { Logo, Title, Subtitle, InputPill, PrimaryButton, ErrorNotice } from '../components/CompLog';
+import { Title, Subtitle, InputPill, PrimaryButton, ErrorNotice } from '../components/CompLog';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -53,7 +53,6 @@ export default function Login() {
 
       <div className="signin-page">
         <div className="signin-container">
-          <Logo />
           <Title>!به دعوت خوش اومدی</Title>
           <Subtitle>وارد حساب کاربری خود شوید</Subtitle>
 
