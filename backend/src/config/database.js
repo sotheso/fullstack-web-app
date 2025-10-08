@@ -47,7 +47,6 @@ if (databaseUrl) {
     process.env.DB_USER || 'root',
     process.env.DB_PASSWORD || '11331133',
 // for 
-//x
     // process.env.DB_PASSWORD || '',
     {
       host: process.env.DB_HOST || 'localhost',
