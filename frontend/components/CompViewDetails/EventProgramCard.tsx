@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ProgramItem {
-  day: string;
+  day?: string;
   date: string;
   description: string;
 }
@@ -147,7 +147,7 @@ const EventProgramCard: React.FC<EventProgramCardProps> = ({ programs }) => {
           {programs.map((program, index) => (
             <div key={index} className="program-item">
               <div className="program-day">
-                {program.day} {program.date}
+                {program.day ? `${program.day} ${program.date}` : program.date}
               </div>
               <div className="program-description">
                 {program.description}
