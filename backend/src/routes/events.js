@@ -39,7 +39,11 @@ router.get('/:id', async (req, res) => {
 // Create event
 router.post('/', async (req, res) => {
   try {
-    const { image, eventName, description, date, tags, filterTag, detailsLink } = req.body;
+    const { 
+      image, eventName, description, date, tags, filterTag, detailsLink,
+      images, address, mapUrl, timeDetails, programs, brands, isExpired,
+      brand_id, hosts, users, camment
+    } = req.body;
     const event = await Event.create({
       image: image || '/banner.png',
       eventName,
@@ -48,6 +52,17 @@ router.post('/', async (req, res) => {
       tags: Array.isArray(tags) ? tags : [],
       filterTag: filterTag || 'بازارچه',
       detailsLink: detailsLink || '/details',
+      images: Array.isArray(images) ? images : [],
+      address: address || null,
+      mapUrl: mapUrl || null,
+      timeDetails: timeDetails || null,
+      programs: Array.isArray(programs) ? programs : [],
+      brands: Array.isArray(brands) ? brands : [],
+      isExpired: isExpired || false,
+      brand_id: brand_id || null,
+      hosts: hosts || null,
+      users: users || null,
+      camment: camment || null,
     });
     res.status(201).json(event);
   } catch (error) {
@@ -59,7 +74,11 @@ router.post('/', async (req, res) => {
 // Update event
 router.put('/:id', async (req, res) => {
   try {
-    const { image, eventName, description, date, tags, filterTag, detailsLink } = req.body;
+    const { 
+      image, eventName, description, date, tags, filterTag, detailsLink,
+      images, address, mapUrl, timeDetails, programs, brands, isExpired,
+      brand_id, hosts, users, camment
+    } = req.body;
     const event = await Event.findByPk(req.params.id);
     if (!event) {
       return res.status(404).json({ message: 'Event not found' });
@@ -72,6 +91,17 @@ router.put('/:id', async (req, res) => {
       tags: Array.isArray(tags) ? tags : event.tags,
       filterTag: filterTag ?? event.filterTag,
       detailsLink: detailsLink ?? event.detailsLink,
+      images: Array.isArray(images) ? images : event.images,
+      address: address ?? event.address,
+      mapUrl: mapUrl ?? event.mapUrl,
+      timeDetails: timeDetails ?? event.timeDetails,
+      programs: Array.isArray(programs) ? programs : event.programs,
+      brands: Array.isArray(brands) ? brands : event.brands,
+      isExpired: isExpired ?? event.isExpired,
+      brand_id: brand_id ?? event.brand_id,
+      hosts: hosts ?? event.hosts,
+      users: users ?? event.users,
+      camment: camment ?? event.camment,
     });
     res.json(event);
   } catch (error) {

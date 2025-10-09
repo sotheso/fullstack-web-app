@@ -28,12 +28,8 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
 
   const handleViewClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const link = data.detailsLink || '/details';
-    if (link.startsWith('/')) {
-      router.push(`${BASE_PATH}${link}`);
-    } else {
-      router.push(link);
-    }
+    // ارسال ID ایونت به صفحه details
+    router.push(`${BASE_PATH}/details?id=${data.id}`);
   };
 
   return (

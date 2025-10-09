@@ -43,6 +43,68 @@ const Event = sequelize.define(
       allowNull: false,
       defaultValue: '/details',
     },
+    // فیلدهای اضافی برای صفحه جزئیات
+    images: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      defaultValue: [],
+      comment: 'آرایه‌ای از URL های تصاویر برای گالری',
+    },
+    address: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      comment: 'آدرس محل برگزاری ایونت',
+    },
+    mapUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      comment: 'لینک نقشه گوگل',
+    },
+    timeDetails: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      comment: 'جزئیات زمان برگزاری (مثل: ۲۵ فروردین الی ۳ اسفند - از ساعت ۲۲ تا ۴ صبح)',
+    },
+    programs: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      defaultValue: [],
+      comment: 'برنامه‌های ایونت (آرایه‌ای از اشیاء شامل day، date، description)',
+    },
+    brands: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      defaultValue: [],
+      comment: 'برندهای شرکت‌کننده (آرایه‌ای از اشیاء شامل id، name، isSelected)',
+    },
+    isExpired: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      comment: 'آیا ایونت منقضی شده است؟ (true = منقضی شده)',
+    },
+    brand_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      comment: 'شناسه برند مرتبط با ایونت',
+    },
+    hosts: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      defaultValue: null,
+      comment: 'میزبان‌های ایونت (JSON)',
+    },
+    users: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      defaultValue: null,
+      comment: 'کاربران شرکت‌کننده (JSON)',
+    },
+    camment: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      comment: 'کامنت یا یادداشت اضافی',
+    },
   },
   {
     timestamps: true,
