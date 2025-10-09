@@ -25,12 +25,17 @@ docker-compose down -v
 echo -e "${GREEN}✓ Containerها متوقف شدند${NC}\n"
 
 # 3. حذف volumeهای قدیمی MySQL (اختیاری - فقط در صورت مشکل)
-read -p "آیا می‌خواهید volumeهای قدیمی MySQL را حذف کنید؟ (y/n) " -n 1 -r
+echo -e "${RED}⚠️  هشدار: حذف volume باعث پاک شدن کامل دیتابیس می‌شود!${NC}"
+echo -e "${YELLOW}فقط در صورتی که دیتابیس خراب شده و راهی دیگری نمانده این کار را انجام دهید.${NC}"
+echo -e "${YELLOW}داده‌ها از طریق database_dump.sql دوباره import می‌شوند.${NC}"
+read -p "آیا می‌خواهید volumeهای قدیمی MySQL را حذف کنید؟ (y/N) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo -e "${YELLOW}حذف volumeهای MySQL...${NC}"
+    echo -e "${RED}حذف volumeهای MySQL...${NC}"
     docker volume rm davvvat-pro_mysql_data 2>/dev/null || true
-    echo -e "${GREEN}✓ Volumeها حذف شدند${NC}\n"
+    echo -e "${GREEN}✓ Volumeها حذف شدند - دیتابیس از dump مجدداً ساخته می‌شود${NC}\n"
+else
+    echo -e "${GREEN}✓ Volume حفظ شد - داده‌های موجود باقی می‌مانند${NC}\n"
 fi
 
 # 4. بررسی وجود database_dump.sql
