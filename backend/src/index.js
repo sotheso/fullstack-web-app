@@ -44,7 +44,8 @@ app.get('/api', (req, res) => {
       events: '/api/events',
       banners: '/api/banners',
       stories: '/api/stories',
-      sms: '/api/sms'
+      sms: '/api/sms',
+      auth: '/api/auth'
     }
   });
 });
@@ -53,6 +54,7 @@ app.use('/api/events', require('./routes/events'));
 app.use('/api/banners', require('./routes/banners'));
 app.use('/api/sms', require('./routes/sms'));
 app.use('/api/stories', require('./routes/stories'));
+app.use('/api/auth', require('./routes/auth'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

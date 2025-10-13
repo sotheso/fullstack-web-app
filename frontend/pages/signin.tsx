@@ -68,8 +68,8 @@ export default function SignIn() {
         const data = await response.json();
         
         if (data.success) {
-          // Redirect to login or main page after successful verification
-          router.push('/login');
+          // Redirect to complete profile page after successful verification
+          router.push(`/complete-profile?phone=${encodeURIComponent(phone)}`);
         } else {
           setError(data.message || 'کد تأیید اشتباه است');
         }
