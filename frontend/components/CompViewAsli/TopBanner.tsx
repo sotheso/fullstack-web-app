@@ -7,6 +7,7 @@ import { useBanner } from '../../Functions/useBanner';
 const BannerCard: React.FC = () => {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState<undefined | boolean>(undefined);
+  const [imageError, setImageError] = useState(false);
   const { banner, loading } = useBanner();
 
   useEffect(() => {
@@ -26,68 +27,82 @@ const BannerCard: React.FC = () => {
   };
 
   return (
-    <div style={{ marginBottom: 32, cursor: 'default' }}>
+    <div style={{ marginBottom: '2rem', cursor: 'default' }}>
       {/* Main banner card */}
       <div
         style={{
           width: '100%',
-          maxWidth: 1104,
-          minHeight: isMobile ? 360 : 240,
-          height: 'auto',
-          borderRadius: 24,
+          maxWidth: '100%',
+          minHeight: isMobile ? '22.5rem' : '15rem',
+          height: isMobile ? 'auto' : '15rem',
+          borderRadius: '1.5rem',
           border: '1px solid #EDEDED',
           background: '#FCFCFC',
           display: 'flex',
           flexDirection: isMobile ? 'column' : 'row',
-          gap: isMobile ? 4 : 16,
+          gap: isMobile ? '0.25rem' : '1.5rem',
           alignItems: isMobile ? 'stretch' : 'center',
+          justifyContent: isMobile ? 'flex-start' : 'flex-end',
           position: 'relative',
-          padding: isMobile ? 16 : 0,
+          padding: isMobile ? '1rem' : '1rem 1rem 1rem 2rem',
           boxSizing: 'border-box',
-          margin: isMobile ? '0 auto' : '0 auto', // Center in both mobile and desktop
+          margin: isMobile ? '0 auto' : '0 auto',
           cursor: 'pointer',
         }}
         onClick={goToDetails}
       >
-        {/* Left section - Empty for spacing */}
-        {!isMobile && <div style={{ flex: 1, minWidth: 0 }} />}
-        {/* Right section - Orange block */}
+        {/* Right section - Orange block - یک سوم عرض بنر */}
         <div
           style={{
-            width: isMobile ? '100%' : '33%',
-            minWidth: isMobile ? 0 : 200,
-            maxWidth: isMobile ? '100%' : 370,
-            height: isMobile ? 200 : 200,
+            width: isMobile ? '100%' : '33.33%',
+            height: isMobile ? '12.5rem' : '100%',
             flexShrink: 0,
-            borderRadius: 24,
-            background: '#F26430',
-            backgroundImage: banner.image ? `url(${banner.image})` : undefined,
+            borderRadius: '1.5rem',
+            backgroundColor: '#F26430',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            margin: isMobile ? '0 auto 8px auto' : '16px 32px', // Equal left and right margins
+            margin: isMobile ? '0 auto 0.5rem auto' : 0,
             order: isMobile ? 1 : undefined,
+            position: 'relative',
+            overflow: 'hidden',
+            zIndex: 1,
           }}
-        />
+        >
+          {banner.image && !imageError && (
+            <img
+              src={banner.image}
+              alt="Banner"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '1.5rem',
+              }}
+              onError={() => setImageError(true)}
+            />
+          )}
+        </div>
         {/* Button row absolutely positioned at bottom left of orange block */}
         <div
           style={{
             position: isMobile ? 'static' : 'absolute',
-            right: isMobile ? 'auto' : '36%',
-            bottom: isMobile ? 'auto' : 16,
+            right: isMobile ? 'auto' : '35%',
+            bottom: isMobile ? 'auto' : '1rem',
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            gap: 8,
-            marginTop: isMobile ? 0 : 0,
+            gap: '0.5rem',
+            marginTop: 0,
             justifyContent: isMobile ? 'center' : 'flex-start',
             order: isMobile ? 3 : undefined,
+            zIndex: 2,
           }}
         >
           {/* Tags removed - no more موزیک، دانش، هنر tags */}
           <div style={{
-            marginRight: isMobile ? 0 : 32,
-            marginLeft: isMobile ? 0 : 24,
+            marginRight: isMobile ? 0 : '2rem',
+            marginLeft: isMobile ? 0 : '1.5rem',
             display: 'flex',
             justifyContent: isMobile ? 'space-between' : 'flex-start',
             alignItems: 'center',
@@ -100,11 +115,11 @@ const BannerCard: React.FC = () => {
                   router.push('/details');
                 }}
                 style={{
-                  padding: '6px 12px',
+                  padding: '0.375rem 0.75rem',
                   background: 'transparent',
                   color: '#F26430',
                   border: 'none',
-                  fontSize: '12px',
+                  fontSize: '0.75rem',
                   fontFamily: 'Ravi',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -137,13 +152,13 @@ const BannerCard: React.FC = () => {
             }}
             style={{
               position: 'absolute',
-              left: 16,
-              bottom: 16,
-              padding: '8px 16px',
+              left: '1rem',
+              bottom: '1rem',
+              padding: '0.5rem 1rem',
               background: 'transparent',
               color: '#F26430',
               border: 'none',
-              fontSize: '14px',
+              fontSize: '0.875rem',
               fontFamily: 'Ravi',
               fontWeight: 600,
               cursor: 'pointer',
@@ -163,20 +178,19 @@ const BannerCard: React.FC = () => {
         <div
           style={{
             position: isMobile ? 'static' : 'absolute',
-            right: isMobile ? 'auto' : '39%', // Reduced from 40% to bring text closer
-            top: isMobile ? 'auto' : '24px',
-            width: isMobile ? '100%' : '63%', // Increased from 58% to compensate
-            minWidth: 200,
-            maxWidth: 637,
+            right: isMobile ? 'auto' : '35%',
+            top: isMobile ? 'auto' : '1.5rem',
+            left: isMobile ? 'auto' : '1rem',
+            width: isMobile ? '100%' : 'auto',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-end',
             margin: isMobile ? '0 auto' : 0,
-            marginTop: isMobile ? 8 : 0,
+            marginTop: isMobile ? '0.5rem' : 0,
             order: isMobile ? 2 : undefined,
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8}}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem'}}>
             {!isMobile && <DateButton>{banner.date}</DateButton>}
             <BannerTitle style={{ marginBottom: 0 }}>
               {banner.eventName}
@@ -192,7 +206,7 @@ const BannerCard: React.FC = () => {
                 width: '100%',
                 height: '1px',
                 background: '#E5E5E5',
-                margin: '4px 0',
+                margin: '0.25rem 0',
               }}
             />
           )}
@@ -209,7 +223,7 @@ const BannerTitle: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children,
     style={{
       display: 'flex',
       width: '100%',
-      minHeight: 26,
+      minHeight: '1.625rem',
       flexDirection: 'column',
       justifyContent: 'center',
       flexShrink: 0,
@@ -221,14 +235,14 @@ const BannerTitle: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ children,
       style={{
         width: '100%',
         textAlign: 'right',
-        justifyContent: 'center',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        color: 'black',
-        fontSize: 'clamp(16px, 2vw, 24px)',
+        color: '#000',
+        fontSize: 'clamp(1rem, 1.5vw, 1.5rem)',
         fontFamily: 'Ravi',
         fontWeight: 700,
+        lineHeight: '1.4',
         wordWrap: 'break-word',
       }}
     >
@@ -242,23 +256,25 @@ const BannerParagraph: React.FC<React.HTMLAttributes<HTMLDivElement> & { isMobil
   <div
     style={{
       width: '100%',
-      minHeight: 40,
+      minHeight: '2.5rem',
       flexShrink: 0,
-      color: '#000',
+      color: '#333',
       textAlign: 'justify',
       textAlignLast: 'right',
       fontFamily: 'Ravi',
-      fontSize: 'clamp(12px, 1.3vw, 16px)',
+      fontSize: 'clamp(0.813rem, 1vw, 1rem)',
       fontStyle: 'normal',
       fontWeight: 400,
-      lineHeight: 'clamp(22px, 2.2vw, 35px)',
+      lineHeight: '1.75',
       display: 'flex',
       alignItems: 'flex-start',
       ...(isMobile && {
         overflow: 'hidden',
-        maxHeight: 'calc(2 * clamp(22px, 2.2vw, 35px))',
-        display: 'block',
-        lineHeight: 'clamp(22px, 2.2vw, 35px)',
+        maxHeight: '3.5rem',
+        display: '-webkit-box',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
+        textOverflow: 'ellipsis',
       }),
     }}
     {...props}

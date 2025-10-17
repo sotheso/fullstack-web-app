@@ -6,16 +6,17 @@ const MoreEventsButton: React.FC<MoreEventsButtonProps> = ({ children, style, ..
   <button
     {...props}
     style={{
-      width: 104,
-      height: 32,
+      minWidth: '6.5rem',
+      padding: '0.5rem 1rem',
+      height: '2rem',
       flexShrink: 0,
-      borderRadius: 30,
+      borderRadius: '1.875rem',
       border: '1px solid #F26430',
       background: '#FCFCFC',
       color: '#F26430',
       textAlign: 'center',
       fontFamily: 'Ravi',
-      fontSize: 12,
+      fontSize: '0.75rem',
       fontStyle: 'normal',
       fontWeight: 500,
       lineHeight: 'normal',
@@ -23,6 +24,8 @@ const MoreEventsButton: React.FC<MoreEventsButtonProps> = ({ children, style, ..
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
+      whiteSpace: 'nowrap',
+      boxSizing: 'border-box',
       ...style,
     }}
   >

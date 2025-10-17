@@ -144,14 +144,14 @@ const HomePage: React.FC = () => {
       <style jsx>{`
         .home-container {
           padding-left: 20px;
-          padding-right: 14px; /* یکسان کردن فاصله از راست و چپ */
+          padding-right: 20px; /* فاصله یکسان از راست و چپ */
           padding-top: 0;
         }
 
         @media (min-width: 768px) {
           .home-container {
             padding-left: 94px;
-            padding-right: 105px;
+            padding-right: 94px; /* فاصله یکسان از راست و چپ */
             padding-top: 0;
           }
         }
@@ -178,45 +178,46 @@ const HomePage: React.FC = () => {
           display: flex;
           flex-direction: row-reverse;
           gap: 16px;
-          justify-content: flex-start; /* راست‌چین در موبایل */
+          justify-content: flex-start; /* راست‌چین */
           margin: 24px 0;
-          margin-right: -10px; /* کمی کشیده‌تر به راست */
         }
 
         @media (min-width: 768px) {
           .filter-bar { 
             justify-content: flex-start; /* راست‌چین در دسکتاپ */
-            margin-right:-100px; /* کمی کشیده‌تر به راست در دسکتاپ */
           }
         }
 
         .events-grid {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 16px;
-          margin: 8px 0 32px auto;
+          gap: 1rem;
+          margin: 0.5rem 0 2rem 0;
           width: 100%;
-          max-width: 373px;
-          direction: rtl; /* پر شدن از راست به چپ */
-          justify-items: end; /* راست‌چین کارت‌ها در موبایل */
+          max-width: 23.3125rem;
+          direction: rtl;
+          justify-items: stretch;
+          margin-right: auto;
+          margin-left: 0;
         }
 
         @media (min-width: 768px) {
           .events-grid {
-            grid-template-columns: repeat(auto-fit, minmax(373px, 1fr));
-            column-gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(23rem, 1fr));
+            gap: 1rem;
             max-width: none;
-            padding: 0px;
-            direction: rtl; /* پر شدن از راست به چپ در دسکتاپ */
-            justify-content: end; /* راست‌چین در دسکتاپ */
+            margin: 0.5rem 0 2rem 0;
+            padding: 0;
+            direction: rtl; /* RTL - کارت‌ها از راست به چپ */
+            justify-content: start; /* شروع از راست */
+            justify-items: stretch;
           }
         }
 
         @media (min-width: 1200px) {
           .events-grid {
-            grid-template-columns: repeat(3, 373px);
-            direction: rtl; /* پر شدن از راست به چپ در نمایشگر بزرگ */
-            justify-content: end;
+            grid-template-columns: repeat(auto-fit, minmax(23rem, 1fr));
+            justify-content: start;
           }
         }
       `}</style>

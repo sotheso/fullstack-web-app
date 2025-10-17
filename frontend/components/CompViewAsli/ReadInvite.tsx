@@ -22,22 +22,22 @@ const ReadInvite: React.FC = () => {
   };
 
   return (
-    <div style={{ marginBottom: 32, cursor: 'default' }}>
+    <div style={{ marginBottom: '2rem', cursor: 'default' }}>
       <div
         style={{
           width: '100%',
-          maxWidth: 1104,
-          minHeight: isMobile ? 360 : 240,
-          height: 'auto',
-          borderRadius: 24,
+          maxWidth: '100%',
+          minHeight: isMobile ? '22.5rem' : '15rem',
+          height: isMobile ? 'auto' : '15rem',
+          borderRadius: '1.5rem',
           border: '1px solid #EDEDED',
           background: '#FCFCFC',
           display: 'flex',
           flexDirection: isMobile ? 'column' : 'row',
-          gap: isMobile ? 4 : 16,
+          gap: isMobile ? '0.25rem' : '1.5rem',
           alignItems: isMobile ? 'stretch' : 'center',
           position: 'relative',
-          padding: isMobile ? 16 : 0,
+          padding: isMobile ? '1rem' : '1rem 1rem 1rem 2rem',
           boxSizing: 'border-box',
           margin: '0 auto',
           cursor: 'pointer',
@@ -49,18 +49,19 @@ const ReadInvite: React.FC = () => {
         {/* Orange block (visual parity with TopBanner) */}
         <div
           style={{
-            width: isMobile ? '100%' : '33%',
-            minWidth: isMobile ? 0 : 200,
-            maxWidth: isMobile ? '100%' : 370,
-            height: isMobile ? 200 : 200,
+            width: isMobile ? '100%' : '33.33%',
+            height: isMobile ? '12.5rem' : '100%',
             flexShrink: 0,
-            borderRadius: 24,
+            borderRadius: '1.5rem',
             background: '#F26430',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            margin: isMobile ? '0 auto 8px auto' : '16px 32px',
+            margin: isMobile ? '0 auto 0.5rem auto' : 0,
             order: isMobile ? 1 : undefined,
+            position: 'relative',
+            overflow: 'hidden',
+            zIndex: 1,
           }}
         />
 
@@ -68,16 +69,15 @@ const ReadInvite: React.FC = () => {
         <div
           style={{
             position: isMobile ? 'static' : 'absolute',
-            right: isMobile ? 'auto' : '39%',
-            top: isMobile ? 'auto' : '24px',
-            width: isMobile ? '100%' : '63%',
-            minWidth: 200,
-            maxWidth: 637,
+            right: isMobile ? 'auto' : '35%',
+            top: isMobile ? 'auto' : '1.5rem',
+            left: isMobile ? 'auto' : '1rem',
+            width: isMobile ? '100%' : 'auto',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-end',
             margin: isMobile ? '0 auto' : 0,
-            marginTop: isMobile ? 8 : 0,
+            marginTop: isMobile ? '0.5rem' : 0,
             order: isMobile ? 2 : undefined,
           }}
         >
@@ -91,11 +91,11 @@ const ReadInvite: React.FC = () => {
               flexDirection: 'column',
               alignItems: 'flex-end',
               color: 'black',
-              fontSize: 'clamp(14px, 1.6vw, 20px)',
+              fontSize: 'clamp(1rem, 1.5vw, 1.5rem)',
               fontFamily: 'Ravi',
               fontWeight: 700,
               wordWrap: 'break-word',
-              marginBottom: 2,
+              marginBottom: '0.125rem',
             }}
           >
             ایونت چیه؟ و چطور برگزار میشه؟
@@ -107,10 +107,10 @@ const ReadInvite: React.FC = () => {
               textAlign: 'justify',
               textAlignLast: 'right',
               fontFamily: 'Ravi',
-              fontSize: 'clamp(12px, 1.3vw, 16px)',
+              fontSize: 'clamp(0.813rem, 1vw, 1rem)',
               fontWeight: 400,
-              lineHeight: 'clamp(22px, 2.2vw, 35px)',
-              marginTop: 2,
+              lineHeight: '1.75',
+              marginTop: '0.125rem',
             }}
           >
             وقتی شب و بساط و وافور با منقل ترکیب بشن، یه شب فراموش شدنیه! وقتی شب و بساط و وافور با منقل ترکیب
@@ -123,7 +123,7 @@ const ReadInvite: React.FC = () => {
                 width: '100%',
                 height: '1px',
                 background: '#E5E5E5',
-                margin: '4px 0',
+                margin: '0.25rem 0',
               }}
             />
           )}
@@ -135,17 +135,18 @@ const ReadInvite: React.FC = () => {
             onClick={(e) => { e.stopPropagation(); }}
             style={{
               position: 'absolute',
-              left: 16,
-              bottom: 16,
-              padding: '8px 16px',
+              left: '1rem',
+              bottom: '1rem',
+              padding: '0.5rem 1rem',
               background: 'transparent',
               color: '#F26430',
               border: 'none',
-              fontSize: '14px',
+              fontSize: '0.875rem',
               fontFamily: 'Ravi',
               fontWeight: 600,
               cursor: 'pointer',
               transition: 'color 0.2s ease',
+              zIndex: 2,
             }}
             onMouseEnter={(e) => { e.currentTarget.style.color = '#E55A2B'; }}
             onMouseLeave={(e) => { e.currentTarget.style.color = '#F26430'; }}
@@ -159,11 +160,11 @@ const ReadInvite: React.FC = () => {
             <button
               onClick={(e) => { e.stopPropagation(); }}
               style={{
-                padding: '4px 8px',
+                padding: '0.25rem 0.5rem',
                 background: 'transparent',
                 color: '#F26430',
                 border: 'none',
-                fontSize: '12px',
+                fontSize: '0.75rem',
                 fontFamily: 'Ravi',
                 fontWeight: 600,
                 cursor: 'pointer',
