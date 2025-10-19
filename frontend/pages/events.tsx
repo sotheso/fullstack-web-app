@@ -59,7 +59,7 @@ const EventsPage: React.FC = () => {
       </div>
 
       {/* Filter Buttons - wrapped in capsule background */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '0 0 16px 0', width: '100%' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '8px 0 16px 0', width: '100%' }}>
         <div className="glassy-action-bar-inner">
           <div className="filter-bar" style={{ margin: 0 }}>
             <FilterButton

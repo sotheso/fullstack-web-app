@@ -92,8 +92,8 @@ const TopBar: React.FC = () => {
         }}
       >
         <div style={{
-          width: 42,
-          height: 42,
+          width: isMobile ? 36 : 42,
+          height: isMobile ? 36 : 42,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -114,12 +114,12 @@ const TopBar: React.FC = () => {
     bottom: isVisible ? 20 : -100,
     zIndex: 9999,
     display: 'flex',
-    width: '330px',
-    height: '56px',
-    padding: '14px 18px 14px 18px',
+    width: isMobile ? '300px' : '330px',
+    height: isMobile ? '52px' : '56px',
+    padding: isMobile ? '10px 14px 10px 14px' : '14px 18px 14px 18px',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '32px',
+    gap: isMobile ? '24px' : '32px',
     flexShrink: 0,
     borderRadius: '90px',
     background: 'rgba(255, 255, 255, 0.15)',
@@ -132,10 +132,10 @@ const TopBar: React.FC = () => {
 
   const itemsContainerStyle = {
     display: 'flex',
-    gap: '24px',
+    gap: isMobile ? '20px' : '24px',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '0 24px',
+    padding: isMobile ? '0 16px' : '0 24px',
   };
 
   return (
