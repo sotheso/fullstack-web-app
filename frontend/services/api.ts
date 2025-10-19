@@ -65,6 +65,8 @@ export interface EventData {
 
 export const eventsAPI = {
   getAllEvents: () => api.get('/events'),
+  getEventsPaged: (params: { page?: number; limit?: number; filterTag?: string; date?: string }) =>
+    api.get('/events', { params }),
   getEventById: (id: number | string) => api.get(`/events/${id}`),
   createEvent: (data: EventData) => api.post('/events', data),
   updateEvent: (id: number | string, data: Partial<EventData>) => api.put(`/events/${id}`, data),

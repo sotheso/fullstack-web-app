@@ -6,19 +6,43 @@ const cors = require('cors'); // فعال کردن CORS
 // فعال‌سازی CORS برای این روت
 router.use(cors());
 
-// Get all events with optional filters
+// Get all events with optional filters and optional pagination
 router.get('/', async (req, res) => {
   try {
-    const { filterTag, date } = req.query;
+    const { filterTag, date, page, limit } = req.query;
     const where = {};
     if (filterTag) where.filterTag = filterTag;
-    if (date) where.date = date;  // برای فیلتر کردن بر اساس تاریخ
+    if (date) where.date = date; // فیلتر بر اساس تاریخ
 
-    const events = await Event.findAll({ where });
-    res.json(events);
+    // If pagination params provided, return paginated response
+    const hasPagination = typeof page !== 'undefined' || typeof limit !== 'undefined';
+    if (hasPagination) {
+      const pageNum = Math.max(parseInt(page, 10) || 1, 1);
+      const pageSize = Math.min(Math.max(parseInt(limit, 10) || 8, 1), 50);
+      const offset = (pageNum - 1) * pageSize;
+
+      const { rows, count } = await Event.findAndCountAll({
+        where,
+        limit: pageSize,
+        offset,
+        order: [['createdAt', 'DESC']],
+      });
+
+      return res.json({
+        items: rows,
+        total: count,
+        page: pageNum,
+        pageSize,
+        totalPages: Math.max(Math.ceil(count / pageSize), 1),
+      });
+    }
+
+    // Legacy behavior: return all events
+    const events = await Event.findAll({ where, order: [['createdAt', 'DESC']] });
+    return res.json(events);
   } catch (error) {
     console.error('Get events error:', error);
-    res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ message: 'Server error' });
   }
 });
 

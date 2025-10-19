@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import Loader from '../components/Loader';
 import EventCard from '../components/CompViewAsli/EventCard';
 import EventCardCarousel from '../components/CompViewAsli/StoryCards';
@@ -12,6 +12,7 @@ import Footer from '../components/Footer';
 import { useEventCard } from '../Functions/useEventInfo';
 import { EventCardData } from '../Functions/eventCardInfo';
 import { useResponsiveLoadMore, LoadMoreControls } from '../Functions/useResponsiveLoadMore';
+import { eventsAPI } from '../services/api';
 
 // دکمه‌های فیلتر را از روی مقادیر filterTag ایونت‌ها می‌سازیم
 
@@ -20,7 +21,32 @@ const HomePage: React.FC = () => {
   const [activeFilterTag, setActiveFilterTag] = useState<string | null>(null);
   // visibleCount logic moved to useResponsiveLoadMore
 
-  const { events, loading, error } = useEventCard();
+  const [events, setEvents] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [hasMoreServer, setHasMoreServer] = useState<boolean>(true);
+  const pageSize = 6;
+
+  const fetchPage = async (p: number, tag: string | null) => {
+    try {
+      setLoading(true);
+      const res = await eventsAPI.getEventsPaged({ page: p, limit: pageSize, filterTag: tag || undefined });
+      if (res.data && Array.isArray(res.data.items)) {
+        setEvents(prev => p === 1 ? res.data.items : [...prev, ...res.data.items]);
+        setHasMoreServer(p < (res.data.totalPages || 1));
+      } else if (Array.isArray(res.data)) {
+        setEvents(res.data);
+        setHasMoreServer(false);
+      }
+      setError(null);
+    } catch (e) {
+      console.error(e);
+      setError('خطا در بارگذاری ایونت‌ها');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toEventCardData = (e: any): EventCardData => ({
     id: String(e.id),
@@ -37,7 +63,17 @@ const HomePage: React.FC = () => {
     ? events.filter((e: any) => e.filterTag === activeFilterTag)
     : events;
 
-  const { visibleItems: visibleEvents, hasMore, handleLoadMore } = useResponsiveLoadMore(filteredEvents);
+  useEffect(() => {
+    // initial load
+    fetchPage(1, activeFilterTag);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeFilterTag]);
+
+  const handleLoadMoreServer = () => {
+    const next = page + 1;
+    setPage(next);
+    fetchPage(next, activeFilterTag);
+  };
 
   return (
     <div className="home-container">
@@ -66,6 +102,9 @@ const HomePage: React.FC = () => {
               onClick={() => {
                 setActiveFilter(0);
                 setActiveFilterTag(null);
+                setPage(1);
+                setEvents([]);
+                fetchPage(1, null);
               }}
             />
             <FilterButton
@@ -75,6 +114,9 @@ const HomePage: React.FC = () => {
               onClick={() => {
                 setActiveFilter(1);
                 setActiveFilterTag('محبوب‌ترین');
+                setPage(1);
+                setEvents([]);
+                fetchPage(1, 'محبوب‌ترین');
               }}
             />
             <FilterButton
@@ -84,6 +126,9 @@ const HomePage: React.FC = () => {
               onClick={() => {
                 setActiveFilter(2);
                 setActiveFilterTag('جدید ترین');
+                setPage(1);
+                setEvents([]);
+                fetchPage(1, 'جدید ترین');
               }}
             />
           </div>
@@ -98,7 +143,7 @@ const HomePage: React.FC = () => {
             <Loader />
           </div>
         )}
-        {!loading && !error && visibleEvents.map((e: any) => (
+        {!loading && !error && filteredEvents.map((e: any) => (
           <EventCard
             key={e.id}
             eventData={toEventCardData(e)}
@@ -114,8 +159,10 @@ const HomePage: React.FC = () => {
       </div>
 
       {/* Load more controls */}
-      {!loading && !error && hasMore && (
-        <LoadMoreControls onClick={handleLoadMore} />
+      {!loading && !error && hasMoreServer && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 12 }}>
+          <MoreEventsButton onClick={handleLoadMoreServer}>ایونت‌های بیشتر</MoreEventsButton>
+        </div>
       )}
 
       <div style={{ height: 48 }} />
