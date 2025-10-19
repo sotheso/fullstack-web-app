@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import RoundIconButton from './CompDetails/ButtonCard/RoundIconButton';
 import DateButton from './CompDetails/ButtonCard/DateButton';
@@ -25,6 +25,60 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
   };
 
   const data = eventData || defaultData;
+
+  // Dynamically reduce title font-size for very long titles so the action button stays in place
+  const computeTitleFontSize = (titleText: string): string => {
+    const titleLength = (titleText || '').length;
+    // Primary rule requested: if > 20 characters, shrink
+    if (titleLength > 28) return '0.8125rem';
+    if (titleLength > 20) return '0.875rem';
+    return '0.9375rem';
+  };
+
+  // Title font-size state with dynamic fitting logic
+  const [titleFontSize, setTitleFontSize] = useState<string>(
+    computeTitleFontSize(data.eventName)
+  );
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
+
+  // Recompute base font-size when event title changes
+  useEffect(() => {
+    setTitleFontSize(computeTitleFontSize(data.eventName));
+  }, [data.eventName]);
+
+  // Shrink the title font-size only if it overflows (shows ellipsis)
+  useEffect(() => {
+    const shrinkToFit = () => {
+      const el = titleRef.current;
+      if (!el) return;
+
+      const parseRem = (rem: string): number => parseFloat(rem.replace('rem', '')) || 0.9375;
+      let current = parseRem(getComputedStyle(el).fontSize.endsWith('rem') ? getComputedStyle(el).fontSize : titleFontSize);
+      if (!current) current = parseRem(titleFontSize);
+
+      const minRem = 0.75; // hard lower bound
+      const step = 0.0625; // 1px at 16px base
+      let guard = 12;
+
+      // Reduce until fits or we hit min size/guard
+      while (el.scrollWidth > el.clientWidth && current > minRem && guard > 0) {
+        current = Math.max(minRem, current - step);
+        el.style.fontSize = `${current}rem`;
+        guard -= 1;
+      }
+
+      // Persist final size so future renders keep it
+      setTitleFontSize(`${current}rem`);
+    };
+
+    // Run after layout
+    const raf = requestAnimationFrame(shrinkToFit);
+    window.addEventListener('resize', shrinkToFit);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', shrinkToFit);
+    };
+  }, [titleFontSize, data.eventName]);
 
   const handleViewClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -60,8 +114,8 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         width: '7.625rem',
         height: '9.5625rem',
         flexShrink: 0,
-        margin: '1rem',
-        marginLeft: 0,
+        // Remove extra right spacing to align card content flush to the right edge
+        margin: '1rem 0 1rem 1rem',
         overflow: 'hidden',
         borderRadius: '0.75rem',
       }}>
@@ -89,22 +143,26 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
       }}>
         {/* Top Row: Title and مشاهده button */}
         <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
+          display: 'grid',
+          gridTemplateColumns: '1fr auto',
           alignItems: 'center',
-          gap: '0.5rem',
+          columnGap: '0.5rem',
+          width: '100%',
+          minWidth: 0,
         }}>
           {/* Title */}
-          <h3 style={{
+          <h3 ref={titleRef} style={{
             color: '#000',
             textAlign: 'right',
             fontFamily: 'Ravi',
-            fontSize: '0.9375rem',
+            fontSize: titleFontSize,
             fontStyle: 'normal',
             fontWeight: 600,
             lineHeight: 'normal',
             margin: 0,
-            flex: 1,
+            flex: '1 1 auto',
+            minWidth: 0, // allow shrinking so ellipsis works and button stays fixed
+            maxWidth: '100%',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
@@ -129,6 +187,8 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
               cursor: 'pointer',
               transition: 'color 0.2s ease',
               whiteSpace: 'nowrap',
+              flexShrink: 0, // don't let the button shrink or move
+              minWidth: '64px', // reserve space so title never pushes it
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = '#E55A2B';
@@ -225,12 +285,9 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
       </div>
 
       <style jsx>{`
-        h3 {
-          font-size: 0.9375rem;
-        }
+        /* Title font-size is controlled inline to allow dynamic sizing */
         .event-card > div:first-child {
-          margin: 1rem;
-          margin-left: 0;
+          margin: 1rem 0 1rem 1rem; /* no right margin on desktop */
         }
         @media (max-width: 43.75rem) {
           .event-card {
@@ -240,14 +297,10 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
             min-height: 8.75rem !important;
           }
           .event-card > div:first-child {
-            margin: 0.5rem !important;
-            margin-left: 0 !important;
+            margin: 0.5rem 0 0.5rem 0.5rem !important; /* remove right margin on mobile */
           }
           .event-card > div:last-child > div:nth-child(2) {
             margin: 0.125rem 0 0.5rem 0 !important;
-          }
-          h3 {
-            font-size: 0.875rem !important;
           }
         }
       `}</style>
