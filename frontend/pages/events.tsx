@@ -3,42 +3,26 @@ import Loader from '../components/Loader';
 import EventCard from '../components/CompViewAsli/EventCard';
 import SectionTitle from '../components/CompViewAsli/CompDetails/Text/SectionTitle';
 import FilterButton from '../components/CompViewAsli/CompDetails/ButtonCard/FilterButton';
-import { useEventCard } from '../Functions/useEventInfo';
 import { EventCardData } from '../Functions/eventCardInfo';
-import { eventsAPI } from '../services/api';
+import { useEventsPageContext } from '../contexts/EventsPageContext';
 
 const EventsPage: React.FC = () => {
   const [mounted, setMounted] = useState(false);
-  const [activeFilter, setActiveFilter] = useState(0);
-  const [activeFilterTag, setActiveFilterTag] = useState<string | null>(null);
-
-  const [events, setEvents] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const pageSize = 8;
-
-  const fetchPage = async (p: number, tag: string | null) => {
-    try {
-      setLoading(true);
-      const res = await eventsAPI.getEventsPaged({ page: p, limit: pageSize, filterTag: tag || undefined });
-      if (res.data && Array.isArray(res.data.items)) {
-        setEvents(res.data.items);
-        setTotalPages(res.data.totalPages || 1);
-      } else if (Array.isArray(res.data)) {
-        // Fallback for non-paginated response
-        setEvents(res.data);
-        setTotalPages(1);
-      }
-      setError(null);
-    } catch (e) {
-      console.error(e);
-      setError('خطا در بارگذاری ایونت‌ها');
-    } finally {
-      setLoading(false);
-    }
-  };
+  
+  const {
+    events,
+    loading,
+    error,
+    page,
+    totalPages,
+    activeFilter,
+    activeFilterTag,
+    fetchPage,
+    setActiveFilter,
+    setActiveFilterTag,
+    setPage,
+    isCached,
+  } = useEventsPageContext();
 
   const toEventCardData = (e: any): EventCardData => ({
     id: String(e.id),
@@ -63,9 +47,12 @@ const EventsPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetchPage(page, activeFilterTag);
+    // فقط اگر cache نشده باشد یا فیلتر یا صفحه تغییر کرده باشد، دیتا را لود کن
+    if (!isCached) {
+      fetchPage(page, activeFilterTag);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, activeFilterTag]);
+  }, []);
 
   // Show loading state during hydration to prevent mismatch
   if (!mounted) {
@@ -102,6 +89,7 @@ const EventsPage: React.FC = () => {
                 setActiveFilter(0);
                 setActiveFilterTag(null);
                 setPage(1);
+                fetchPage(1, null);
               }}
             />
             <FilterButton
@@ -112,6 +100,7 @@ const EventsPage: React.FC = () => {
                 setActiveFilter(1);
                 setActiveFilterTag('محبوب‌ترین');
                 setPage(1);
+                fetchPage(1, 'محبوب‌ترین');
               }}
             />
             <FilterButton
@@ -122,6 +111,7 @@ const EventsPage: React.FC = () => {
                 setActiveFilter(2);
                 setActiveFilterTag('جدید ترین');
                 setPage(1);
+                fetchPage(1, 'جدید ترین');
               }}
             />
           </div>
@@ -155,7 +145,11 @@ const EventsPage: React.FC = () => {
         <div style={{ display: 'flex', justifyContent: 'center', gap: 8, margin: '16px 0 32px 0', alignItems: 'center' }}>
           {/* Previous button */}
           <button
-            onClick={() => setPage(p => Math.max(1, p - 1))}
+            onClick={() => {
+              const newPage = Math.max(1, page - 1);
+              setPage(newPage);
+              fetchPage(newPage, activeFilterTag);
+            }}
             disabled={page === 1}
             style={{
               padding: '0 12px',
@@ -181,7 +175,10 @@ const EventsPage: React.FC = () => {
             return (
               <button
                 key={pageNum}
-                onClick={() => setPage(pageNum)}
+                onClick={() => {
+                  setPage(pageNum);
+                  fetchPage(pageNum, activeFilterTag);
+                }}
                 style={{
                   minWidth: 36,
                   height: 36,
@@ -202,7 +199,11 @@ const EventsPage: React.FC = () => {
 
           {/* Next button */}
           <button
-            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+            onClick={() => {
+              const newPage = Math.min(totalPages, page + 1);
+              setPage(newPage);
+              fetchPage(newPage, activeFilterTag);
+            }}
             disabled={page === totalPages}
             style={{
               padding: '0 12px',

@@ -6,35 +6,32 @@ import DateTimeCard from '../components/CompViewDetails/DateTimeCard';
 import AddressCard from '../components/CompViewDetails/AddressCard';
 import EventProgramCard from '../components/CompViewDetails/EventProgramCard';
 import BrandsCard from '../components/CompViewDetails/BrandsCard';
-import { eventsAPI, EventData } from '../services/api';
+import { EventData } from '../services/api';
+import { useEventDetailsContext } from '../contexts/EventDetailsContext';
 import Loader from '../components/Loader';
 
 const DetailsPage: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
   const [eventData, setEventData] = useState<EventData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { getEventData, fetchEventData, loading, error } = useEventDetailsContext();
 
   useEffect(() => {
-    if (id) {
-      fetchEventData();
+    if (id && typeof id === 'string') {
+      // ابتدا چک کن آیا در cache هست
+      const cachedData = getEventData(id);
+      if (cachedData) {
+        setEventData(cachedData);
+      } else {
+        // اگر نبود، از API بگیر
+        fetchEventData(id).then(data => {
+          if (data) {
+            setEventData(data);
+          }
+        });
+      }
     }
-  }, [id]);
-
-  const fetchEventData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await eventsAPI.getEventById(id as string);
-      setEventData(response.data);
-    } catch (err) {
-      console.error('Error fetching event data:', err);
-      setError('خطا در دریافت اطلاعات ایونت');
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [id, getEventData, fetchEventData]);
 
   // داده‌های پیش‌فرض اگر ایونت پیدا نشد یا در حال بارگذاری
   const defaultData: EventData = {
