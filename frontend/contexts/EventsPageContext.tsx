@@ -54,9 +54,19 @@ export const EventsPageProvider: React.FC<EventsPageProviderProps> = ({ children
       
       setError(null);
       setIsCached(true);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      setError('خطا در بارگذاری ایونت‌ها');
+      const isNetworkError = !e.response && e.message === 'Network Error';
+      const errorMsg = isNetworkError 
+        ? 'عدم اتصال به اینترنت. لطفا اتصال خود را بررسی کنید.'
+        : 'خطا در بارگذاری ایونت‌ها';
+      setError(errorMsg);
+      
+      // نمایش پیام خطا به کاربر
+      if (typeof window !== 'undefined') {
+        const event = new CustomEvent('network-error', { detail: errorMsg });
+        window.dispatchEvent(event);
+      }
     } finally {
       setLoading(false);
     }

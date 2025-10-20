@@ -47,9 +47,20 @@ export const EventDetailsProvider: React.FC<EventDetailsProviderProps> = ({ chil
       }));
       
       return eventData;
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error fetching event data:', err);
-      setError('خطا در دریافت اطلاعات ایونت');
+      const isNetworkError = !err.response && err.message === 'Network Error';
+      const errorMsg = isNetworkError 
+        ? 'عدم اتصال به اینترنت. لطفا اتصال خود را بررسی کنید.'
+        : 'خطا در دریافت اطلاعات ایونت';
+      setError(errorMsg);
+      
+      // نمایش پیام خطا به کاربر
+      if (typeof window !== 'undefined') {
+        const event = new CustomEvent('network-error', { detail: errorMsg });
+        window.dispatchEvent(event);
+      }
+      
       return null;
     } finally {
       setLoading(false);

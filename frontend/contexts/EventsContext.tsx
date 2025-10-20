@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
 import { eventsAPI } from '../services/api';
 
 interface EventsContextType {
@@ -22,7 +22,8 @@ interface EventsProviderProps {
   children: ReactNode;
 }
 
-export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
+// Helper component که به NetworkContext دسترسی دارد
+const EventsProviderInner: React.FC<EventsProviderProps> = ({ children }) => {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,9 +60,19 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
       setPage(p);
       setError(null);
       setIsCached(true);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      setError('خطا در بارگذاری ایونت‌ها');
+      const isNetworkError = !e.response && e.message === 'Network Error';
+      const errorMsg = isNetworkError 
+        ? 'عدم اتصال به اینترنت. لطفا اتصال خود را بررسی کنید.'
+        : 'خطا در بارگذاری ایونت‌ها';
+      setError(errorMsg);
+      
+      // نمایش پیام خطا به کاربر
+      if (typeof window !== 'undefined') {
+        const event = new CustomEvent('network-error', { detail: errorMsg });
+        window.dispatchEvent(event);
+      }
     } finally {
       setLoading(false);
     }
@@ -91,6 +102,10 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
   };
 
   return <EventsContext.Provider value={value}>{children}</EventsContext.Provider>;
+};
+
+export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
+  return <EventsProviderInner>{children}</EventsProviderInner>;
 };
 
 export const useEventsContext = () => {

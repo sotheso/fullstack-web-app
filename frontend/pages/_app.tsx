@@ -6,9 +6,11 @@ import '../styles/profile.css';
 import TopBar from '../components/CompViewAsli/TopBar';
 import AddToHomeScreen from '../components/AddToHomeScreen';
 import LoadingScreen from '../components/LoadingScreen';
+import NetworkStatusBanner from '../components/NetworkStatusBanner';
 import { EventsProvider } from '../contexts/EventsContext';
 import { EventsPageProvider } from '../contexts/EventsPageContext';
 import { EventDetailsProvider } from '../contexts/EventDetailsContext';
+import { NetworkProvider } from '../contexts/NetworkContext';
 import '../styles/login.css';
 import '../styles/signin.css';
 import '../styles/settings.css';
@@ -49,20 +51,23 @@ export default function App({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <EventsProvider>
-      <EventsPageProvider>
-        <EventDetailsProvider>
-          {isLoading && (
-            <LoadingScreen 
-              onLoadingComplete={handleLoadingComplete}
-              duration={2000}
-            />
-          )}
-          <TopBar />
-          <Component {...pageProps} />
-          <AddToHomeScreen />
-        </EventDetailsProvider>
-      </EventsPageProvider>
-    </EventsProvider>
+    <NetworkProvider>
+      <EventsProvider>
+        <EventsPageProvider>
+          <EventDetailsProvider>
+            <NetworkStatusBanner />
+            {isLoading && (
+              <LoadingScreen 
+                onLoadingComplete={handleLoadingComplete}
+                duration={2000}
+              />
+            )}
+            <TopBar />
+            <Component {...pageProps} />
+            <AddToHomeScreen />
+          </EventDetailsProvider>
+        </EventsPageProvider>
+      </EventsProvider>
+    </NetworkProvider>
   );
 }
