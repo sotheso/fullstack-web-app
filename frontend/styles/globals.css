@@ -60,6 +60,9 @@ html, body {
   margin: 0;
   box-sizing: border-box;
   background: #FFFFFF;
+  /* حذف افکت سیاه tap در موبایل */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
 /* Prevent horizontal scroll on mobile while allowing inner components (e.g., Stories) to scroll horizontally */
@@ -75,6 +78,22 @@ html, body {
 
 html, body, * {
   font-family: 'Ravi', sans-serif !important;
+  /* حذف افکت سیاه tap برای همه المنت‌ها */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+/* حذف افکت tap برای لینک‌ها، دکمه‌ها و المنت‌های قابل کلیک */
+a, button, div[role="button"], div[onclick] {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* حذف افکت tap برای input ها ولی حفظ قابلیت انتخاب متن */
+input, textarea, select {
+  -webkit-tap-highlight-color: transparent;
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Ravi', sans-serif !important;

@@ -128,7 +128,7 @@ const EventsPage: React.FC = () => {
         </div>
       </div>
 
-      <div className={`events-grid ${events.length < 6 ? 'few-items' : ''}`}>
+      <div className="events-grid">
         {loading && (
           <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Loader />
@@ -269,8 +269,8 @@ const EventsPage: React.FC = () => {
 
         @media (min-width: 768px) {
           .events-grid {
-            /* Default: stretch cards across full width */
-            grid-template-columns: repeat(auto-fit, minmax(23rem, 1fr));
+            /* استفاده از auto-fill برای حفظ ساختار grid حتی با کارت‌های کمتر */
+            grid-template-columns: repeat(auto-fill, minmax(23rem, 1fr));
             gap: 1rem;
             max-width: none;
             margin: 1rem 0 2rem 0;
@@ -278,12 +278,6 @@ const EventsPage: React.FC = () => {
             direction: rtl; /* RTL - کارت‌ها از راست به چپ */
             justify-content: start; /* شروع از راست */
             justify-items: stretch;
-          }
-
-          /* Only limit card width when there are few items (< 6) */
-          .events-grid.few-items {
-            grid-template-columns: repeat(auto-fit, minmax(24rem, 28rem));
-            justify-items: start;
           }
         }
       `}</style>
