@@ -30,6 +30,7 @@ const BannerCard: React.FC = () => {
     <div style={{ marginBottom: '2rem', cursor: 'default' }}>
       {/* Main banner card */}
       <div
+        className="banner-card-container"
         style={{
           width: '100%',
           maxWidth: '100%',

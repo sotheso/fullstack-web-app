@@ -153,6 +153,7 @@ const EventsPage: React.FC = () => {
         <div style={{ display: 'flex', justifyContent: 'center', gap: 8, margin: '16px 0 32px 0', alignItems: 'center' }}>
           {/* Previous button */}
           <button
+            className="pagination-button"
             onClick={() => {
               const newPage = Math.max(1, page - 1);
               setPage(newPage);
@@ -183,6 +184,7 @@ const EventsPage: React.FC = () => {
             return (
               <button
                 key={pageNum}
+                className="pagination-button"
                 onClick={() => {
                   setPage(pageNum);
                   fetchPage(pageNum, activeFilterTag);
@@ -207,6 +209,7 @@ const EventsPage: React.FC = () => {
 
           {/* Next button */}
           <button
+            className="pagination-button"
             onClick={() => {
               const newPage = Math.min(totalPages, page + 1);
               setPage(newPage);

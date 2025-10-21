@@ -24,6 +24,7 @@ const ReadInvite: React.FC = () => {
   return (
     <div style={{ marginBottom: '2rem', cursor: 'default' }}>
       <div
+        className="banner-card-container"
         style={{
           width: '100%',
           maxWidth: '100%',

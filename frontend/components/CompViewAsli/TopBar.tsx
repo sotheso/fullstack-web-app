@@ -68,6 +68,7 @@ const TopBar: React.FC = () => {
     const isActive = activeTab === label;
     return (
       <button
+        className={`tab-bar-item ${isActive ? 'active' : ''}`}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();

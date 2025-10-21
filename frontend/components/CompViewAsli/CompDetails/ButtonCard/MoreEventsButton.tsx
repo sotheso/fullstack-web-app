@@ -2,9 +2,10 @@ import React from 'react';
 
 interface MoreEventsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-const MoreEventsButton: React.FC<MoreEventsButtonProps> = ({ children, style, ...props }) => (
+const MoreEventsButton: React.FC<MoreEventsButtonProps> = ({ children, style, className, ...props }) => (
   <button
     {...props}
+    className={`load-more-button ${className || ''}`}
     style={{
       minWidth: '6.5rem',
       padding: '0.5rem 1rem',

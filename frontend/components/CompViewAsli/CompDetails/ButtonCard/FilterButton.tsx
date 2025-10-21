@@ -9,6 +9,7 @@ interface FilterButtonProps {
 const FilterButton: React.FC<FilterButtonProps> = ({ label, active = false, onClick }) => {
   return (
     <div
+      className={`filter-button ${active ? 'active' : ''}`}
       style={{
         width: 92,
         height: 28,

@@ -88,7 +88,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
 
   return (
     <div
-      className="event-card"
+      className="event-card event-card-wrapper"
       style={{
         position: 'relative',
         display: 'flex',
@@ -114,12 +114,13 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         width: '7.625rem',
         height: '9.5625rem',
         flexShrink: 0,
-        // Remove extra right spacing to align card content flush to the right edge
-        margin: '1rem 0 1rem 1rem',
+        // Add right margin for spacing from card edge
+        margin: '1rem 0.75rem 1rem 1rem',
         overflow: 'hidden',
         borderRadius: '0.75rem',
       }}>
         <div
+          className="event-card-image"
           style={{
             width: '100%',
             height: '100%',

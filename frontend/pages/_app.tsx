@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import '../styles/globals.css';
 import '../styles/footer.css';
 import '../styles/profile.css';
+import '../styles/hover-effects.css';
 import TopBar from '../components/CompViewAsli/TopBar';
 import AddToHomeScreen from '../components/AddToHomeScreen';
 import LoadingScreen from '../components/LoadingScreen';
