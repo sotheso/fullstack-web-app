@@ -3,33 +3,53 @@ import React, { useState, useEffect } from 'react';
 interface LoadingScreenProps {
   onLoadingComplete?: () => void;
   duration?: number; // مدت زمان نمایش loading به میلی‌ثانیه
+  showOfflineError?: boolean; // نمایش پیام خطای قطع اینترنت
 }
 
 const LoadingScreen: React.FC<LoadingScreenProps> = ({ 
   onLoadingComplete, 
-  duration = 2000 
+  duration = 2000,
+  showOfflineError = false 
 }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
     
+    // بررسی تغییرات وضعیت آنلاین/آفلاین در حین loading
+    const handleOffline = () => setShowError(true);
+    const handleOnline = () => setShowError(false);
+    
+    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline);
+    
     const timer = setTimeout(() => {
-      setIsVisible(false);
-      onLoadingComplete?.();
+      if (showOfflineError || !navigator.onLine) {
+        // اگر نت قطع است، پیام خطا را نشان بده
+        setShowError(true);
+      } else {
+        // اگر همه چیز خوب است، loading را ببند
+        setIsVisible(false);
+        onLoadingComplete?.();
+      }
     }, duration);
 
-    return () => clearTimeout(timer);
-  }, [duration, onLoadingComplete]);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('online', handleOnline);
+    };
+  }, [duration, onLoadingComplete, showOfflineError]);
 
   // Prevent hydration mismatch by not rendering on server
   if (!isMounted || !isVisible) return null;
 
   return (
-    <div className="loading-screen">
+    <div className={`loading-screen ${showError ? 'show-error' : ''}`}>
       <div className="loading-content">
-        <div className="logo-container">
+        <div className={`logo-container ${showError ? 'error-state' : ''}`}>
           <svg 
             id="Layer_1" 
             data-name="Layer 1" 
@@ -58,6 +78,25 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
             <path className="cls-1" d="M1398.93,238.08V79.68c0-8.74-7.08-15.82-15.82-15.82h-43.6c-8.74,0-15.82-7.08-15.82-15.82v-23.3c0-8.74,7.08-15.82,15.82-15.82h187.8c8.74,0,15.82,7.08,15.82,15.82v23.3c0,8.74-7.08,15.82-15.82,15.82h-43.25c-8.74,0-15.82,7.08-15.82,15.82v158.4c0,8.74-7.08,15.82-15.82,15.82h-37.65c-8.74,0-15.82-7.08-15.82-15.82Z"/>
           </svg>
         </div>
+
+        {showError && (
+          <div className="error-message">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" fill="#6B7280" opacity="0.2"/>
+              <path d="M12 8V12M12 16H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="#6B7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <h2 className="error-title">اتصال به اینترنت برقرار نیست</h2>
+            <p className="error-description">
+              لطفاً اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید
+            </p>
+            <button 
+              className="retry-button"
+              onClick={() => window.location.reload()}
+            >
+              تلاش مجدد
+            </button>
+          </div>
+        )}
       </div>
 
       <style jsx>{`
@@ -85,12 +124,80 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
 
         .logo-container {
           animation: logoFloat 2s ease-in-out infinite;
+          transition: all 0.5s ease;
+        }
+
+        .logo-container.error-state {
+          animation: none;
+          transform: translateY(-30px);
         }
 
         .logo-svg {
           width: 200px;
           height: auto;
           max-width: 90vw;
+        }
+
+        .error-message {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 16px;
+          margin-top: 24px;
+          padding: 0 20px;
+          animation: slideUp 0.5s ease-out;
+        }
+
+        .error-message svg {
+          animation: pulse 2s ease-in-out infinite;
+        }
+
+        .error-title {
+          font-family: 'Ravi', sans-serif;
+          font-size: 24px;
+          font-weight: 600;
+          color: #374151;
+          margin: 0;
+          text-align: center;
+        }
+
+        .error-description {
+          font-family: 'Ravi', sans-serif;
+          font-size: 16px;
+          font-weight: 400;
+          color: #6B7280;
+          margin: 0;
+          text-align: center;
+          max-width: 400px;
+          line-height: 1.6;
+        }
+
+        .retry-button {
+          font-family: 'Ravi', sans-serif;
+          font-size: 16px;
+          font-weight: 600;
+          color: white;
+          background: #F26430;
+          border: none;
+          border-radius: 12px;
+          padding: 12px 32px;
+          cursor: pointer;
+          transition: all 0.2s;
+          margin-top: 8px;
+        }
+
+        .retry-button:hover {
+          background: #E5532A;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(242, 100, 48, 0.3);
+        }
+
+        .retry-button:active {
+          transform: translateY(0);
+        }
+
+        .loading-screen.show-error {
+          animation: none;
         }
 
         @keyframes logoFloat {
@@ -102,6 +209,25 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
           }
         }
 
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
 
         @keyframes fadeOut {
           0% {
@@ -117,11 +243,32 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
           .logo-svg {
             width: 160px;
           }
+
+          .error-title {
+            font-size: 20px;
+          }
+
+          .error-description {
+            font-size: 14px;
+          }
+
+          .retry-button {
+            font-size: 14px;
+            padding: 10px 24px;
+          }
         }
 
         @media (max-width: 480px) {
           .logo-svg {
             width: 140px;
+          }
+
+          .error-title {
+            font-size: 18px;
+          }
+
+          .error-description {
+            font-size: 13px;
           }
         }
       `}</style>

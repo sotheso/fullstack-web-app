@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Service Worker Cache</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>پاک کردن Cache</h1>
+    <button onclick="clearEverything()">پاک کردن همه Cache ها و Service Worker</button>
+    <div id="status"></div>
+
+    <script>
+        async function clearEverything() {
+            const status = document.getElementById('status');
+            status.innerHTML = 'در حال پاک کردن...<br>';
+
+            // 1. Unregister all service workers
+            if ('serviceWorker' in navigator) {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (let registration of registrations) {
+                    await registration.unregister();
+                    status.innerHTML += '✅ Service Worker پاک شد<br>';
+                }
+            }
+
+            // 2. Clear all caches
+            if ('caches' in window) {
+                const cacheNames = await caches.keys();
+                for (let cacheName of cacheNames) {
+                    await caches.delete(cacheName);
+                    status.innerHTML += `✅ Cache پاک شد: ${cacheName}<br>`;
+                }
+            }
+
+            // 3. Clear localStorage and sessionStorage
+            localStorage.clear();
+            sessionStorage.clear();
+            status.innerHTML += '✅ localStorage و sessionStorage پاک شد<br>';
+
+            status.innerHTML += '<br><strong>✅ همه چیز پاک شد! حالا صفحه را Refresh کنید.</strong>';
+        }
+    </script>
+</body>
+</html>
+

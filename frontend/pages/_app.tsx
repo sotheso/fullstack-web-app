@@ -17,8 +17,12 @@ import '../styles/settings.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [isLoading, setIsLoading] = useState(true);
+  const [isOffline, setIsOffline] = useState(false);
 
   useEffect(() => {
+    // Check initial online status
+    setIsOffline(!navigator.onLine);
+
     // Set BASE_PATH on client side only
     (window as any).__BASE_PATH__ = process.env.NEXT_PUBLIC_BASE_PATH || '';
     
@@ -60,6 +64,7 @@ export default function App({ Component, pageProps }: AppProps) {
               <LoadingScreen 
                 onLoadingComplete={handleLoadingComplete}
                 duration={2000}
+                showOfflineError={isOffline}
               />
             )}
             <TopBar />
