@@ -12,6 +12,7 @@ import { EventCardData } from '../Functions/eventCardInfo';
 import { useEventsContext } from '../contexts/EventsContext';
 import OfflineErrorPage from '../components/OfflineErrorPage';
 import { useNetwork } from '../contexts/NetworkContext';
+import '../styles/home.css';
 
 // دکمه‌های فیلتر را از روی مقادیر filterTag ایونت‌ها می‌سازیم
 
@@ -61,6 +62,10 @@ const HomePage: React.FC = () => {
   }, []);
 
   const handleLoadMoreServer = () => {
+    // اگر آفلاین است، درخواست نده
+    if (!isOnline) {
+      return;
+    }
     const next = page + 1;
     fetchPage(next, activeFilterTag, true);
   };
@@ -162,7 +167,16 @@ const HomePage: React.FC = () => {
       {/* Load more controls */}
       {!loading && !error && hasMoreServer && (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 12 }}>
-          <MoreEventsButton onClick={handleLoadMoreServer}>ایونت‌های بیشتر</MoreEventsButton>
+          <MoreEventsButton 
+            onClick={handleLoadMoreServer}
+            disabled={!isOnline}
+            style={{
+              opacity: !isOnline ? 0.5 : 1,
+              cursor: !isOnline ? 'not-allowed' : 'pointer',
+            }}
+          >
+            ایونت‌های بیشتر
+          </MoreEventsButton>
         </div>
       )}
 
@@ -188,93 +202,8 @@ const HomePage: React.FC = () => {
 
       {/* Footer */}
       <Footer />
-
-      <style jsx>{`
-        .home-container {
-          padding-left: 20px;
-          padding-right: 20px; /* فاصله یکسان از راست و چپ */
-          padding-top: 0;
-        }
-
-        @media (min-width: 768px) {
-          .home-container {
-            padding-left: 94px;
-            padding-right: 94px; /* فاصله یکسان از راست و چپ */
-            padding-top: 0;
-          }
-        }
-
-        .carousel-container {
-          position: relative;
-          left: -20px;
-          width: calc(100% + 40px);
-          padding-left: 0px;
-          padding-right: 0px;
-          box-sizing: border-box;
-        }
-
-        @media (min-width: 768px) {
-          .carousel-container {
-            left: -94px;
-            width: calc(100% + 188px);
-            padding-left: 10px;
-            padding-right: 10px;
-          }
-        }
-
-        .filter-bar {
-          display: flex;
-          flex-direction: row-reverse;
-          gap: 16px;
-          justify-content: flex-start; /* راست‌چین */
-          margin: 24px 0;
-        }
-
-        @media (min-width: 768px) {
-          .filter-bar { 
-            justify-content: flex-start; /* راست‌چین در دسکتاپ */
-          }
-        }
-
-        .events-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1rem;
-          margin: 0.5rem 0 2rem 0;
-          width: 100%;
-          max-width: 23.3125rem;
-          direction: rtl;
-          justify-items: stretch;
-          margin-right: 0;
-          margin-left: auto;
-        }
-
-        @media (min-width: 768px) {
-          .events-grid {
-            grid-template-columns: repeat(auto-fit, minmax(23rem, 1fr));
-            gap: 1rem;
-            max-width: none;
-            margin: 0.5rem 0 2rem 0;
-            padding: 0;
-            direction: rtl; /* RTL - کارت‌ها از راست به چپ */
-            justify-content: start; /* شروع از راست */
-            justify-items: stretch;
-          }
-        }
-
-        @media (min-width: 1200px) {
-          .events-grid {
-            grid-template-columns: repeat(auto-fit, minmax(23rem, 1fr));
-            justify-content: start;
-          }
-        }
-      `}</style>
     </div>
   );
 };
 
-export default HomePage; 
-
-
-
-// test
+export default HomePage;

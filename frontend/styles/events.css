@@ -1,0 +1,57 @@
+/* استایل‌های صفحه همه ایونت‌ها (events.tsx) */
+
+.events-page-container {
+  padding-left: 20px;
+  padding-right: 20px; /* فاصله یکسان از راست و چپ */
+  padding-top: 0;
+}
+
+@media (min-width: 768px) {
+  .events-page-container {
+    padding-left: 94px;
+    padding-right: 94px; /* فاصله یکسان از راست و چپ */
+    padding-top: 0;
+  }
+}
+
+.events-filter-bar {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 16px;
+  justify-content: flex-start; /* راست‌چین */
+  margin: 16px 0;
+}
+
+@media (min-width: 768px) {
+  .events-filter-bar { 
+    justify-content: flex-start; /* راست‌چین در دسکتاپ */
+  }
+}
+
+.events-page-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1rem 0 2rem 0;
+  width: 100%;
+  max-width: 23.3125rem;
+  direction: rtl;
+  justify-items: stretch;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .events-page-grid {
+    /* استفاده از auto-fill برای حفظ ساختار grid حتی با کارت‌های کمتر */
+    grid-template-columns: repeat(auto-fill, minmax(23rem, 1fr));
+    gap: 1rem;
+    max-width: none;
+    margin: 1rem 0 2rem 0;
+    padding: 0;
+    direction: rtl; /* RTL - کارت‌ها از راست به چپ */
+    justify-content: start; /* شروع از راست */
+    justify-items: stretch;
+  }
+}
+

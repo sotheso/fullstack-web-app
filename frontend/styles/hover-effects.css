@@ -77,15 +77,21 @@
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .load-more-button:hover {
+  .load-more-button:not(:disabled):hover {
     transform: translateY(-2px);
     background: rgba(242, 100, 48, 0.05) !important;
     box-shadow: 0 4px 12px rgba(242, 100, 48, 0.15);
   }
 
-  .load-more-button:active {
+  .load-more-button:not(:disabled):active {
     transform: translateY(0);
     box-shadow: 0 2px 6px rgba(242, 100, 48, 0.1);
+  }
+
+  /* دکمه disabled نباید افکت داشته باشد */
+  .load-more-button:disabled {
+    cursor: not-allowed !important;
+    opacity: 0.5;
   }
 
   /* افکت Hover برای دکمه‌های Pagination */
