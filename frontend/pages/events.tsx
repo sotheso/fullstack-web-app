@@ -5,9 +5,12 @@ import SectionTitle from '../components/CompViewAsli/CompDetails/Text/SectionTit
 import FilterButton from '../components/CompViewAsli/CompDetails/ButtonCard/FilterButton';
 import { EventCardData } from '../Functions/eventCardInfo';
 import { useEventsPageContext } from '../contexts/EventsPageContext';
+import OfflineErrorPage from '../components/OfflineErrorPage';
+import { useNetwork } from '../contexts/NetworkContext';
 
 const EventsPage: React.FC = () => {
   const [mounted, setMounted] = useState(false);
+  const { isOnline } = useNetwork();
   
   const {
     events,
@@ -67,6 +70,11 @@ const EventsPage: React.FC = () => {
         </div>
       </div>
     );
+  }
+
+  // اگر صفحه mount شده و نت قطع است و cache هم نداریم
+  if (!isOnline && !isCached && events.length === 0) {
+    return <OfflineErrorPage />;
   }
 
   return (

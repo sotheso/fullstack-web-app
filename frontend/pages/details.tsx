@@ -9,12 +9,15 @@ import BrandsCard from '../components/CompViewDetails/BrandsCard';
 import { EventData } from '../services/api';
 import { useEventDetailsContext } from '../contexts/EventDetailsContext';
 import Loader from '../components/Loader';
+import OfflineErrorPage from '../components/OfflineErrorPage';
+import { useNetwork } from '../contexts/NetworkContext';
 
 const DetailsPage: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
   const [eventData, setEventData] = useState<EventData | null>(null);
   const { getEventData, fetchEventData, loading, error } = useEventDetailsContext();
+  const { isOnline } = useNetwork();
 
   useEffect(() => {
     if (id && typeof id === 'string') {
@@ -71,6 +74,11 @@ const DetailsPage: React.FC = () => {
 
   const data = eventData || defaultData;
 
+  // اگر نت قطع است و داده cache شده نداریم
+  if (!isOnline && !eventData) {
+    return <OfflineErrorPage />;
+  }
+
   if (loading) {
     return (
       <div style={{ 
@@ -84,7 +92,7 @@ const DetailsPage: React.FC = () => {
     );
   }
 
-  if (error && !eventData) {
+  if (error && !eventData && isOnline) {
     return (
       <div style={{ 
         display: 'flex', 

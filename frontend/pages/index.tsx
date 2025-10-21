@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Loader from '../components/Loader';
 import EventCard from '../components/CompViewAsli/EventCard';
 import EventCardCarousel from '../components/CompViewAsli/StoryCards';
@@ -10,10 +10,15 @@ import MoreEventsButton from '../components/CompViewAsli/CompDetails/ButtonCard/
 import Footer from '../components/Footer';
 import { EventCardData } from '../Functions/eventCardInfo';
 import { useEventsContext } from '../contexts/EventsContext';
+import OfflineErrorPage from '../components/OfflineErrorPage';
+import { useNetwork } from '../contexts/NetworkContext';
 
 // دکمه‌های فیلتر را از روی مقادیر filterTag ایونت‌ها می‌سازیم
 
 const HomePage: React.FC = () => {
+  const [mounted, setMounted] = useState(false);
+  const { isOnline } = useNetwork();
+  
   const {
     events,
     loading,
@@ -44,6 +49,10 @@ const HomePage: React.FC = () => {
     : events;
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     // فقط اگر cache نشده باشد، دیتا را لود کن
     if (!isCached) {
       fetchPage(1, activeFilterTag, false);
@@ -55,6 +64,23 @@ const HomePage: React.FC = () => {
     const next = page + 1;
     fetchPage(next, activeFilterTag, true);
   };
+
+  // Show loading during mount
+  if (!mounted) {
+    return (
+      <div className="home-container">
+        <div style={{ height: 36}} />
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', minHeight: '50vh', alignItems: 'center' }}>
+          <Loader />
+        </div>
+      </div>
+    );
+  }
+
+  // اگر نت قطع است و cache هم نداریم
+  if (!isOnline && !isCached && events.length === 0) {
+    return <OfflineErrorPage />;
+  }
 
   return (
     <div className="home-container">
