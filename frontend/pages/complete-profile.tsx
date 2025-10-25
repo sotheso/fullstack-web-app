@@ -75,6 +75,7 @@ export default function CompleteProfile() {
       });
 
       const data = await response.json();
+      console.log('Complete profile response:', data);
 
       if (data.success) {
         // Save user data to localStorage
