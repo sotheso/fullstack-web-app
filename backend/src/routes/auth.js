@@ -97,6 +97,11 @@ router.post('/complete-profile', async (req, res) => {
     });
   } catch (error) {
     console.error('Complete profile error:', error);
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    });
     
     // Check for unique constraint violation (duplicate email)
     if (error.name === 'SequelizeUniqueConstraintError') {
@@ -109,6 +114,7 @@ router.post('/complete-profile', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'خطا در ثبت اطلاعات',
+      error: error.message
     });
   }
 });
