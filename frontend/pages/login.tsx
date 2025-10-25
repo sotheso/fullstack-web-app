@@ -69,8 +69,8 @@ export default function Login() {
             localStorage.setItem('user', JSON.stringify(data.user));
             router.push('/');
           } else {
-            // User doesn't exist - redirect to signup
-            router.push(`/signin?phone=${encodeURIComponent(phone)}`);
+            // User doesn't exist - redirect to complete profile
+            router.push(`/complete-profile?phone=${encodeURIComponent(phone)}`);
           }
         } else {
           setError(data.message || 'کد تأیید اشتباه است');

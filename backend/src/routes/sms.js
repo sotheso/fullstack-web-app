@@ -156,7 +156,8 @@ router.post('/verify-code', async (req, res) => {
           res.json({
             success: true,
             message: 'کد تأیید صحیح است',
-            userExists: false
+            userExists: false,
+            user: null
           });
         }
       } catch (dbError) {
