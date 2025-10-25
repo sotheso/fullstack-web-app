@@ -60,7 +60,11 @@ export default function CompleteProfile() {
 
     setIsLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/auth/complete-profile`, {
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/auth/complete-profile`;
+      console.log('API URL:', apiUrl);
+      console.log('Request data:', { phone, firstName, lastName, email, password });
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,6 +78,13 @@ export default function CompleteProfile() {
         }),
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
       console.log('Complete profile response:', data);
 
@@ -89,7 +100,8 @@ export default function CompleteProfile() {
         setError(data.message || 'خطا در ثبت اطلاعات');
       }
     } catch (error) {
-      setError('خطا در ارتباط با سرور');
+      console.error('Complete profile error:', error);
+      setError(`خطا در ارتباط با سرور: ${error instanceof Error ? error.message : 'خطای نامشخص'}`);
     } finally {
       setIsLoading(false);
     }
