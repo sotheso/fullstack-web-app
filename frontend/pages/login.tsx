@@ -1,45 +1,92 @@
 import { useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { Title, Subtitle, InputPill, PrimaryButton, ErrorNotice } from '../components/CompLog';
 
 export default function Login() {
-  const [formData, setFormData] = useState({
-    phone: '',
-    password: ''
-  });
+  const router = useRouter();
+  const [phone, setPhone] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-
-  
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  const [step, setStep] = useState('phone'); // 'phone' or 'verify'
+  const [verificationCode, setVerificationCode] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     setError('');
-
-    try {
-      // Here you can add your login logic later
-      console.log('Login attempt:', formData);
+    
+    if (step === 'phone') {
+      if (!/^0\d{10}$/.test(phone)) {
+        setError('شماره موبایل را درست وارد کنید.');
+        return;
+      }
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/sms/send-code`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ phone }),
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          setStep('verify');
+          setError('');
+        } else {
+          setError(data.message || 'خطا در ارسال پیامک');
+        }
+      } catch (error) {
+        setError('خطا در ارتباط با سرور');
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      // Verify code step
+      if (!verificationCode || verificationCode.length !== 6) {
+        setError('کد تأیید ۶ رقمی را وارد کنید.');
+        return;
+      }
       
-      // For now, just show success message
-      alert('ورود موفقیت‌آمیز بود! (این فقط یک تست است)');
-      
-    } catch (err) {
-      setError('خطا در ورود. لطفاً دوباره تلاش کنید.');
-    } finally {
-      setIsLoading(false);
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/sms/verify-code`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ phone, code: verificationCode }),
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          if (data.userExists) {
+            // User exists - save to localStorage and redirect
+            localStorage.setItem('user', JSON.stringify(data.user));
+            router.push('/');
+          } else {
+            // User doesn't exist - redirect to signup
+            router.push(`/signin?phone=${encodeURIComponent(phone)}`);
+          }
+        } else {
+          setError(data.message || 'کد تأیید اشتباه است');
+        }
+      } catch (error) {
+        setError('خطا در ارتباط با سرور');
+      } finally {
+        setIsLoading(false);
+      }
     }
+  };
+
+  const handleBackToPhone = () => {
+    setStep('phone');
+    setVerificationCode('');
+    setError('');
   };
 
   
@@ -53,51 +100,74 @@ export default function Login() {
 
       <div className="signin-page">
         <div className="signin-container">
-          <Title>!به دعوت خوش اومدی</Title>
-          <Subtitle>وارد حساب کاربری خود شوید</Subtitle>
+          {step === 'phone' ? (
+            <>
+              <Title>!به دعوت خوش اومدی</Title>
+              <Subtitle>وارد حساب کاربری خود شوید</Subtitle>
 
-          <form onSubmit={handleSubmit} className="signin-form" dir="rtl">
-            <InputPill
-              type="tel"
-              inputMode="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-              required
-              placeholder= "مثال: 09123456789  -  شماره تماس به انگلیسی"
-            />
+              <form onSubmit={handleSubmit} className="signin-form" dir="rtl">
+                <InputPill
+                  type="tel"
+                  inputMode="tel"
+                  id="phone"
+                  name="phone"
+                  value={phone}
+                  onChange={e => setPhone(e.target.value.replace(/[^\d]/g, ''))}
+                  required
+                  placeholder="مثال: 09123456789  -  شماره تماس به انگلیسی"
+                />
 
-            <InputPill
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              required
-              placeholder="رمز عبور خود را وارد کنید"
-            />
+                {error && (<ErrorNotice>{error}</ErrorNotice>)}
 
-            <div className="login-remember-row">
-              <div className="login-remember-left">
-                <input id="remember-me" name="remember-me" type="checkbox" className="login-checkbox" />
-                <label htmlFor="remember-me" className="login-remember-label">مرا به خاطر بسپار</label>
+                <PrimaryButton type="submit" isLoading={isLoading}>
+                  {isLoading ? 'در حال ارسال...' : 'ادامه'}
+                </PrimaryButton>
+              </form>
+
+              <div className="login-signup">
+                <p className="login-signup-text">
+                  حساب کاربری ندارید؟{' '}
+                  <a href="/signin" className="login-link">ثبت نام کنید</a>
+                </p>
               </div>
-              <span className="login-remember-sep">|</span>
-              <a href="/signin" className="login-link">فراموشی رمز عبور؟</a>
-            </div>
+            </>
+          ) : (
+            <>
+              <Title>کد تأیید</Title>
+              <Subtitle>کد ۶ رقمی ارسال شده به شماره {phone} را وارد کنید</Subtitle>
 
-            {error && (<ErrorNotice>{error}</ErrorNotice>)}
+              <form onSubmit={handleSubmit} className="signin-form" dir="rtl">
+                <InputPill
+                  type="text"
+                  inputMode="decimal"
+                  id="verificationCode"
+                  name="verificationCode"
+                  value={verificationCode}
+                  onChange={e => setVerificationCode(e.target.value.replace(/[^\d]/g, '').slice(0, 6))}
+                  required
+                  placeholder="کد ۶ رقمی (به صورت انگلیسی)"
+                  maxLength={6}
+                />
 
-            <PrimaryButton type="submit" isLoading={isLoading}>ورود</PrimaryButton>
-          </form>
+                {error && (<ErrorNotice>{error}</ErrorNotice>)}
 
-          <div className="login-signup">
-            <p className="login-signup-text">
-              حساب کاربری ندارید؟{' '}
-              <a href="/signin" className="login-link">ثبت نام کنید</a>
-            </p>
-          </div>
+                <div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
+                  <PrimaryButton type="submit" isLoading={isLoading}>
+                    {isLoading ? 'در حال تأیید...' : 'تأیید کد'}
+                  </PrimaryButton>
+                  
+                  <button 
+                    type="button" 
+                    onClick={handleBackToPhone}
+                    className="signin-button"
+                    style={{ backgroundColor: '#666', marginTop: '10px' }}
+                  >
+                    تغییر شماره
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
 
           <div className="login-footer">
             <p>© 2024 Davvvat. تمامی حقوق محفوظ است.</p>

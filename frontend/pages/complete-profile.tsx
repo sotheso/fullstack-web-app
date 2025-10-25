@@ -62,9 +62,10 @@ export default function CompleteProfile() {
       const data = await response.json();
 
       if (data.success) {
-        // Save user data to localStorage or session
+        // Save user data to localStorage
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user));
+          console.log('User data saved to localStorage:', data.user);
         }
         // Redirect to main page
         router.push('/');

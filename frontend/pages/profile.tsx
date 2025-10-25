@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import EventCard from '../components/CompViewAsli/EventCard';
 import ProfileHeader from '../components/CompProfile/ProfileHeader';
@@ -11,18 +11,49 @@ const ProfilePage: React.FC = () => {
   const [isAboutExpanded, setIsAboutExpanded] = React.useState(false);
   const [isInviteExpanded, setIsInviteExpanded] = React.useState(false);
   const [isTermsExpanded, setIsTermsExpanded] = React.useState(false);
+  const [userData, setUserData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Load user data from localStorage or fetch from server
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        // First try to get from localStorage
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const user = JSON.parse(storedUser);
+          setUserData({
+            name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+            phone: user.phone,
+            email: user.email,
+            avatar: '/iconProfile.svg'
+          });
+          setIsLoading(false);
+          return;
+        }
+
+        // If no localStorage data, redirect to login
+        router.push('/login');
+      } catch (error) {
+        console.error('Error loading user data:', error);
+        router.push('/login');
+      }
+    };
+
+    loadUserData();
+  }, [router]);
 
   // Debug logging
   React.useEffect(() => {
     console.log('Profile page loaded successfully!');
     console.log('Current path:', router.pathname);
-  }, [router.pathname]);
+    console.log('User data:', userData);
+  }, [router.pathname, userData]);
 
-  // Sample user data
-  const userData = {
-    name: 'سجاد کنگرانی فراهانی',
-    phone: '۰۹۱۰۶۷۰۴۳۳۲',
-    avatar: '/iconProfile.svg'
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    router.push('/login');
   };
 
   // Sample events data
@@ -110,6 +141,19 @@ const ProfilePage: React.FC = () => {
       ),
       isExpandable: true,
       isExpanded: isTermsExpanded
+    },
+    {
+      id: 'logout',
+      title: 'خروج از حساب',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16" fill="none">
+          <path d="M6 3.5C6 3.22386 6.22386 3 6.5 3H13.5C13.7761 3 14 3.22386 14 3.5V12.5C14 12.7761 13.7761 13 13.5 13H6.5C6.22386 13 6 12.7761 6 12.5V3.5Z" fill="#F26430"/>
+          <path d="M4.5 6L2 8.5L4.5 11" stroke="#F26430" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 8.5H9" stroke="#F26430" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      isExpandable: false,
+      isExpanded: false
     }
   ];
 
@@ -125,6 +169,8 @@ const ProfilePage: React.FC = () => {
       setIsInviteExpanded(!isInviteExpanded);
     } else if (itemId === 'terms') {
       setIsTermsExpanded(!isTermsExpanded);
+    } else if (itemId === 'logout') {
+      handleLogout();
     }
   };
 
@@ -132,6 +178,31 @@ const ProfilePage: React.FC = () => {
     // Navigate to events page or load more events
     router.push('/events');
   };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="profile-container">
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          <p>در حال بارگذاری...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error if no user data
+  if (!userData) {
+    return (
+      <div className="profile-container">
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          <p>خطا در بارگذاری اطلاعات کاربر</p>
+          <button onClick={handleLogout} style={{ marginTop: '20px' }}>
+            بازگشت به ورود
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-container">

@@ -68,8 +68,14 @@ export default function SignIn() {
         const data = await response.json();
         
         if (data.success) {
-          // Redirect to complete profile page after successful verification
-          router.push(`/complete-profile?phone=${encodeURIComponent(phone)}`);
+          if (data.userExists) {
+            // User exists - save to localStorage and redirect to home
+            localStorage.setItem('user', JSON.stringify(data.user));
+            router.push('/');
+          } else {
+            // User doesn't exist - redirect to complete profile page
+            router.push(`/complete-profile?phone=${encodeURIComponent(phone)}`);
+          }
         } else {
           setError(data.message || 'کد تأیید اشتباه است');
         }
@@ -100,7 +106,10 @@ export default function SignIn() {
           {step === 'phone' ? (
             <>
               <h1 className="signin-title">!شما دعوت شدید</h1>
-              <p className="signin-subtitle">لطفا شماره‌ات رو وارد کن تا از ایونت‌ها و اتفاقات باخبر باشی. <a href="/login" className="signin-link">قبلا ثبت نام کردم</a></p>
+              <p className="signin-subtitle">لطفا شماره‌ات رو وارد کن تا از ایونت‌ها و اتفاقات باخبر باشی.</p>
+              <p style={{ textAlign: 'center', marginBottom: '20px' }}>
+                <a href="/login" className="signin-link">قبلا ثبت نام کردم</a>
+              </p>
 
               <form onSubmit={handleSubmit} className="signin-form" dir="rtl">
                 <div className="signin-input-wrap">

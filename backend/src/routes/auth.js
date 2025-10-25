@@ -93,6 +93,50 @@ router.post('/complete-profile', async (req, res) => {
   }
 });
 
+// Get user by phone - for checking if user exists
+router.get('/user/:phone', async (req, res) => {
+  try {
+    const { phone } = req.params;
+
+    if (!phone) {
+      return res.status(400).json({
+        success: false,
+        message: 'شماره تلفن الزامی است',
+      });
+    }
+
+    // Find user by phone
+    const user = await User.findOne({ where: { phone } });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'کاربر یافت نشد',
+      });
+    }
+
+    res.json({
+      success: true,
+      user: {
+        id: user.id,
+        phone: user.phone,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        isVerified: user.isVerified,
+        isProfileComplete: user.isProfileComplete,
+        lastLogin: user.lastLogin,
+      },
+    });
+  } catch (error) {
+    console.error('Get user error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در دریافت اطلاعات کاربر',
+    });
+  }
+});
+
 // Login endpoint - check if user exists and return user data
 router.post('/login', async (req, res) => {
   try {

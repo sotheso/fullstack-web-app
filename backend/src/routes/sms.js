@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const smsService = require('../services/smsService');
+const User = require('../models/User');
 
 // Test endpoint to debug SMS issues
 router.get('/test', async (req, res) => {
@@ -127,10 +128,45 @@ router.post('/verify-code', async (req, res) => {
       // Code is correct, remove it from storage
       verificationCodes.delete(phone);
       
-      res.json({
-        success: true,
-        message: 'کد تأیید صحیح است'
-      });
+      // Check if user exists in database
+      try {
+        const user = await User.findOne({ where: { phone } });
+        
+        if (user) {
+          // User exists - update last login
+          user.lastLogin = new Date();
+          await user.save();
+          
+          res.json({
+            success: true,
+            message: 'کد تأیید صحیح است',
+            userExists: true,
+            user: {
+              id: user.id,
+              phone: user.phone,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              isProfileComplete: user.isProfileComplete,
+              isVerified: user.isVerified
+            }
+          });
+        } else {
+          // User doesn't exist - new registration
+          res.json({
+            success: true,
+            message: 'کد تأیید صحیح است',
+            userExists: false
+          });
+        }
+      } catch (dbError) {
+        console.error('Database error in verify-code:', dbError);
+        res.json({
+          success: true,
+          message: 'کد تأیید صحیح است',
+          userExists: false
+        });
+      }
     } else {
       // Increment attempts
       storedData.attempts++;

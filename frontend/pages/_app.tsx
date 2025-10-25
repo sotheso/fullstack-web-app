@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import '../styles/globals.css';
 import '../styles/footer.css';
 import '../styles/profile.css';
@@ -17,8 +18,15 @@ import '../styles/signin.css';
 import '../styles/settings.css';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isOffline, setIsOffline] = useState(false);
+
+  // Pages that require authentication
+  const protectedPages = ['/profile', '/settings', '/bookmarks'];
+  
+  // Pages that should redirect if already authenticated
+  const authPages = ['/login', '/signin', '/complete-profile'];
 
   useEffect(() => {
     // Check initial online status
@@ -26,6 +34,29 @@ export default function App({ Component, pageProps }: AppProps) {
 
     // Set BASE_PATH on client side only
     (window as any).__BASE_PATH__ = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    
+    // Authentication check
+    const checkAuth = () => {
+      const user = localStorage.getItem('user');
+      const currentPath = router.pathname;
+      
+      // If accessing protected page without authentication
+      if (protectedPages.includes(currentPath) && !user) {
+        router.push('/login');
+        return;
+      }
+      
+      // If accessing auth pages while already authenticated
+      if (authPages.includes(currentPath) && user) {
+        router.push('/');
+        return;
+      }
+    };
+
+    // Check auth after router is ready
+    if (router.isReady) {
+      checkAuth();
+    }
     
     // Register Service Worker only in production; unregister in development to avoid HMR issues
     if ('serviceWorker' in navigator) {
@@ -49,7 +80,7 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       }
     }
-  }, []);
+  }, [router.isReady, router.pathname]);
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
