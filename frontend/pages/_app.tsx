@@ -16,6 +16,8 @@ import { NetworkProvider } from '../contexts/NetworkContext';
 import '../styles/login.css';
 import '../styles/signin.css';
 import '../styles/settings.css';
+import '../styles/home.css';
+import '../styles/blogs.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();

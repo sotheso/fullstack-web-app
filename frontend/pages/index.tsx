@@ -12,7 +12,6 @@ import { EventCardData } from '../Functions/eventCardInfo';
 import { useEventsContext } from '../contexts/EventsContext';
 import OfflineErrorPage from '../components/OfflineErrorPage';
 import { useNetwork } from '../contexts/NetworkContext';
-import '../styles/home.css';
 
 // دکمه‌های فیلتر را از روی مقادیر filterTag ایونت‌ها می‌سازیم
 

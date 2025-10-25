@@ -1,6 +1,5 @@
 import React from 'react';
 import Footer from '../components/Footer';
-import '../styles/blogs.css';
 
 const BlogsPage: React.FC = () => {
   return (
