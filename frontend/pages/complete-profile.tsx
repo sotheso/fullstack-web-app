@@ -8,6 +8,8 @@ export default function CompleteProfile() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -43,6 +45,18 @@ export default function CompleteProfile() {
       setError('لطفاً یک ایمیل معتبر وارد کنید.');
       return;
     }
+    if (!password.trim()) {
+      setError('لطفاً رمز عبور خود را وارد کنید.');
+      return;
+    }
+    if (password.length < 6) {
+      setError('رمز عبور باید حداقل ۶ کاراکتر باشد.');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('رمز عبور و تکرار آن یکسان نیستند.');
+      return;
+    }
 
     setIsLoading(true);
     try {
@@ -56,6 +70,7 @@ export default function CompleteProfile() {
           firstName,
           lastName,
           email,
+          password,
         }),
       });
 
@@ -130,6 +145,34 @@ export default function CompleteProfile() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   autoComplete="email"
+                />
+              </div>
+            </div>
+
+            <div style={{ width: '100%', maxWidth: '520px' }}>
+              <label className="signin-label">رمز عبور:</label>
+              <div className="signin-input-wrap">
+                <input
+                  className="signin-input"
+                  type="password"
+                  placeholder="حداقل ۶ کاراکتر"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  autoComplete="new-password"
+                />
+              </div>
+            </div>
+
+            <div style={{ width: '100%', maxWidth: '520px' }}>
+              <label className="signin-label">تکرار رمز عبور:</label>
+              <div className="signin-input-wrap">
+                <input
+                  className="signin-input"
+                  type="password"
+                  placeholder="رمز عبور را دوباره وارد کنید"
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                  autoComplete="new-password"
                 />
               </div>
             </div>

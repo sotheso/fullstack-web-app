@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
 // Complete user profile after phone verification
 router.post('/complete-profile', async (req, res) => {
   try {
-    const { phone, firstName, lastName, email } = req.body;
+    const { phone, firstName, lastName, email, password } = req.body;
 
     // Validate inputs
     if (!phone) {
@@ -29,6 +30,20 @@ router.post('/complete-profile', async (req, res) => {
       });
     }
 
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        message: 'رمز عبور الزامی است',
+      });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'رمز عبور باید حداقل ۶ کاراکتر باشد',
+      });
+    }
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -38,6 +53,9 @@ router.post('/complete-profile', async (req, res) => {
       });
     }
 
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // Check if user already exists with this phone
     let user = await User.findOne({ where: { phone } });
 
@@ -46,6 +64,7 @@ router.post('/complete-profile', async (req, res) => {
       user.firstName = firstName;
       user.lastName = lastName;
       user.email = email;
+      user.password = hashedPassword;
       user.isVerified = true;
       user.isProfileComplete = true;
       user.lastLogin = new Date();
@@ -57,6 +76,7 @@ router.post('/complete-profile', async (req, res) => {
         firstName,
         lastName,
         email,
+        password: hashedPassword,
         isVerified: true,
         isProfileComplete: true,
         lastLogin: new Date(),

@@ -52,6 +52,11 @@ const User = sequelize.define(
       allowNull: true,
       comment: 'آخرین ورود کاربر',
     },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      comment: 'رمز عبور کاربر',
+    },
   },
   {
     timestamps: true,
