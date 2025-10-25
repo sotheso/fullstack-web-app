@@ -60,14 +60,14 @@ export default function CompleteProfile() {
 
     setIsLoading(true);
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/auth/complete-profile`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002'}/api/auth/complete-profile`;
       console.log('Environment variables:', process.env.NEXT_PUBLIC_API_URL);
       console.log('API URL:', apiUrl);
       console.log('Request data:', { phone, firstName, lastName, email, password });
       
       // Test if backend is running
       try {
-        const testResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/`);
+        const testResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002'}/api`);
         console.log('Backend test response:', testResponse.status);
       } catch (testError) {
         console.error('Backend connection test failed:', testError);
