@@ -112,25 +112,30 @@ const AddToHomeScreen: React.FC = () => {
               <button
                 onClick={handleInstallClick}
                 style={{
-                  background: '#F26430',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: 12,
+                  background: 'rgba(242, 100, 48, 1)',
+                  color: '#fff',
+                  border: '1px solid rgba(255, 255, 255, 0.5)',
+                  borderRadius: 24,
                   padding: '14px 28px',
-                  fontSize: 16,
+                  fontSize: 19,
                   fontWeight: 600,
                   cursor: 'pointer',
                   fontFamily: 'Ravi',
-                  minWidth: 120,
+                  minWidth: 145,
+                  height: 50,
                   transition: 'all 0.2s ease',
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#e55a2b';
                   e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.2)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#F26430';
                   e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.15)';
                 }}
               >
                 نصب
