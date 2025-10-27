@@ -11,6 +11,14 @@ const TopBar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  // Pages that should not show TopBar
+  const authPages = ['/', '/login', '/signin', '/complete-profile', '/forgot-password'];
+  
+  // Don't render TopBar on auth pages
+  if (authPages.includes(router.pathname)) {
+    return null;
+  }
+
   // تشخیص تب فعال
   const getActiveTab = () => {
     const path = router.pathname;
