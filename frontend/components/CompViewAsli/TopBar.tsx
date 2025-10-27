@@ -16,7 +16,6 @@ const TopBar: React.FC = () => {
     const path = router.pathname;
     if (path === '/') return 'home';
     if (path === '/events') return 'calendar';
-    if (path === '/add') return 'plus';
     if (path === '/bookmarks') return 'bookmark';
     if (path === '/profile') return 'profile';
     return null;
@@ -115,12 +114,12 @@ const TopBar: React.FC = () => {
     bottom: isVisible ? 20 : -100,
     zIndex: 9999,
     display: 'flex',
-    width: isMobile ? '300px' : '330px',
+    width: isMobile ? '240px' : '270px',
     height: isMobile ? '52px' : '56px',
     padding: isMobile ? '10px 14px 10px 14px' : '14px 18px 14px 18px',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: isMobile ? '24px' : '32px',
+    gap: isMobile ? '16px' : '20px',
     flexShrink: 0,
     borderRadius: '90px',
     background: 'rgba(255, 255, 255, 0.15)',
@@ -133,7 +132,7 @@ const TopBar: React.FC = () => {
 
   const itemsContainerStyle = {
     display: 'flex',
-    gap: isMobile ? '20px' : '24px',
+    gap: isMobile ? '12px' : '16px',
     alignItems: 'center',
     justifyContent: 'center',
     padding: isMobile ? '0 16px' : '0 24px',
@@ -158,17 +157,6 @@ const TopBar: React.FC = () => {
             <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
               <rect x="5.3335" y="6.66669" width="21.3333" height="6.66667" rx="1.33333" fill={isActive ? '#F26430' : 'none'} stroke={isActive ? '#F26430' : '#33363F'} strokeWidth="2.66667" strokeLinejoin="round"/>
               <rect x="5.3335" y="18.6667" width="21.3333" height="6.66667" rx="1.33333" fill={isActive ? '#F26430' : 'none'} stroke={isActive ? '#F26430' : '#33363F'} strokeWidth="2.66667" strokeLinejoin="round"/>
-            </svg>
-          )}
-        />
-        <Item
-          label="plus"
-          onClick={() => router.push('/add')}
-          renderIcon={(isActive) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
-              <path d="M4 9.33333C4 6.38781 6.38781 4 9.33333 4H22.6667C25.6122 4 28 6.38781 28 9.33333V22.6667C28 25.6122 25.6122 28 22.6667 28H9.33333C6.38781 28 4 25.6122 4 22.6667V9.33333Z" fill={isActive ? '#F26430' : 'none'} stroke={isActive ? '#F26430' : '#33363F'} strokeWidth="2.66667"/>
-              <path d="M16 10.6667L16 21.3334" stroke={isActive ? '#F26430' : '#33363F'} strokeWidth="2.66667" strokeLinecap="square" strokeLinejoin="round"/>
-              <path d="M21.3335 16L10.6668 16" stroke={isActive ? '#F26430' : '#33363F'} strokeWidth="2.66667" strokeLinecap="square" strokeLinejoin="round"/>
             </svg>
           )}
         />
