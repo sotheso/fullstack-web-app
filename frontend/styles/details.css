@@ -7,15 +7,4 @@
   gap: 16px;
 }
 
-@media (min-width: 768px) {
-  .main-content {
-    gap: 24px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .main-content {
-    gap: 32px;
-  }
-}
 

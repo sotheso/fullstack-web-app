@@ -2,16 +2,8 @@
 
 .events-page-container {
   padding-left: 20px;
-  padding-right: 20px; /* فاصله یکسان از راست و چپ */
+  padding-right: 20px;
   padding-top: 0;
-}
-
-@media (min-width: 768px) {
-  .events-page-container {
-    padding-left: 94px;
-    padding-right: 94px; /* فاصله یکسان از راست و چپ */
-    padding-top: 0;
-  }
 }
 
 .events-filter-bar {
@@ -43,15 +35,16 @@
 
 @media (min-width: 768px) {
   .events-page-grid {
-    /* استفاده از auto-fill برای حفظ ساختار grid حتی با کارت‌های کمتر */
     grid-template-columns: repeat(auto-fill, minmax(23rem, 1fr));
     gap: 1rem;
     max-width: none;
     margin: 1rem 0 2rem 0;
     padding: 0;
-    direction: rtl; /* RTL - کارت‌ها از راست به چپ */
-    justify-content: start; /* شروع از راست */
+    direction: rtl;
+    justify-content: start;
     justify-items: stretch;
   }
 }
+
+
 

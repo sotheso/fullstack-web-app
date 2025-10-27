@@ -140,11 +140,6 @@
   justify-content: center;
 }
 
-.more-events-button:hover {
-  background: #F26430;
-  color: #fff;
-}
-
 /* About Content Styles */
 .about-content {
   padding: 20px;
@@ -226,19 +221,10 @@
   color: #fff;
 }
 
-.invite-button.primary:hover {
-  background: #e55a2b;
-}
-
 .invite-button.secondary {
   background: #fff;
   color: #F26430;
   border: 1px solid #F26430;
-}
-
-.invite-button.secondary:hover {
-  background: #F26430;
-  color: #fff;
 }
 
 .invite-icon {

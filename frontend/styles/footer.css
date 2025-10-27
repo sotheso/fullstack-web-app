@@ -43,11 +43,6 @@
   cursor: pointer;
 }
 
-.social-icon:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.2);
-}
-
 .social-icon svg {
   width: 24px;
   height: 24px;
@@ -76,10 +71,6 @@
   cursor: pointer;
 }
 
-.footer-link:hover {
-  color: #f97316;
-}
-
 .footer-logo {
   width: 55px; /* کاهش از 100px */
   height: 30px; /* کاهش از 65px */
@@ -94,11 +85,6 @@
   object-fit: contain;
   transition: transform 0.3s ease;
   cursor: pointer;
-}
-
-.logo-image:hover {
-  transform: scale(1.15);
-  filter: brightness(1.1);
 }
 
 /* Responsive Design */

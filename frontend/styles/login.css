@@ -120,7 +120,6 @@
   font-size: 18px;
   line-height: 1.5;
 }
-.login-button:hover { background: #e05525; }
 .login-button:disabled { opacity: .6; cursor: not-allowed; }
 .login-button:active { transform: translateY(1px); }
 
@@ -165,7 +164,6 @@
   cursor: pointer;
   transition: background .2s, color .2s, box-shadow .2s;
 }
-.social-btn:hover { background: #F26430; color: #fff; box-shadow: 0 8px 20px rgba(242,100,48,0.2); }
 .social-icon { width: 20px; height: 20px; }
 
 .login-signup { margin-top: 18px; text-align: center; }

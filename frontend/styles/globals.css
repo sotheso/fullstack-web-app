@@ -65,6 +65,14 @@ html, body {
   -webkit-touch-callout: none;
 }
 
+/* Web App Layout - محدود کردن عرض به 450px */
+#__next {
+  max-width: 550px;
+  margin: 0 auto;
+  background: #FFFFFF;
+  min-height: 100vh;
+}
+
 /* Prevent horizontal scroll on mobile while allowing inner components (e.g., Stories) to scroll horizontally */
 @media (max-width: 768px) {
   html, body {
@@ -176,31 +184,18 @@ h1, h2, h3, h4, h5, h6 {
   padding-right: 20px;
 }
 
-@media (min-width: 768px) {
-  .details-container {
-    padding-left: 94px;
-    padding-right: 94px;
-  }
-}
-
 .top-bar {
-  width: 100vw;
-  max-width: 100vw;
+  width: 100%;
+  max-width: 100%;
   height: 67px;
   flex-shrink: 0;
   background: transparent;
-  margin: 0 -20px;
+  margin: 0;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-}
-
-@media (min-width: 768px) {
-  .top-bar {
-    margin: 0 -94px;
-  }
 }
 
 .address-text {

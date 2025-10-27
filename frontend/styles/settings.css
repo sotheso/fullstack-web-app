@@ -26,10 +26,6 @@
   transition: background-color 0.2s ease;
 }
 
-.back-button:hover {
-  background-color: rgba(242, 100, 48, 0.1);
-}
-
 .settings-title {
   font-family: Ravi;
   font-size: 16px;
@@ -221,10 +217,6 @@
   z-index: 1;
 }
 
-.edit-button:hover {
-  background-color: rgba(242, 100, 48, 0.1);
-}
-
 /* Logout Section */
 .logout-section {
   display: flex;
@@ -244,11 +236,6 @@
   cursor: pointer;
   transition: all 0.2s ease;
   min-width: 200px;
-}
-
-.logout-button:hover {
-  background: #F26430;
-  color: #fff;
 }
 
 /* Logout Modal */
@@ -342,18 +329,9 @@
   border: 1px solid #F26430;
 }
 
-.logout-modal-button.confirm:hover {
-  background: #F26430;
-  color: #fff;
-}
-
 .logout-modal-button.cancel {
   background: #F26430;
   color: #fff;
-}
-
-.logout-modal-button.cancel:hover {
-  background: #e55a2b;
 }
 
 /* Responsive Design */
