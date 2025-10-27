@@ -8,8 +8,8 @@
 
 .carousel-container {
   position: relative;
-  left: -20px;
-  width: calc(100% + 40px);
+  left: -8px;
+  width: calc(100% + 16px);
   padding-left: 0px;
   padding-right: 0px;
   box-sizing: border-box;

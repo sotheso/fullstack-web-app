@@ -246,8 +246,8 @@ const EventsPage: React.FC = () => {
 
         @media (min-width: 768px) {
           .home-container {
-            padding-left: 94px;
-            padding-right: 94px; /* فاصله یکسان از راست و چپ */
+            padding-left: 40px;
+            padding-right: 40px; /* فاصله یکسان از راست و چپ */
             padding-top: 0;
           }
         }

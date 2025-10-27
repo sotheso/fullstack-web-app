@@ -181,11 +181,13 @@ const HomePage: React.FC = () => {
 
       <div style={{ height: 48 }} />
 
-      {/* Event Card Carousel - Moved below event cards */}
+
+{/* // استوری ///////////////////////////////////////////// STORY*/}
+      {/* Event Card Carousel - Moved below event cards
       <SectionTitle>:بهترین هایی که دعوتی</SectionTitle>
       <div className="carousel-container">
         <EventCardCarousel />
-      </div>
+      </div> */}
 
       <div style={{ height: 16 }} />
 

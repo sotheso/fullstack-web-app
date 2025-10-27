@@ -115,7 +115,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         height: '9.5625rem',
         flexShrink: 0,
         // Add right margin for spacing from card edge
-        margin: '1rem 0.75rem 1rem 1rem',
+        margin: '1rem 1rem 1rem 1rem',
         overflow: 'hidden',
         borderRadius: '0.75rem',
       }}>
@@ -139,7 +139,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        padding: '0.875rem 0.75rem 0.875rem 0',
+        padding: '1rem',
         direction: 'rtl',
       }}>
         {/* Top Row: Title and مشاهده button */}
@@ -204,7 +204,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
 
         {/* Divider Line */}
         <div style={{
-          width: 'calc(100% - 0.75rem)',
+          width: '100%',
           height: '1px',
           background: '#E8E8E8',
           margin: '0.125rem 0 1rem 0',
@@ -288,7 +288,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
       <style jsx>{`
         /* Title font-size is controlled inline to allow dynamic sizing */
         .event-card > div:first-child {
-          margin: 1rem 0 1rem 1rem; /* no right margin on desktop */
+          margin: 0.5rem 0.5rem 0.5rem 0.5rem !important;
         }
         @media (max-width: 43.75rem) {
           .event-card {

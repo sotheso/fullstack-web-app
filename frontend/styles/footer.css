@@ -1,7 +1,7 @@
-/* Footer Styles */
+/* Footer Styles - همیشه حالت موبایل */
 .footer {
   background: #FFFFFF;
-  height: 81px;
+  height: 60px;
   padding: 0;
   margin-top: auto;
   position: relative;
@@ -9,30 +9,30 @@
 }
 
 .footer-container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .footer-left {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0.25rem;
 }
 
 .social-icons {
   display: flex;
-  gap: 1rem;
+  gap: 0.25rem;
 }
 
 .social-icon {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
   aspect-ratio: 1/1;
   display: flex;
@@ -44,19 +44,19 @@
 }
 
 .social-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 14px;
+  height: 14px;
 }
 
 .footer-right {
   display: flex;
   align-items: center;
-  gap: 1.5rem; /* فاصله بین لینک‌ها و لوگو */
+  gap: 0.5rem; /* فاصله بین لینک‌ها و لوگو */
 }
 
 .footer-links {
   display: flex;
-  gap: 2rem;
+  gap: 0.5rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -65,15 +65,16 @@
 .footer-link {
   color: #1f2937;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.7rem;
   font-weight: 500;
   transition: color 0.3s ease;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .footer-logo {
-  width: 55px; /* کاهش از 100px */
-  height: 30px; /* کاهش از 65px */
+  width: 50px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,53 +88,3 @@
   cursor: pointer;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .footer {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .footer-container {
-    gap: 0.8rem;
-    padding: 0 20px;
-  }
-  
-  .footer-links {
-    gap: 0.8rem;
-    font-size: 0.85rem;
-  }
-  
-  .footer-link {
-    white-space: nowrap;
-    font-size: 0.8rem;
-  }
-  
-  /* مخفی کردن بلاگ و تماس با ما در موبایل */
-  .blog-link,
-  .contact-link {
-    display: none;
-  }
-  
-  .social-icons {
-    gap: 0.5rem;
-  }
-  
-  .social-icon {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-    aspect-ratio: 1/1;
-  }
-  
-  .social-icon svg {
-    width: 18px;
-    height: 18px;
-  }
-  
-  .footer-logo {
-    width: 70px;
-    height: 45px;
-  }
-}

@@ -6,7 +6,8 @@ const TopBar: React.FC = () => {
   const router = useRouter();
   const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
-  const [isMobile, setIsMobile] = useState(false);
+  // همیشه حالت موبایل را نمایش بده
+  const isMobile = true;
   const [isClient, setIsClient] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -34,10 +35,6 @@ const TopBar: React.FC = () => {
 
   useEffect(() => {
     setIsClient(true);
-    const decide = () => setIsMobile(window.innerWidth < 768);
-    decide();
-    window.addEventListener('resize', decide);
-    return () => window.removeEventListener('resize', decide);
   }, []);
 
   // Handle scroll behavior for mobile
