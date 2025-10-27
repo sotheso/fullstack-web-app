@@ -1,4 +1,4 @@
-.signin-page { min-height: 100vh; background: #FCFCFC; display:flex; align-items:flex-start; justify-content:center; padding:16px; padding-top: 100px; }
+.signin-page { min-height: 100vh; background: #FFFFFF; display:flex; align-items:flex-start; justify-content:center; padding:16px; padding-top: 100px; }
 .signin-container { width: 100%; max-width: 720px; text-align: center; margin: 0 auto; }
 .signin-container { margin-top: 0; }
 .signin-logo { text-align: center; margin-bottom: 16px; }
@@ -9,7 +9,7 @@
 .signin-link:hover { opacity:.9; }
 .signin-form { display:flex; flex-direction:column; align-items:center; gap: 16px; }
 .signin-label { display: block; width: 520px; max-width: 100%; text-align: right; color: #000; font-size: 16px; font-weight: 400; margin-bottom: 8px; font-family: Ravi, sans-serif; }
-.signin-input-wrap { position: relative; width: 520px; max-width: 100%; background: #FCFCFC; border: 1px solid #EDEDED; border-radius: 9999px; padding: 10px 18px 10px 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.06) inset; transition: box-shadow .2s ease, border-color .2s ease; }
+.signin-input-wrap { position: relative; width: 520px; max-width: 100%; background: #FFFFFF; border: 1px solid #EDEDED; border-radius: 9999px; padding: 10px 18px 10px 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.06) inset; transition: box-shadow .2s ease, border-color .2s ease; }
 .signin-input-dot { position:absolute; left: 14px; top:50%; transform: translateY(-50%); width: 28px; height: 28px; background:#F26430; border-radius:9999px; opacity:.2; transition: opacity .2s ease, transform .2s ease; }
 .signin-input-wrap:focus-within { border-color: #F26430; box-shadow: 0 0 0 3px rgba(242,100,48,0.2), 0 8px 30px rgba(0,0,0,0.06) inset; }
 .signin-input-wrap:focus-within .signin-input-dot { opacity: .35; transform: translateY(-50%) scale(1.1); }

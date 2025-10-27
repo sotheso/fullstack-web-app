@@ -24,10 +24,10 @@ export default function App({ Component, pageProps }: AppProps) {
   const [isOffline, setIsOffline] = useState(false);
 
   // Pages that require authentication
-  const protectedPages = ['/profile', '/settings', '/bookmarks'];
+  const protectedPages = ['/home', '/profile', '/settings', '/bookmarks', '/events', '/blogs'];
   
   // Pages that should redirect if already authenticated
-  const authPages = ['/login', '/signin', '/complete-profile'];
+  const authPages = ['/', '/login', '/signin', '/complete-profile', '/forgot-password'];
 
   useEffect(() => {
     // Check initial online status
@@ -40,16 +40,23 @@ export default function App({ Component, pageProps }: AppProps) {
     const checkAuth = () => {
       const user = localStorage.getItem('user');
       const currentPath = router.pathname;
+      const hasUser = !!user;
       
       // If accessing protected page without authentication
-      if (protectedPages.includes(currentPath) && !user) {
+      if (protectedPages.includes(currentPath) && !hasUser) {
         router.push('/login');
         return;
       }
       
       // If accessing auth pages while already authenticated
-      if (authPages.includes(currentPath) && user) {
-        router.push('/');
+      if (authPages.includes(currentPath) && hasUser) {
+        router.push('/home');
+        return;
+      }
+      
+      // Special handling for root path (/)
+      if (currentPath === '/' && hasUser) {
+        router.push('/home');
         return;
       }
     };
@@ -100,7 +107,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 showOfflineError={isOffline}
               />
             )}
-            <TopBar />
+            {!authPages.includes(router.pathname) && <TopBar />}
             <Component {...pageProps} />
             <AddToHomeScreen />
           </EventDetailsProvider>

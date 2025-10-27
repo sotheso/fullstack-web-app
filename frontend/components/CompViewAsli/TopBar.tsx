@@ -14,7 +14,7 @@ const TopBar: React.FC = () => {
   // تشخیص تب فعال
   const getActiveTab = () => {
     const path = router.pathname;
-    if (path === '/') return 'home';
+    if (path === '/home') return 'home';
     if (path === '/events') return 'calendar';
     if (path === '/bookmarks') return 'bookmark';
     if (path === '/profile') return 'profile';
@@ -143,7 +143,7 @@ const TopBar: React.FC = () => {
       <div style={itemsContainerStyle}>
         <Item
           label="home"
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/home')}
           renderIcon={(isActive) => (
             <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
               <path d="M17.9995 21.333V28H13.9995V21.333H17.9995ZM15.9995 6.60156C17.4792 6.60156 18.7221 7.66639 21.2065 9.7959L22.5396 10.9385C23.9141 12.1166 24.6013 12.7063 24.9673 13.502C25.3331 14.2975 25.3335 15.2026 25.3335 17.0127V22.667C25.3335 25.1807 25.3331 26.4377 24.5522 27.2188C23.8435 27.9275 22.7427 27.992 20.6665 27.998V21.333C20.6663 19.8604 19.4722 18.667 17.9995 18.667H13.9995C12.5271 18.6673 11.3337 19.8606 11.3335 21.333V27.998C9.25713 27.992 8.15652 27.9275 7.44775 27.2188C6.66675 26.4377 6.6665 25.1809 6.6665 22.667V17.0127C6.6665 15.2025 6.66687 14.2975 7.03271 13.502C7.39866 12.7063 8.08593 12.1166 9.46045 10.9385L10.7935 9.7959C13.2777 7.66655 14.52 6.60172 15.9995 6.60156Z" fill={isActive ? '#F26430' : 'none'} stroke={isActive ? '#F26430' : '#33363F'} strokeWidth="2"/>

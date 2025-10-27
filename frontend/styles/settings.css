@@ -1,7 +1,7 @@
 /* Settings Page Styles */
 .settings-container {
   min-height: 100vh;
-  background: #FCFCFC;
+  background: #FFFFFF;
   padding: 20px;
   direction: rtl;
 }
@@ -43,7 +43,7 @@
   gap: 16px;
   margin-bottom: 32px;
   padding: 24px;
-  background: #FCFCFC;
+  background: #FFFFFF;
 }
 
 .profile-avatar {
@@ -130,7 +130,7 @@
   padding: 12px 40px 12px 12px;
   border-radius: 16px;
   border: 1px solid #EDEDED;
-  background: #FCFCFC;
+  background: #FFFFFF;
   font-family: Ravi;
   font-size: 14px;
   color: #000;
@@ -147,7 +147,7 @@
   padding: 8px 16px;
   border-radius: 16px;
   border: 1px solid #EDEDED;
-  background: #FCFCFC;
+  background: #FFFFFF;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

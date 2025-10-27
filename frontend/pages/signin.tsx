@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { Title, Subtitle, InputPill, PrimaryButton, ErrorNotice } from '../components/CompLog';
 
 export default function SignIn() {
   const router = useRouter();
@@ -71,7 +72,7 @@ export default function SignIn() {
           if (data.userExists) {
             // User exists - save to localStorage and redirect to home
             localStorage.setItem('user', JSON.stringify(data.user));
-            router.push('/');
+            router.push('/home');
           } else {
             // User doesn't exist - redirect to complete profile page
             router.push(`/complete-profile?phone=${encodeURIComponent(phone)}`);
@@ -99,80 +100,99 @@ export default function SignIn() {
     <>
       <Head>
         <title>ثبت نام - Davvvat</title>
+        <meta name="description" content="صفحه ثبت نام در سیستم Davvvat" />
       </Head>
 
-      <div className="signin-page">
+      <div className="login-page">
         <div className="signin-container">
           {step === 'phone' ? (
             <>
-              <h1 className="signin-title">!شما دعوت شدید</h1>
-              <p className="signin-subtitle">لطفا شماره‌ات رو وارد کن تا از ایونت‌ها و اتفاقات باخبر باشی.</p>
-              <p style={{ textAlign: 'center', marginBottom: '20px' }}>
-                <a href="/login" className="signin-link">قبلا ثبت نام کردم</a>
-              </p>
+              <Title>!شما دعوت شدید</Title>
+              <Subtitle>لطفا شماره‌ات رو وارد کن تا از ایونت‌ها و اتفاقات باخبر باشی.</Subtitle>
+
+              <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+                <a href="/login" style={{ color: '#F26430', textDecoration: 'none', fontSize: '14px' }}>
+                  قبلا ثبت نام کردم
+                </a>
+              </div>
 
               <form onSubmit={handleSubmit} className="signin-form" dir="rtl">
-                <div className="signin-input-wrap">
-                  <input
-                    className="signin-input"
-                    type="tel"
-                    inputMode="decimal"
-                    lang="en"
-                    pattern="[0-9]*"
-                    autoComplete="tel"
-                    placeholder="مثال: 09123456789  -  شماره تماس به انگلیسی"
-                    value={phone}
-                    onChange={e => setPhone(e.target.value.replace(/[^\d]/g, ''))}
+                <InputPill
+                  type="tel"
+                  inputMode="tel"
+                  id="phone"
+                  name="phone"
+                  value={phone}
+                  onChange={e => setPhone(e.target.value.replace(/[^\d]/g, ''))}
+                  required
+                  placeholder="مثال: 09123456789  -  شماره تماس به انگلیسی"
+                />
+
+                {error && (<ErrorNotice>{error}</ErrorNotice>)}
+
+                <label style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '8px', 
+                  marginBottom: '16px',
+                  fontSize: '14px',
+                  color: '#666',
+                  cursor: 'pointer'
+                }}>
+                  <input 
+                    type="checkbox" 
+                    checked={accept} 
+                    onChange={e => setAccept(e.target.checked)}
+                    style={{ margin: 0 }}
                   />
-                </div>
-
-                {error && <div className="signin-error">{error}</div>}
-
-                <label className="signin-terms">
-                  <input type="checkbox" checked={accept} onChange={e => setAccept(e.target.checked)} />
                   <span>
-                    با ثبت نام در دعوت <a href="#">قوانین و شرایط</a> و <a href="#">بیانیه حریم خصوصی</a> را قبول می‌کنم.
+                    با ثبت نام در دعوت <a href="#" style={{ color: '#F26430' }}>قوانین و شرایط</a> و <a href="#" style={{ color: '#F26430' }}>بیانیه حریم خصوصی</a> را قبول می‌کنم.
                   </span>
                 </label>
 
-                <button type="submit" className="signin-button" disabled={isLoading}>
+                <PrimaryButton type="submit" isLoading={isLoading}>
                   {isLoading ? 'در حال ارسال...' : 'ادامه'}
-                </button>
+                </PrimaryButton>
               </form>
             </>
           ) : (
             <>
-              <h1 className="signin-title">کد تأیید</h1>
-              <p className="signin-subtitle">کد ۶ رقمی ارسال شده به شماره {phone} را وارد کنید</p>
+              <Title>کد تأیید</Title>
+              <Subtitle>کد ۶ رقمی ارسال شده به شماره {phone} را وارد کنید</Subtitle>
 
               <form onSubmit={handleSubmit} className="signin-form" dir="rtl">
-                <div className="signin-input-wrap">
-                  <input
-                    className="signin-input"
-                    type="text"
-                    inputMode="decimal"
-                    lang="en"
-                    pattern="[0-9]*"
-                    autoComplete="one-time-code"
-                    placeholder="کد ۶ رقمی (به صورت انگلیسی)"
-                    value={verificationCode}
-                    onChange={e => setVerificationCode(e.target.value.replace(/[^\d]/g, '').slice(0, 6))}
-                    maxLength={6}
-                  />
-                </div>
+                <InputPill
+                  type="text"
+                  inputMode="decimal"
+                  id="verificationCode"
+                  name="verificationCode"
+                  value={verificationCode}
+                  onChange={e => setVerificationCode(e.target.value.replace(/[^\d]/g, '').slice(0, 6))}
+                  required
+                  placeholder="کد ۶ رقمی (به صورت انگلیسی)"
+                  maxLength={6}
+                />
 
-                {error && <div className="signin-error">{error}</div>}
+                {error && (<ErrorNotice>{error}</ErrorNotice>)}
 
                 <div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
-                  <button type="submit" className="signin-button" disabled={isLoading}>
+                  <PrimaryButton type="submit" isLoading={isLoading}>
                     {isLoading ? 'در حال تأیید...' : 'تأیید کد'}
-                  </button>
+                  </PrimaryButton>
                   
                   <button 
                     type="button" 
                     onClick={handleBackToPhone}
-                    className="signin-button"
-                    style={{ backgroundColor: '#666', marginTop: '10px' }}
+                    style={{ 
+                      backgroundColor: '#666', 
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '9999px',
+                      padding: '12px 24px',
+                      fontSize: '16px',
+                      cursor: 'pointer',
+                      marginTop: '10px'
+                    }}
                   >
                     تغییر شماره
                   </button>
@@ -180,6 +200,10 @@ export default function SignIn() {
               </form>
             </>
           )}
+
+          <div className="login-footer">
+            <p>© 2024 Davvvat. تمامی حقوق محفوظ است.</p>
+          </div>
         </div>
       </div>
     </>

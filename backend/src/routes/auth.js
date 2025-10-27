@@ -163,15 +163,15 @@ router.get('/user/:phone', async (req, res) => {
   }
 });
 
-// Login endpoint - check if user exists and return user data
+// Login endpoint - authenticate with phone + password
 router.post('/login', async (req, res) => {
   try {
-    const { phone } = req.body;
+    const { phone, password } = req.body;
 
-    if (!phone) {
+    if (!phone || !password) {
       return res.status(400).json({
         success: false,
-        message: 'شماره تلفن الزامی است',
+        message: 'شماره تلفن و رمز عبور الزامی است',
       });
     }
 
@@ -179,9 +179,27 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ where: { phone } });
 
     if (!user) {
-      return res.status(404).json({
+      return res.status(401).json({
         success: false,
-        message: 'کاربر یافت نشد',
+        message: 'شماره تلفن یا رمز عبور اشتباه است',
+      });
+    }
+
+    // Check if user has a password set
+    if (!user.password) {
+      return res.status(401).json({
+        success: false,
+        message: 'لطفاً ابتدا رمز عبور خود را تنظیم کنید',
+      });
+    }
+
+    // Verify password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: 'شماره تلفن یا رمز عبور اشتباه است',
       });
     }
 
@@ -206,6 +224,92 @@ router.post('/login', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'خطا در ورود',
+    });
+  }
+});
+
+// Forgot password - send SMS code
+router.post('/forgot-password', async (req, res) => {
+  try {
+    const { phone } = req.body;
+
+    if (!phone) {
+      return res.status(400).json({
+        success: false,
+        message: 'شماره تلفن الزامی است',
+      });
+    }
+
+    // Find user by phone
+    const user = await User.findOne({ where: { phone } });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'کاربری با این شماره تلفن یافت نشد',
+      });
+    }
+
+    // Here you would integrate with SMS service to send verification code
+    // For now, we'll just return success
+    res.json({
+      success: true,
+      message: 'کد بازیابی رمز عبور ارسال شد',
+    });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در ارسال کد بازیابی',
+    });
+  }
+});
+
+// Reset password - set new password without SMS verification
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { phone, newPassword } = req.body;
+
+    if (!phone || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'شماره تلفن و رمز عبور جدید الزامی است',
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'رمز عبور باید حداقل ۶ کاراکتر باشد',
+      });
+    }
+
+    // Find user by phone
+    const user = await User.findOne({ where: { phone } });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'کاربری با این شماره تلفن یافت نشد',
+      });
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update user password
+    user.password = hashedPassword;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'رمز عبور با موفقیت تغییر کرد',
+    });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در تغییر رمز عبور',
     });
   }
 });

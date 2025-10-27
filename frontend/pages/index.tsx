@@ -1,208 +1,159 @@
-import React, { useEffect, useState } from 'react';
-import Loader from '../components/Loader';
-import EventCard from '../components/CompViewAsli/EventCard';
-import EventCardCarousel from '../components/CompViewAsli/StoryCards';
-import BannerCard from '../components/CompViewAsli/TopBanner';
-import ReadInvite from '../components/CompViewAsli/ReadInvite';
-import SectionTitle from '../components/CompViewAsli/CompDetails/Text/SectionTitle';
-import FilterButton from '../components/CompViewAsli/CompDetails/ButtonCard/FilterButton';
-import MoreEventsButton from '../components/CompViewAsli/CompDetails/ButtonCard/MoreEventsButton';
-import Footer from '../components/Footer';
-import { EventCardData } from '../Functions/eventCardInfo';
-import { useEventsContext } from '../contexts/EventsContext';
-import OfflineErrorPage from '../components/OfflineErrorPage';
-import { useNetwork } from '../contexts/NetworkContext';
+import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { Title, Subtitle, InputPill, PrimaryButton, ErrorNotice } from '../components/CompLog';
 
-// دکمه‌های فیلتر را از روی مقادیر filterTag ایونت‌ها می‌سازیم
-
-const HomePage: React.FC = () => {
+export default function Login() {
+  const router = useRouter();
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [mounted, setMounted] = useState(false);
-  const { isOnline } = useNetwork();
-  
-  const {
-    events,
-    loading,
-    error,
-    page,
-    hasMoreServer,
-    activeFilter,
-    activeFilterTag,
-    fetchPage,
-    setActiveFilter,
-    setActiveFilterTag,
-    isCached,
-  } = useEventsContext();
 
-  const toEventCardData = (e: any): EventCardData => ({
-    id: String(e.id),
-    image: e.image,
-    eventName: e.eventName,
-    description: e.description,
-    date: e.date,
-    tags: Array.isArray(e.tags) ? e.tags : [],
-    filterTag: e.filterTag,
-    detailsLink: e.detailsLink || '/details',
-  });
-
-  const filteredEvents = activeFilterTag
-    ? events.filter((e: any) => e.filterTag === activeFilterTag)
-    : events;
-
+  // Prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Check for success message from URL params
   useEffect(() => {
-    // فقط اگر cache نشده باشد، دیتا را لود کن
-    if (!isCached) {
-      fetchPage(1, activeFilterTag, false);
+    if (mounted && router.query.message === 'password-reset-success') {
+      setSuccessMessage('رمز عبور شما با موفقیت تغییر کرد. حالا می‌توانید وارد شوید.');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [router.query, mounted]);
 
-  const handleLoadMoreServer = () => {
-    // اگر آفلاین است، درخواست نده
-    if (!isOnline) {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    
+    if (!/^0\d{10}$/.test(phone)) {
+      setError('شماره موبایل را درست وارد کنید.');
       return;
     }
-    const next = page + 1;
-    fetchPage(next, activeFilterTag, true);
+
+    if (!password || password.length < 6) {
+      setError('رمز عبور باید حداقل ۶ کاراکتر باشد.');
+      return;
+    }
+    
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phone, password }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // Save user to localStorage and redirect
+        localStorage.setItem('user', JSON.stringify(data.user));
+        router.push('/');
+      } else {
+        setError(data.message || 'خطا در ورود');
+      }
+    } catch (error) {
+      setError('خطا در ارتباط با سرور');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  // Show loading during mount
-  if (!mounted) {
-    return (
-      <div className="home-container">
-        <div style={{ height: 36}} />
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', minHeight: '50vh', alignItems: 'center' }}>
-          <Loader />
-        </div>
-      </div>
-    );
-  }
+  const handleForgotPassword = () => {
+    router.push('/forgot-password');
+  };
 
-  // اگر نت قطع است و cache هم نداریم
-  if (!isOnline && !isCached && events.length === 0) {
-    return <OfflineErrorPage />;
-  }
+  
 
   return (
-    <div className="home-container">
-      <div style={{ height: 36}} />
+    <>
+      <Head>
+        <title>ورود - Davvvat</title>
+        <meta name="description" content="صفحه ورود به سیستم Davvvat" />
+      </Head>
 
-      {/* Banner Card - New Position */}
-      <div>
-        <SectionTitle>!اگه قرار باشه فقط یه جا بری</SectionTitle>
-        <div style={{ height: 8}} />
-        <BannerCard />
-      </div>
-      <div style={{ height: 16}} />
+      <div className="login-page">
+        <div className="signin-container">
+          <Title>!به دعوت خوش اومدی</Title>
+          <Subtitle>وارد حساب کاربری خود شوید</Subtitle>
 
-      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        <SectionTitle>:همه جاهایی که دعوتی</SectionTitle>
-      </div>
+          <form onSubmit={handleSubmit} className="signin-form" dir="rtl">
+            <InputPill
+              type="tel"
+              inputMode="tel"
+              id="phone"
+              name="phone"
+              value={phone}
+              onChange={e => setPhone(e.target.value.replace(/[^\d]/g, ''))}
+              required
+              placeholder="مثال: 09123456789  -  شماره تماس به انگلیسی"
+            />
 
-      {/* Filter Buttons - wrapped in capsule background */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '8px 0 16px 0', width: '100%' }}>
-        <div className="glassy-action-bar-inner">
-          <div className="filter-bar" style={{ margin: 0 }}>
-            <FilterButton
-              key="all"
-              label="همه"
-              active={activeFilter === 0}
-              onClick={() => {
-                setActiveFilter(0);
-                setActiveFilterTag(null);
-                fetchPage(1, null, false);
-              }}
+            <InputPill
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+              placeholder="رمز عبور خود را وارد کنید"
             />
-            <FilterButton
-              key="popular"
-              label="محبوب‌ترین"
-              active={activeFilter === 1}
-              onClick={() => {
-                setActiveFilter(1);
-                setActiveFilterTag('محبوب‌ترین');
-                fetchPage(1, 'محبوب‌ترین', false);
+
+            {error && (<ErrorNotice>{error}</ErrorNotice>)}
+
+            {mounted && successMessage && (
+              <div style={{
+                backgroundColor: '#d4edda',
+                color: '#155724',
+                padding: '12px',
+                borderRadius: '8px',
+                marginBottom: '16px',
+                fontSize: '14px',
+                textAlign: 'center'
+              }}>
+                {successMessage}
+              </div>
+            )}
+
+            <PrimaryButton type="submit" isLoading={isLoading}>
+              {isLoading ? 'در حال ورود...' : 'ورود'}
+            </PrimaryButton>
+          </form>
+
+          <div style={{ marginTop: '16px', textAlign: 'center' }}>
+            <button 
+              type="button" 
+              onClick={handleForgotPassword}
+              style={{ 
+                background: 'none', 
+                border: 'none', 
+                color: '#F26430', 
+                cursor: 'pointer',
+                fontSize: '14px',
+                textDecoration: 'underline'
               }}
-            />
-            <FilterButton
-              key="newest"
-              label="جدید ترین"
-              active={activeFilter === 2}
-              onClick={() => {
-                setActiveFilter(2);
-                setActiveFilterTag('جدید ترین');
-                fetchPage(1, 'جدید ترین', false);
-              }}
-            />
+            >
+              فراموشی رمز عبور
+            </button>
+          </div>
+
+          <div className="login-signup">
+            <p className="login-signup-text">
+              حساب کاربری ندارید؟{' '}
+              <a href="/signin" className="login-link">ثبت نام کنید</a>
+            </p>
+          </div>
+
+          <div className="login-footer">
+            <p>© 2024 Davvvat. تمامی حقوق محفوظ است.</p>
           </div>
         </div>
       </div>
-
-      <div
-        className="events-grid"
-      >
-        {loading && (
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <Loader />
-          </div>
-        )}
-        {!loading && !error && filteredEvents.map((e: any) => (
-          <EventCard
-            key={e.id}
-            eventData={toEventCardData(e)}
-            onFilter={(tag) => setActiveFilterTag(tag)}
-          />
-        ))}
-        {!loading && error && (
-          <>
-            <EventCard />
-            <EventCard />
-          </>
-        )}
-      </div>
-
-      {/* Load more controls */}
-      {!loading && !error && hasMoreServer && (
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 12 }}>
-          <MoreEventsButton 
-            onClick={handleLoadMoreServer}
-            disabled={!isOnline}
-            style={{
-              opacity: !isOnline ? 0.5 : 1,
-              cursor: !isOnline ? 'not-allowed' : 'pointer',
-            }}
-          >
-            ایونت‌های بیشتر
-          </MoreEventsButton>
-        </div>
-      )}
-
-      <div style={{ height: 48 }} />
-
-      {/* Event Card Carousel - Moved below event cards */}
-      <SectionTitle>:بهترین هایی که دعوتی</SectionTitle>
-      <div className="carousel-container">
-        <EventCardCarousel />
-      </div>
-
-      <div style={{ height: 16 }} />
-
-      <SectionTitle>دعوت به خواندن</SectionTitle>
-      <div style={{ height: 8}} />
-      <ReadInvite />
-
-      {/* Brands section - temporarily disabled */}
-      {/* <SectionTitle>برندها</SectionTitle>
-      <BottomImage /> */}
-
-      <div style={{ height: 100}} />
-
-      {/* Footer */}
-      <Footer />
-    </div>
+    </>
   );
-};
-
-export default HomePage;
+}

@@ -11,7 +11,7 @@ export function PrimaryButton({ isLoading, children, className, disabled, ...res
       disabled={disabled || isLoading}
       {...rest}
     >
-      {isLoading ? 'در حال ارسال...' : children}
+      {children}
     </button>
   );
 }

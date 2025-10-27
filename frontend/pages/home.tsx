@@ -1,0 +1,208 @@
+import React, { useEffect, useState } from 'react';
+import Loader from '../components/Loader';
+import EventCard from '../components/CompViewAsli/EventCard';
+import EventCardCarousel from '../components/CompViewAsli/StoryCards';
+import BannerCard from '../components/CompViewAsli/TopBanner';
+import ReadInvite from '../components/CompViewAsli/ReadInvite';
+import SectionTitle from '../components/CompViewAsli/CompDetails/Text/SectionTitle';
+import FilterButton from '../components/CompViewAsli/CompDetails/ButtonCard/FilterButton';
+import MoreEventsButton from '../components/CompViewAsli/CompDetails/ButtonCard/MoreEventsButton';
+import Footer from '../components/Footer';
+import { EventCardData } from '../Functions/eventCardInfo';
+import { useEventsContext } from '../contexts/EventsContext';
+import OfflineErrorPage from '../components/OfflineErrorPage';
+import { useNetwork } from '../contexts/NetworkContext';
+
+// دکمه‌های فیلتر را از روی مقادیر filterTag ایونت‌ها می‌سازیم
+
+const HomePage: React.FC = () => {
+  const [mounted, setMounted] = useState(false);
+  const { isOnline } = useNetwork();
+  
+  const {
+    events,
+    loading,
+    error,
+    page,
+    hasMoreServer,
+    activeFilter,
+    activeFilterTag,
+    fetchPage,
+    setActiveFilter,
+    setActiveFilterTag,
+    isCached,
+  } = useEventsContext();
+
+  const toEventCardData = (e: any): EventCardData => ({
+    id: String(e.id),
+    image: e.image,
+    eventName: e.eventName,
+    description: e.description,
+    date: e.date,
+    tags: Array.isArray(e.tags) ? e.tags : [],
+    filterTag: e.filterTag,
+    detailsLink: e.detailsLink || '/details',
+  });
+
+  const filteredEvents = activeFilterTag
+    ? events.filter((e: any) => e.filterTag === activeFilterTag)
+    : events;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    // فقط اگر cache نشده باشد، دیتا را لود کن
+    if (!isCached) {
+      fetchPage(1, activeFilterTag, false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleLoadMoreServer = () => {
+    // اگر آفلاین است، درخواست نده
+    if (!isOnline) {
+      return;
+    }
+    const next = page + 1;
+    fetchPage(next, activeFilterTag, true);
+  };
+
+  // Show loading during mount
+  if (!mounted) {
+    return (
+      <div className="home-container">
+        <div style={{ height: 36}} />
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', minHeight: '50vh', alignItems: 'center' }}>
+          <Loader />
+        </div>
+      </div>
+    );
+  }
+
+  // اگر نت قطع است و cache هم نداریم
+  if (!isOnline && !isCached && events.length === 0) {
+    return <OfflineErrorPage />;
+  }
+
+  return (
+    <div className="home-container">
+      <div style={{ height: 36}} />
+
+      {/* Banner Card - New Position */}
+      <div>
+        <SectionTitle>!اگه قرار باشه فقط یه جا بری</SectionTitle>
+        <div style={{ height: 8}} />
+        <BannerCard />
+      </div>
+      <div style={{ height: 16}} />
+
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <SectionTitle>:همه جاهایی که دعوتی</SectionTitle>
+      </div>
+
+      {/* Filter Buttons - wrapped in capsule background */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '8px 0 16px 0', width: '100%' }}>
+        <div className="glassy-action-bar-inner">
+          <div className="filter-bar" style={{ margin: 0 }}>
+            <FilterButton
+              key="all"
+              label="همه"
+              active={activeFilter === 0}
+              onClick={() => {
+                setActiveFilter(0);
+                setActiveFilterTag(null);
+                fetchPage(1, null, false);
+              }}
+            />
+            <FilterButton
+              key="popular"
+              label="محبوب‌ترین"
+              active={activeFilter === 1}
+              onClick={() => {
+                setActiveFilter(1);
+                setActiveFilterTag('محبوب‌ترین');
+                fetchPage(1, 'محبوب‌ترین', false);
+              }}
+            />
+            <FilterButton
+              key="newest"
+              label="جدید ترین"
+              active={activeFilter === 2}
+              onClick={() => {
+                setActiveFilter(2);
+                setActiveFilterTag('جدید ترین');
+                fetchPage(1, 'جدید ترین', false);
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="events-grid"
+      >
+        {loading && (
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <Loader />
+          </div>
+        )}
+        {!loading && !error && filteredEvents.map((e: any) => (
+          <EventCard
+            key={e.id}
+            eventData={toEventCardData(e)}
+            onFilter={(tag) => setActiveFilterTag(tag)}
+          />
+        ))}
+        {!loading && error && (
+          <>
+            <EventCard />
+            <EventCard />
+          </>
+        )}
+      </div>
+
+      {/* Load more controls */}
+      {!loading && !error && hasMoreServer && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 12 }}>
+          <MoreEventsButton 
+            onClick={handleLoadMoreServer}
+            disabled={!isOnline}
+            style={{
+              opacity: !isOnline ? 0.5 : 1,
+              cursor: !isOnline ? 'not-allowed' : 'pointer',
+            }}
+          >
+            ایونت‌های بیشتر
+          </MoreEventsButton>
+        </div>
+      )}
+
+      <div style={{ height: 48 }} />
+
+      {/* Event Card Carousel - Moved below event cards */}
+      <SectionTitle>:بهترین هایی که دعوتی</SectionTitle>
+      <div className="carousel-container">
+        <EventCardCarousel />
+      </div>
+
+      <div style={{ height: 16 }} />
+
+      <SectionTitle>دعوت به خواندن</SectionTitle>
+      <div style={{ height: 8}} />
+      <ReadInvite />
+
+      {/* Brands section - temporarily disabled */}
+      {/* <SectionTitle>برندها</SectionTitle>
+      <BottomImage /> */}
+
+      <div style={{ height: 100}} />
+
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
+};
+
+export default HomePage;

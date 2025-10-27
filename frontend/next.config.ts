@@ -45,6 +45,14 @@ const nextConfig: NextConfig = {
         poll: 1000,
         aggregateTimeout: 300,
       };
+      
+      // Fix HMR issues
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
     }
     return config;
   },
