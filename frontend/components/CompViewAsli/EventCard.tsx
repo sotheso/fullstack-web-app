@@ -94,13 +94,15 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         display: 'flex',
         flexDirection: 'row-reverse',
         alignItems: 'stretch',
-        width: '100%',
         maxWidth: '100%',
         minHeight: '11.5rem',
         flexShrink: 0,
         borderRadius: '1.5rem',
         background: '#FCFCFC',
         padding: 0,
+        marginLeft: '-20px',
+        marginRight: '-20px',
+        width: 'calc(100% + 40px)',
         boxSizing: 'border-box',
         overflow: 'hidden',
         cursor: 'pointer',
@@ -115,7 +117,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         height: '9.5625rem',
         flexShrink: 0,
         // Add right margin for spacing from card edge
-        margin: '1rem 1rem 1rem 1rem',
+        margin: '1.25rem 1.25rem 1.25rem 1.25rem',
         overflow: 'hidden',
         borderRadius: '0.75rem',
       }}>
@@ -139,7 +141,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        padding: '1rem',
+        padding: '1.25rem',
         direction: 'rtl',
       }}>
         {/* Top Row: Title and مشاهده button */}
@@ -292,13 +294,23 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
         
         @media (max-width: 43.75rem) {
           .event-card {
-            width: 100% !important;
-            max-width: 100% !important;
+            width: calc(100% + 40px) !important;
+            max-width: calc(100% + 40px) !important;
             height: auto !important;
             min-height: 8.75rem !important;
           }
           .event-card > div:first-child {
-            margin: 0.5rem 0 0.5rem 0.5rem !important; /* remove right margin on mobile */
+            margin: 1.25rem 1.25rem 1.25rem 0rem !important; /* restore margin on mobile */
+          }
+        }
+        
+        @media (min-width: 43.76rem) {
+          .event-card {
+            width: calc(100% + 40px) !important;
+            max-width: calc(100% + 40px) !important;
+          }
+          .event-card > div:first-child {
+            margin: 1.25rem 1.25rem 1.25rem 0rem !important; /* restore margin on desktop */
           }
           .event-card > div:last-child > div:nth-child(2) {
             margin: 0.125rem 0 0.5rem 0 !important;

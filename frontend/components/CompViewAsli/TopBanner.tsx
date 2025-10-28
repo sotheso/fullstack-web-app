@@ -38,7 +38,7 @@ const BannerCard: React.FC = () => {
           alignItems: 'stretch',
           justifyContent: 'flex-start',
           position: 'relative',
-          padding: '1rem',
+          padding: '1.25rem',
           boxSizing: 'border-box',
           margin: '0 auto',
           cursor: 'pointer',

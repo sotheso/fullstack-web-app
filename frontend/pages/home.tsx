@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Loader from '../components/Loader';
 import EventCard from '../components/CompViewAsli/EventCard';
 import EventCardCarousel from '../components/CompViewAsli/StoryCards';
@@ -16,6 +17,7 @@ import { useNetwork } from '../contexts/NetworkContext';
 // دکمه‌های فیلتر را از روی مقادیر filterTag ایونت‌ها می‌سازیم
 
 const HomePage: React.FC = () => {
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const { isOnline } = useNetwork();
   
@@ -61,12 +63,8 @@ const HomePage: React.FC = () => {
   }, []);
 
   const handleLoadMoreServer = () => {
-    // اگر آفلاین است، درخواست نده
-    if (!isOnline) {
-      return;
-    }
-    const next = page + 1;
-    fetchPage(next, activeFilterTag, true);
+    // Navigate to events page instead of loading more events
+    router.push('/events');
   };
 
   // Show loading during mount
@@ -168,11 +166,6 @@ const HomePage: React.FC = () => {
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 12 }}>
           <MoreEventsButton 
             onClick={handleLoadMoreServer}
-            disabled={!isOnline}
-            style={{
-              opacity: !isOnline ? 0.5 : 1,
-              cursor: !isOnline ? 'not-allowed' : 'pointer',
-            }}
           >
             ایونت‌های بیشتر
           </MoreEventsButton>
