@@ -177,7 +177,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
           <button
             onClick={handleViewClick}
             style={{
-              padding: '0 0 0 0.75rem',
+              padding: '0rem',
               background: 'transparent',
               color: '#F26430',
               textAlign: 'justify',
@@ -191,7 +191,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
               transition: 'color 0.2s ease',
               whiteSpace: 'nowrap',
               flexShrink: 0, // don't let the button shrink or move
-              minWidth: '64px', // reserve space so title never pushes it
+              minWidth: '48px', // reserve space so title never pushes it
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = '#E55A2B';
@@ -209,7 +209,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
           width: '100%',
           height: '1px',
           background: '#E8E8E8',
-          margin: '0.125rem 0 1rem 0',
+          margin: '0.5rem 0 0.5rem 0',
         }} />
 
         {/* Description */}
@@ -241,7 +241,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
             display: 'flex',
             alignItems: 'center',
             gap: '0.375rem',
-            fontSize: '0.719rem',
+            fontSize: '0.875rem',
             color: '#888',
             fontFamily: 'Ravi',
           }}>
@@ -258,7 +258,7 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
               display: 'flex',
               alignItems: 'center',
               gap: '0.375rem',
-              fontSize: '0.719rem',
+              fontSize: '0.875rem',
               color: '#888',
               fontFamily: 'Ravi',
             }}>
@@ -314,6 +314,12 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
           }
           .event-card > div:last-child > div:nth-child(2) {
             margin: 0.125rem 0 0.5rem 0 !important;
+          }
+          .event-card h3 {
+            font-size: 1.1rem !important; /* larger title on desktop */
+          }
+          .event-card button {
+            font-size: 0.7rem !important; /* larger button text on desktop */
           }
         }
       `}</style>

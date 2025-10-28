@@ -7,6 +7,7 @@ import { EventCardData } from '../Functions/eventCardInfo';
 import { useEventsPageContext } from '../contexts/EventsPageContext';
 import OfflineErrorPage from '../components/OfflineErrorPage';
 import { useNetwork } from '../contexts/NetworkContext';
+import { usePullToRefresh } from '../Functions/usePullToRefresh';
 
 const EventsPage: React.FC = () => {
   const [mounted, setMounted] = useState(false);
@@ -77,8 +78,43 @@ const EventsPage: React.FC = () => {
     return <OfflineErrorPage />;
   }
 
+  // Pull to refresh functionality
+  const { isPulling, isRefreshing, pullDistance, containerRef } = usePullToRefresh({
+    onRefresh: async () => {
+      await fetchPage(1, activeFilterTag);
+    },
+    disabled: loading || !isOnline,
+  });
+
   return (
-    <div className="home-container">
+    <div className="home-container" ref={containerRef}>
+      {/* Pull to refresh indicator */}
+      {(isPulling || isRefreshing) && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: `${Math.min(pullDistance, 80)}px`,
+          background: 'linear-gradient(135deg, #F26430, #E55A2B)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          transform: `translateY(${isRefreshing ? 0 : -80 + Math.min(pullDistance, 80)}px)`,
+          transition: isRefreshing ? 'transform 0.3s ease' : 'none',
+        }}>
+          <div style={{
+            color: 'white',
+            fontSize: '14px',
+            fontWeight: 600,
+            fontFamily: 'Ravi',
+          }}>
+            {isRefreshing ? 'در حال بروزرسانی...' : 'برای بروزرسانی رها کنید'}
+          </div>
+        </div>
+      )}
+      
       <div style={{ height: 36}} />
 
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -269,7 +305,6 @@ const EventsPage: React.FC = () => {
         .events-grid {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 1rem;
           margin: 1rem 0 2rem 0;
           width: 100%;
           max-width: 23.3125rem;

@@ -13,6 +13,7 @@ import { EventCardData } from '../Functions/eventCardInfo';
 import { useEventsContext } from '../contexts/EventsContext';
 import OfflineErrorPage from '../components/OfflineErrorPage';
 import { useNetwork } from '../contexts/NetworkContext';
+import { usePullToRefresh } from '../Functions/usePullToRefresh';
 
 // دکمه‌های فیلتر را از روی مقادیر filterTag ایونت‌ها می‌سازیم
 
@@ -67,6 +68,14 @@ const HomePage: React.FC = () => {
     router.push('/events');
   };
 
+  // Pull to refresh functionality
+  const { isPulling, isRefreshing, pullDistance, containerRef } = usePullToRefresh({
+    onRefresh: async () => {
+      await fetchPage(1, activeFilterTag, false);
+    },
+    disabled: loading || !isOnline,
+  });
+
   // Show loading during mount
   if (!mounted) {
     return (
@@ -85,7 +94,34 @@ const HomePage: React.FC = () => {
   }
 
   return (
-    <div className="home-container">
+    <div className="home-container" ref={containerRef}>
+      {/* Pull to refresh indicator */}
+      {(isPulling || isRefreshing) && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: `${Math.min(pullDistance, 80)}px`,
+          background: 'linear-gradient(135deg, #F26430, #E55A2B)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          transform: `translateY(${isRefreshing ? 0 : -80 + Math.min(pullDistance, 80)}px)`,
+          transition: isRefreshing ? 'transform 0.3s ease' : 'none',
+        }}>
+          <div style={{
+            color: 'white',
+            fontSize: '14px',
+            fontWeight: 600,
+            fontFamily: 'Ravi',
+          }}>
+            {isRefreshing ? 'در حال بروزرسانی...' : 'برای بروزرسانی رها کنید'}
+          </div>
+        </div>
+      )}
+      
       <div style={{ height: 36}} />
 
       {/* Banner Card - New Position */}
