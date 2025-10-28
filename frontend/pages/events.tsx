@@ -58,6 +58,14 @@ const EventsPage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Pull to refresh functionality - MUST be called before any conditional returns
+  const { isPulling, isRefreshing, pullDistance, containerRef } = usePullToRefresh({
+    onRefresh: async () => {
+      await fetchPage(1, activeFilterTag);
+    },
+    disabled: loading || !isOnline,
+  });
+
   // Show loading state during hydration to prevent mismatch
   if (!mounted) {
     return (
@@ -77,14 +85,6 @@ const EventsPage: React.FC = () => {
   if (!isOnline && !isCached && events.length === 0) {
     return <OfflineErrorPage />;
   }
-
-  // Pull to refresh functionality
-  const { isPulling, isRefreshing, pullDistance, containerRef } = usePullToRefresh({
-    onRefresh: async () => {
-      await fetchPage(1, activeFilterTag);
-    },
-    disabled: loading || !isOnline,
-  });
 
   return (
     <div className="home-container" ref={containerRef}>
