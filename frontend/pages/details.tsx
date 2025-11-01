@@ -20,6 +20,11 @@ const DetailsPage: React.FC = () => {
   const { isOnline } = useNetwork();
 
   useEffect(() => {
+    // صبر کن تا router آماده بشه (برای client-side navigation)
+    if (!router.isReady) {
+      return;
+    }
+
     console.log('[DetailsPage] useEffect triggered, id:', id);
     if (id && typeof id === 'string') {
       // ابتدا چک کن آیا در cache هست
@@ -41,7 +46,7 @@ const DetailsPage: React.FC = () => {
         });
       }
     }
-  }, [id, getEventData, fetchEventData]);
+  }, [router.isReady, id, getEventData, fetchEventData]);
 
   // داده‌های پیش‌فرض اگر ایونت پیدا نشد یا در حال بارگذاری
   const defaultData: EventData = {
@@ -79,6 +84,51 @@ const DetailsPage: React.FC = () => {
     ]
   };
 
+  // اگر router هنوز آماده نیست، منتظر بمان
+  if (!router.isReady) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh' 
+      }}>
+        <Loader />
+      </div>
+    );
+  }
+
+  // اگر id وجود ندارد، صفحه خطا نشان بده
+  if (!id || typeof id !== 'string') {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh',
+        flexDirection: 'column',
+        gap: '16px'
+      }}>
+        <p style={{ color: '#F26430', fontSize: '18px', fontFamily: 'Ravi' }}>ایونت یافت نشد</p>
+        <button 
+          onClick={() => router.back()}
+          style={{
+            padding: '12px 24px',
+            background: '#F26430',
+            color: 'white',
+            border: 'none',
+            borderRadius: '12px',
+            fontSize: '16px',
+            fontFamily: 'Ravi',
+            cursor: 'pointer'
+          }}
+        >
+          بازگشت
+        </button>
+      </div>
+    );
+  }
+
   const data = eventData || defaultData;
   
   console.log('[DetailsPage] Rendering with data:', {
@@ -93,7 +143,7 @@ const DetailsPage: React.FC = () => {
     return <OfflineErrorPage />;
   }
 
-  if (loading) {
+  if (loading && !eventData) {
     return (
       <div style={{ 
         display: 'flex', 

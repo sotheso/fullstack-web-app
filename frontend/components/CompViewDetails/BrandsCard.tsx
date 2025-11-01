@@ -15,6 +15,9 @@ const BrandsCard: React.FC<BrandsCardProps> = ({ brands, onBrandSelect }) => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
 
   useEffect(() => {
+    if (!brands || !Array.isArray(brands)) {
+      return;
+    }
     console.log('[BrandsCard] Initializing selectedBrands from brands:', brands);
     const initialSelected = brands.filter(brand => brand.isSelected && brand.id).map(brand => brand.id);
     console.log('[BrandsCard] Initial selected brands:', initialSelected);
@@ -144,7 +147,7 @@ const BrandsCard: React.FC<BrandsCardProps> = ({ brands, onBrandSelect }) => {
           </svg>
         </div>
         <div className="brands-content">
-          {brands.map((brand, index) => (
+          {brands && Array.isArray(brands) && brands.length > 0 ? brands.map((brand, index) => (
             <button
               key={brand.id || index}
               className="brand-tag"
@@ -152,7 +155,7 @@ const BrandsCard: React.FC<BrandsCardProps> = ({ brands, onBrandSelect }) => {
             >
               {brand.name}
             </button>
-          ))}
+          )) : null}
         </div>
       </div>
     </>

@@ -144,7 +144,7 @@ const EventProgramCard: React.FC<EventProgramCardProps> = ({ programs }) => {
           </svg>
         </div>
         <div className="program-content">
-          {programs.map((program, index) => (
+          {programs && Array.isArray(programs) && programs.length > 0 ? programs.map((program, index) => (
             <div key={index} className="program-item">
               <div className="program-day">
                 {program.day ? `${program.day} ${program.date}` : program.date}
@@ -153,7 +153,7 @@ const EventProgramCard: React.FC<EventProgramCardProps> = ({ programs }) => {
                 {program.description}
               </div>
             </div>
-          ))}
+          )) : null}
         </div>
       </div>
     </>
