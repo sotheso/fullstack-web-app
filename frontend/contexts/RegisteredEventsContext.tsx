@@ -4,8 +4,8 @@ import { EventData } from '../services/api';
 interface RegisteredEventsContextType {
   registeredEvents: EventData[];
   registerForEvent: (event: EventData) => void;
-  unregisterFromEvent: (eventId: string) => void;
-  isRegistered: (eventId: string) => boolean;
+  unregisterFromEvent: (eventId: string | number) => void;
+  isRegistered: (eventId: string | number) => boolean;
 }
 
 const RegisteredEventsContext = createContext<RegisteredEventsContextType | undefined>(undefined);
@@ -44,7 +44,7 @@ export const RegisteredEventsProvider: React.FC<RegisteredEventsProviderProps> =
   const registerForEvent = useCallback((event: EventData) => {
     setRegisteredEvents(prev => {
       // Check if already registered
-      const isAlreadyRegistered = prev.some(e => e.id === event.id);
+      const isAlreadyRegistered = prev.some(e => String(e.id) === String(event.id));
       if (isAlreadyRegistered) {
         return prev;
       }
@@ -53,12 +53,12 @@ export const RegisteredEventsProvider: React.FC<RegisteredEventsProviderProps> =
     });
   }, []);
 
-  const unregisterFromEvent = useCallback((eventId: string) => {
-    setRegisteredEvents(prev => prev.filter(e => e.id !== eventId));
+  const unregisterFromEvent = useCallback((eventId: string | number) => {
+    setRegisteredEvents(prev => prev.filter(e => String(e.id) !== String(eventId)));
   }, []);
 
-  const isRegistered = useCallback((eventId: string): boolean => {
-    return registeredEvents.some(e => e.id === eventId);
+  const isRegistered = useCallback((eventId: string | number): boolean => {
+    return registeredEvents.some(e => String(e.id) === String(eventId));
   }, [registeredEvents]);
 
   const value: RegisteredEventsContextType = {
