@@ -83,9 +83,14 @@ const connectDB = async () => {
     await sequelize.authenticate();
     console.log('MySQL Database Connected Successfully');
     
-    // Sync all models with database (use force: false to avoid data loss)
-    await sequelize.sync({ force: false, alter: false });
-    console.log('Database synchronized');
+    // Sync all models with database
+    // In production, use alter: true to update schema without losing data
+    const syncOptions = process.env.NODE_ENV === 'production' 
+      ? { force: false, alter: true }  // Update schema in production
+      : { force: false, alter: false }; // Don't alter in development
+    
+    await sequelize.sync(syncOptions);
+    console.log('Database synchronized with options:', syncOptions);
   } catch (error) {
     console.error('Error connecting to MySQL Database:', error.message);
     console.error('Error details:', {
