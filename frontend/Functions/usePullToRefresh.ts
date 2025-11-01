@@ -28,6 +28,12 @@ export const usePullToRefresh = (options: PullToRefreshOptions) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isPullingRef = useRef<boolean>(false);
   const pullDistanceRef = useRef<number>(0);
+  const onRefreshRef = useRef(onRefresh);
+
+  // Update ref when onRefresh changes
+  useEffect(() => {
+    onRefreshRef.current = onRefresh;
+  }, [onRefresh]);
 
   useEffect(() => {
     if (disabled) return;
@@ -83,7 +89,7 @@ export const usePullToRefresh = (options: PullToRefreshOptions) => {
         }));
 
         try {
-          await onRefresh();
+          await onRefreshRef.current();
         } catch (error) {
           console.error('Refresh failed:', error);
         } finally {
@@ -113,7 +119,7 @@ export const usePullToRefresh = (options: PullToRefreshOptions) => {
       container.removeEventListener('touchmove', handleTouchMove);
       container.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [disabled, onRefresh, threshold, resistance]);
+  }, [disabled, threshold, resistance]);
 
   return {
     ...state,

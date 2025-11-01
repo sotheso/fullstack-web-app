@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import Loader from '../components/Loader';
 import EventCard from '../components/CompViewAsli/EventCard';
 import SectionTitle from '../components/CompViewAsli/CompDetails/Text/SectionTitle';
@@ -58,14 +58,11 @@ const EventsPage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Memoize refresh callback to prevent unnecessary re-renders
-  const handleRefresh = useCallback(async () => {
-    await fetchPage(1, activeFilterTag);
-  }, [fetchPage, activeFilterTag]);
-
   // Pull to refresh functionality - MUST be called before any conditional returns
   const { isPulling, isRefreshing, pullDistance, containerRef } = usePullToRefresh({
-    onRefresh: handleRefresh,
+    onRefresh: async () => {
+      await fetchPage(1, activeFilterTag);
+    },
     disabled: loading || !isOnline,
   });
 
