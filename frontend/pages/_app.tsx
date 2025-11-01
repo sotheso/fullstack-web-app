@@ -12,6 +12,7 @@ import { EventsProvider } from '../contexts/EventsContext';
 import { EventsPageProvider } from '../contexts/EventsPageContext';
 import { EventDetailsProvider } from '../contexts/EventDetailsContext';
 import { NetworkProvider } from '../contexts/NetworkContext';
+import { RegisteredEventsProvider } from '../contexts/RegisteredEventsContext';
 import '../styles/login.css';
 import '../styles/signin.css';
 import '../styles/settings.css';
@@ -99,17 +100,19 @@ export default function App({ Component, pageProps }: AppProps) {
       <EventsProvider>
         <EventsPageProvider>
           <EventDetailsProvider>
-            <NetworkStatusBanner />
-            {isLoading && (
-              <LoadingScreen 
-                onLoadingComplete={handleLoadingComplete}
-                duration={2000}
-                showOfflineError={isOffline}
-              />
-            )}
-            {!authPages.includes(router.pathname) && <TopBar />}
-            <Component {...pageProps} />
-            <AddToHomeScreen />
+            <RegisteredEventsProvider>
+              <NetworkStatusBanner />
+              {isLoading && (
+                <LoadingScreen 
+                  onLoadingComplete={handleLoadingComplete}
+                  duration={2000}
+                  showOfflineError={isOffline}
+                />
+              )}
+              {!authPages.includes(router.pathname) && <TopBar />}
+              <Component {...pageProps} />
+              <AddToHomeScreen />
+            </RegisteredEventsProvider>
           </EventDetailsProvider>
         </EventsPageProvider>
       </EventsProvider>

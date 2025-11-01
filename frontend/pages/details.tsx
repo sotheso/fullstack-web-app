@@ -8,6 +8,7 @@ import EventProgramCard from '../components/CompViewDetails/EventProgramCard';
 import BrandsCard from '../components/CompViewDetails/BrandsCard';
 import { EventData } from '../services/api';
 import { useEventDetailsContext } from '../contexts/EventDetailsContext';
+import { useRegisteredEvents } from '../contexts/RegisteredEventsContext';
 import Loader from '../components/Loader';
 import OfflineErrorPage from '../components/OfflineErrorPage';
 import { useNetwork } from '../contexts/NetworkContext';
@@ -19,6 +20,7 @@ const DetailsPage: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const { getEventData, fetchEventData, loading, error } = useEventDetailsContext();
   const { isOnline } = useNetwork();
+  const { registerForEvent, unregisterFromEvent, isRegistered } = useRegisteredEvents();
 
   // Track when component is mounted on client
   useEffect(() => {
@@ -144,6 +146,19 @@ const DetailsPage: React.FC = () => {
     brandsCount: data.brands?.length || 0
   });
 
+  // Handle registration button click
+  const handleRegister = () => {
+    if (eventData) {
+      if (isRegistered(String(eventData.id))) {
+        unregisterFromEvent(String(eventData.id));
+      } else {
+        registerForEvent(eventData);
+      }
+    }
+  };
+
+  const registered = eventData ? isRegistered(String(eventData.id)) : false;
+
   // اگر نت قطع است و داده cache شده نداریم
   if (!isOnline && !eventData) {
     return <OfflineErrorPage />;
@@ -259,6 +274,58 @@ const DetailsPage: React.FC = () => {
 
         <div style={{ height: 120 }} />
 
+        </div>
+
+        {/* Register Button - Same style as TopBar */}
+        <div style={{
+          position: 'fixed',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          bottom: 20,
+          zIndex: 9999,
+          display: 'flex',
+          width: '240px',
+          height: '52px',
+          padding: '10px 14px',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: '90px',
+          background: registered ? 'rgba(34, 197, 94, 0.15)' : 'rgba(242, 100, 48, 0.15)',
+          boxShadow: '0 0 8px 0 rgba(255, 255, 255, 0.25)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: registered ? '2px solid rgba(34, 197, 94, 0.30)' : '2px solid rgba(242, 100, 48, 0.30)',
+          transition: 'all 0.3s ease-in-out',
+        }}>
+          <button
+            onClick={handleRegister}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: registered ? '#22c55e' : '#F26430',
+              fontSize: '16px',
+              fontWeight: 600,
+              fontFamily: 'Ravi',
+              cursor: 'pointer',
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+            }}
+          >
+            {registered ? (
+              <>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.6668 5L7.50016 14.1667L3.3335 10" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                ثبت نام شده
+              </>
+            ) : (
+              'ثبت نام'
+            )}
+          </button>
         </div>
       </div>
     </>

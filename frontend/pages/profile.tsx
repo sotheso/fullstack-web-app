@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import EventCard from '../components/CompViewAsli/EventCard';
 import ProfileHeader from '../components/CompProfile/ProfileHeader';
 import { EventCardData } from '../Functions/eventCardInfo';
+import { useRegisteredEvents } from '../contexts/RegisteredEventsContext';
 
 const ProfilePage: React.FC = () => {
   const router = useRouter();
@@ -13,6 +14,7 @@ const ProfilePage: React.FC = () => {
   const [isTermsExpanded, setIsTermsExpanded] = React.useState(false);
   const [userData, setUserData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { registeredEvents } = useRegisteredEvents();
 
   // Load user data from localStorage or fetch from server
   useEffect(() => {
@@ -56,39 +58,17 @@ const ProfilePage: React.FC = () => {
     router.push('/login');
   };
 
-  // Sample events data
-  const userEvents: EventCardData[] = [
-    {
-      id: '1',
-      image: '/banner.png',
-      eventName: 'ایونت بساط',
-      description: 'وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه!',
-      date: 'پنجشنبه، ۲۴ فروردین',
-      tags: ['بازارچه'],
-      filterTag: 'بازارچه',
-      detailsLink: '/details'
-    },
-    {
-      id: '2',
-      image: '/banner.png',
-      eventName: 'ایونت بساط',
-      description: 'وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه!',
-      date: 'پنجشنبه، ۲۴ فروردین',
-      tags: ['بازارچه'],
-      filterTag: 'بازارچه',
-      detailsLink: '/details'
-    },
-    {
-      id: '3',
-      image: '/banner.png',
-      eventName: 'ایونت بساط',
-      description: 'وقتی شب و بساط و وافور با منقل ترکیب بشن، اون شب یه شب فراموش شدنیه!',
-      date: 'پنجشنبه، ۲۴ فروردین',
-      tags: ['بازارچه'],
-      filterTag: 'بازارچه',
-      detailsLink: '/details'
-    }
-  ];
+  // Convert registered events to EventCardData format
+  const userEvents: EventCardData[] = registeredEvents.map(event => ({
+    id: String(event.id),
+    image: event.image || '/banner.png',
+    eventName: event.eventName,
+    description: event.description,
+    date: event.date,
+    tags: event.tags || [],
+    filterTag: event.filterTag || '',
+    detailsLink: `/details?id=${event.id}`
+  }));
 
   const menuItems = [
     {
@@ -244,27 +224,70 @@ const ProfilePage: React.FC = () => {
               <div className="expanded-content">
                 {item.id === 'events' && (
                   <>
-                    <div className="events-section">
-                      {userEvents.map((event) => (
-                        <div key={event.id} className="event-card-wrapper">
-                          <EventCard eventData={event} />
-                        </div>
-                      ))}
-                    </div>
-                    
-                    {/* More Events Button */}
-                    <div className="more-events-section">
-                      <div className="dots-indicator">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                          <path d="M6 10.5C5.17157 10.5 4.5 11.1716 4.5 12C4.5 12.8284 5.17157 13.5 6 13.5C6.82843 13.5 7.5 12.8284 7.5 12C7.5 11.1716 6.82843 10.5 6 10.5Z" fill="#F26430"/>
-                          <path d="M10.5 12C10.5 11.1716 11.1716 10.5 12 10.5C12.8284 10.5 13.5 11.1716 13.5 12C13.5 12.8284 12.8284 13.5 12 13.5C11.1716 13.5 10.5 12.8284 10.5 12Z" fill="#F26430"/>
-                          <path d="M16.5 12C16.5 11.1716 17.1716 10.5 18 10.5C18.8284 10.5 19.5 11.1716 19.5 12C19.5 12.8284 18.8284 13.5 18 13.5C17.1716 13.5 16.5 12.8284 16.5 12Z" fill="#F26430"/>
+                    {userEvents.length === 0 ? (
+                      <div style={{
+                        padding: '40px 20px',
+                        textAlign: 'center',
+                        color: '#888',
+                        fontFamily: 'Ravi',
+                      }}>
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width="64" 
+                          height="64" 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          style={{ margin: '0 auto 16px' }}
+                        >
+                          <path d="M8 2V5" stroke="#F26430" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M16 2V5" stroke="#F26430" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M3 10H21" stroke="#F26430" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M19 10V19C19 19.5304 18.7893 20.0391 18.4142 20.4142C18.0391 20.7893 17.5304 21 17 21H7C6.46957 21 5.96086 20.7893 5.58579 20.4142C5.21071 20.0391 5 19.5304 5 19V10" stroke="#F26430" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
+                        <p style={{ fontSize: '16px', marginBottom: '8px' }}>هنوز در هیچ ایونتی ثبت نام نکرده‌اید</p>
+                        <p style={{ fontSize: '14px', color: '#aaa' }}>برای ثبت نام در ایونت‌ها، به صفحه جزئیات ایونت بروید</p>
+                        <button 
+                          onClick={handleMoreEvents}
+                          style={{
+                            marginTop: '20px',
+                            padding: '12px 24px',
+                            background: '#F26430',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '12px',
+                            fontSize: '14px',
+                            fontFamily: 'Ravi',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          مشاهده ایونت‌ها
+                        </button>
                       </div>
-                      <button className="more-events-button" onClick={handleMoreEvents}>
-                        ایونت های بیشتر
-                      </button>
-                    </div>
+                    ) : (
+                      <>
+                        <div className="events-section">
+                          {userEvents.map((event) => (
+                            <div key={event.id} className="event-card-wrapper">
+                              <EventCard eventData={event} />
+                            </div>
+                          ))}
+                        </div>
+                        
+                        {/* More Events Button */}
+                        <div className="more-events-section">
+                          <div className="dots-indicator">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M6 10.5C5.17157 10.5 4.5 11.1716 4.5 12C4.5 12.8284 5.17157 13.5 6 13.5C6.82843 13.5 7.5 12.8284 7.5 12C7.5 11.1716 6.82843 10.5 6 10.5Z" fill="#F26430"/>
+                              <path d="M10.5 12C10.5 11.1716 11.1716 10.5 12 10.5C12.8284 10.5 13.5 11.1716 13.5 12C13.5 12.8284 12.8284 13.5 12 13.5C11.1716 13.5 10.5 12.8284 10.5 12Z" fill="#F26430"/>
+                              <path d="M16.5 12C16.5 11.1716 17.1716 10.5 18 10.5C18.8284 10.5 19.5 11.1716 19.5 12C19.5 12.8284 18.8284 13.5 18 13.5C17.1716 13.5 16.5 12.8284 16.5 12Z" fill="#F26430"/>
+                            </svg>
+                          </div>
+                          <button className="more-events-button" onClick={handleMoreEvents}>
+                            ایونت های بیشتر
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </>
                 )}
                 

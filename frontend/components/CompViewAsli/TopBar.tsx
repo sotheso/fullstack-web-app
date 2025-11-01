@@ -14,6 +14,7 @@ const TopBar: React.FC = () => {
 
   // Pages that should not show TopBar
   const authPages = ['/', '/login', '/signin', '/complete-profile', '/forgot-password'];
+  const detailsPage = '/details';
 
   // تشخیص تب فعال
   const getActiveTab = () => {
@@ -59,13 +60,13 @@ const TopBar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isClient, isMobile, lastScrollY]);
 
-  // Don't render TopBar on auth pages - moved after all hooks to prevent hydration mismatch
+  // Don't render TopBar on auth pages or details page - moved after all hooks to prevent hydration mismatch
   if (!isClient) {
     // During SSR and initial client render, show nothing to prevent hydration mismatch
     return null;
   }
   
-  if (authPages.includes(router.pathname)) {
+  if (authPages.includes(router.pathname) || router.pathname === detailsPage) {
     return null;
   }
 

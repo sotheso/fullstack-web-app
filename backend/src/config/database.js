@@ -44,9 +44,9 @@ if (databaseUrl) {
   sequelize = new Sequelize(
     process.env.DB_NAME || 'DavvvatDB',
     process.env.DB_USER || 'root',
-    process.env.DB_PASSWORD || '11331133',
+    // process.env.DB_PASSWORD || '11331133',
 // for 
-    // process.env.DB_PASSWORD || '',
+    process.env.DB_PASSWORD || '',
     {
       host: process.env.DB_HOST || 'localhost',
       port: process.env.DB_PORT || 3306,
