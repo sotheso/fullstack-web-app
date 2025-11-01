@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const smsService = require('../services/smsService');
+
+// Temporary storage for password reset codes (in production, use Redis or database)
+const resetCodes = new Map(); // { phone: { code, timestamp } }
 
 // Complete user profile after phone verification
 router.post('/complete-profile', async (req, res) => {
@@ -258,11 +262,39 @@ router.post('/forgot-password', async (req, res) => {
       });
     }
 
-    // Here you would integrate with SMS service to send verification code
-    // For now, we'll just return success
+    // Send SMS verification code
+    const smsResult = await smsService.sendVerificationCode(phone);
+    
+    if (!smsResult.success) {
+      return res.status(500).json({
+        success: false,
+        message: 'خطا در ارسال کد تایید',
+      });
+    }
+
+    // Store the code temporarily (expires in 5 minutes)
+    resetCodes.set(phone, {
+      code: smsResult.code,
+      timestamp: Date.now(),
+    });
+
+    // Clean up old codes (older than 5 minutes)
+    const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+    for (const [key, value] of resetCodes.entries()) {
+      if (value.timestamp < fiveMinutesAgo) {
+        resetCodes.delete(key);
+      }
+    }
+
+    console.log('📱 کد تایید برای بازیابی رمز عبور ارسال شد:', phone);
+    if (smsResult.demo) {
+      console.log('🔧 Demo mode - کد:', smsResult.code);
+    }
+
     res.json({
       success: true,
-      message: 'کد بازیابی رمز عبور ارسال شد',
+      message: 'کد تایید برای بازیابی رمز عبور ارسال شد',
+      ...(smsResult.demo && { demoCode: smsResult.code }), // برای تست
     });
   } catch (error) {
     console.error('Forgot password error:', error);
@@ -278,15 +310,70 @@ router.post('/forgot-password', async (req, res) => {
   }
 });
 
-// Reset password - set new password without SMS verification
-router.post('/reset-password', async (req, res) => {
+// Verify reset code - check if entered code is correct
+router.post('/verify-reset-code', async (req, res) => {
   try {
-    const { phone, newPassword } = req.body;
+    const { phone, code } = req.body;
 
-    if (!phone || !newPassword) {
+    if (!phone || !code) {
       return res.status(400).json({
         success: false,
-        message: 'شماره تلفن و رمز عبور جدید الزامی است',
+        message: 'شماره تلفن و کد تایید الزامی است',
+      });
+    }
+
+    // Get stored code
+    const storedData = resetCodes.get(phone);
+
+    if (!storedData) {
+      return res.status(400).json({
+        success: false,
+        message: 'کد تایید منقضی شده یا یافت نشد. لطفاً دوباره درخواست دهید',
+      });
+    }
+
+    // Check if code is expired (5 minutes)
+    const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+    if (storedData.timestamp < fiveMinutesAgo) {
+      resetCodes.delete(phone);
+      return res.status(400).json({
+        success: false,
+        message: 'کد تایید منقضی شده است. لطفاً دوباره درخواست دهید',
+      });
+    }
+
+    // Verify code
+    if (storedData.code !== code) {
+      return res.status(400).json({
+        success: false,
+        message: 'کد تایید اشتباه است',
+      });
+    }
+
+    console.log('✅ کد تایید بازیابی رمز عبور تایید شد:', phone);
+
+    res.json({
+      success: true,
+      message: 'کد تایید صحیح است',
+    });
+  } catch (error) {
+    console.error('Verify reset code error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در تایید کد',
+    });
+  }
+});
+
+// Reset password - set new password after SMS verification
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { phone, newPassword, code } = req.body;
+
+    if (!phone || !newPassword || !code) {
+      return res.status(400).json({
+        success: false,
+        message: 'شماره تلفن، کد تایید و رمز عبور جدید الزامی است',
       });
     }
 
@@ -294,6 +381,16 @@ router.post('/reset-password', async (req, res) => {
       return res.status(400).json({
         success: false,
         message: 'رمز عبور باید حداقل ۶ کاراکتر باشد',
+      });
+    }
+
+    // Verify code one more time before resetting password
+    const storedData = resetCodes.get(phone);
+
+    if (!storedData || storedData.code !== code) {
+      return res.status(400).json({
+        success: false,
+        message: 'کد تایید نامعتبر است',
       });
     }
 
@@ -313,6 +410,11 @@ router.post('/reset-password', async (req, res) => {
     // Update user password
     user.password = hashedPassword;
     await user.save();
+
+    // Delete the used code
+    resetCodes.delete(phone);
+
+    console.log('✅ رمز عبور با موفقیت تغییر کرد:', phone);
 
     res.json({
       success: true,

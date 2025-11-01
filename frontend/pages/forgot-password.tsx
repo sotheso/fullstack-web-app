@@ -6,11 +6,12 @@ import { Title, Subtitle, InputPill, PrimaryButton, ErrorNotice } from '../compo
 export default function ForgotPassword() {
   const router = useRouter();
   const [phone, setPhone] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [step, setStep] = useState('phone'); // 'phone', 'password'
+  const [step, setStep] = useState('phone'); // 'phone', 'verify', 'password'
 
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,10 +35,48 @@ export default function ForgotPassword() {
       const data = await response.json();
       
       if (data.success) {
+        setStep('verify');
+        setError('');
+        // برای تست در حالت demo
+        if (data.demoCode) {
+          console.log('🔧 Demo Code:', data.demoCode);
+        }
+      } else {
+        setError(data.message || 'خطا در ارسال کد بازیابی');
+      }
+    } catch (error) {
+      setError('خطا در ارتباط با سرور');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    
+    if (!verificationCode || verificationCode.length !== 6) {
+      setError('کد تایید باید ۶ رقم باشد.');
+      return;
+    }
+    
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || '/api'}/auth/verify-reset-code`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phone, code: verificationCode }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
         setStep('password');
         setError('');
       } else {
-        setError(data.message || 'خطا در ارسال کد بازیابی');
+        setError(data.message || 'کد تایید اشتباه است');
       }
     } catch (error) {
       setError('خطا در ارتباط با سرور');
@@ -67,7 +106,7 @@ export default function ForgotPassword() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phone, newPassword }),
+        body: JSON.stringify({ phone, newPassword, code: verificationCode }),
       });
       
       const data = await response.json();
@@ -87,6 +126,14 @@ export default function ForgotPassword() {
 
   const handleBackToPhone = () => {
     setStep('phone');
+    setVerificationCode('');
+    setNewPassword('');
+    setConfirmPassword('');
+    setError('');
+  };
+
+  const handleBackToVerify = () => {
+    setStep('verify');
     setNewPassword('');
     setConfirmPassword('');
     setError('');
@@ -134,6 +181,49 @@ export default function ForgotPassword() {
             </>
           )}
 
+          {step === 'verify' && (
+            <>
+              <Title>تایید شماره تلفن</Title>
+              <Subtitle>کد تایید ارسال شده به شماره {phone} را وارد کنید</Subtitle>
+
+              <form onSubmit={handleVerifyCode} className="signin-form" dir="rtl">
+                <InputPill
+                  type="tel"
+                  inputMode="numeric"
+                  id="verificationCode"
+                  name="verificationCode"
+                  value={verificationCode}
+                  onChange={e => setVerificationCode(e.target.value.replace(/[^\d]/g, '').slice(0, 6))}
+                  required
+                  placeholder="کد ۶ رقمی"
+                  maxLength={6}
+                />
+
+                {error && (<ErrorNotice>{error}</ErrorNotice>)}
+
+                <PrimaryButton type="submit" isLoading={isLoading}>
+                  {isLoading ? 'در حال تایید...' : 'تایید کد'}
+                </PrimaryButton>
+              </form>
+
+              <div style={{ marginTop: '16px', textAlign: 'center' }}>
+                <button 
+                  type="button" 
+                  onClick={handleBackToPhone}
+                  style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    color: '#666', 
+                    cursor: 'pointer',
+                    fontSize: '14px'
+                  }}
+                >
+                  تغییر شماره
+                </button>
+              </div>
+            </>
+          )}
+
           {step === 'password' && (
             <>
               <Title>رمز عبور جدید</Title>
@@ -167,7 +257,21 @@ export default function ForgotPassword() {
                 </PrimaryButton>
               </form>
 
-              <div style={{ marginTop: '16px', textAlign: 'center' }}>
+              <div style={{ marginTop: '16px', textAlign: 'center', display: 'flex', gap: '16px', justifyContent: 'center' }}>
+                <button 
+                  type="button" 
+                  onClick={handleBackToVerify}
+                  style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    color: '#666', 
+                    cursor: 'pointer',
+                    fontSize: '14px'
+                  }}
+                >
+                  ویرایش کد تایید
+                </button>
+                <span style={{ color: '#ddd' }}>|</span>
                 <button 
                   type="button" 
                   onClick={handleBackToPhone}

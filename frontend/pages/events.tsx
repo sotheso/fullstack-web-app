@@ -74,8 +74,10 @@ const EventsPage: React.FC = () => {
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
           <SectionTitle>:همه ایونت‌ها</SectionTitle>
         </div>
-        <div className="events-grid" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-          <Loader />
+        <div className="events-page-container">
+          <div className="events-page-grid" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <Loader />
+          </div>
         </div>
       </div>
     );
@@ -165,25 +167,27 @@ const EventsPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="events-grid">
-        {loading && (
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <Loader />
-          </div>
-        )}
-        {!loading && !error && events.map((e: any) => (
-          <EventCard
-            key={e.id}
-            eventData={toEventCardData(e)}
-            onFilter={(tag) => setActiveFilterTag(tag)}
-          />
-        ))}
-        {!loading && error && (
-          <>
-            <EventCard />
-            <EventCard />
-          </>
-        )}
+      <div className="events-page-container">
+        <div className="events-page-grid">
+          {loading && (
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+              <Loader />
+            </div>
+          )}
+          {!loading && !error && events.map((e: any) => (
+            <EventCard
+              key={e.id}
+              eventData={toEventCardData(e)}
+              onFilter={(tag) => setActiveFilterTag(tag)}
+            />
+          ))}
+          {!loading && error && (
+            <>
+              <EventCard />
+              <EventCard />
+            </>
+          )}
+        </div>
       </div>
 
 
