@@ -57,6 +57,29 @@ const User = sequelize.define(
       allowNull: true,
       comment: 'رمز عبور کاربر',
     },
+    registeredEvents: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      defaultValue: '[]',
+      comment: 'Array of event IDs (stored as JSON) that user registered for',
+      get() {
+        const rawValue = this.getDataValue('registeredEvents');
+        if (!rawValue) return [];
+        try {
+          return JSON.parse(rawValue);
+        } catch (error) {
+          console.error('Error parsing registeredEvents:', error);
+          return [];
+        }
+      },
+      set(value) {
+        if (Array.isArray(value)) {
+          this.setDataValue('registeredEvents', JSON.stringify(value));
+        } else {
+          this.setDataValue('registeredEvents', '[]');
+        }
+      },
+    },
   },
   {
     timestamps: true,

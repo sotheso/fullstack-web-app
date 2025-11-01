@@ -15,6 +15,10 @@ const ProfilePage: React.FC = () => {
   const [userData, setUserData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { registeredEvents } = useRegisteredEvents();
+  
+  // Pagination state for registered events
+  const [eventsPage, setEventsPage] = useState(1);
+  const eventsPerPage = 8;
 
   // Load user data from localStorage or fetch from server
   useEffect(() => {
@@ -59,7 +63,7 @@ const ProfilePage: React.FC = () => {
   };
 
   // Convert registered events to EventCardData format
-  const userEvents: EventCardData[] = registeredEvents.map(event => ({
+  const allUserEvents: EventCardData[] = registeredEvents.map(event => ({
     id: String(event.id),
     image: event.image || '/banner.png',
     eventName: event.eventName,
@@ -69,6 +73,12 @@ const ProfilePage: React.FC = () => {
     filterTag: event.filterTag || '',
     detailsLink: `/details?id=${event.id}`
   }));
+
+  // Pagination calculations
+  const totalEventsPages = Math.ceil(allUserEvents.length / eventsPerPage);
+  const startIndex = (eventsPage - 1) * eventsPerPage;
+  const endIndex = startIndex + eventsPerPage;
+  const userEvents = allUserEvents.slice(startIndex, endIndex);
 
   const menuItems = [
     {
@@ -273,19 +283,84 @@ const ProfilePage: React.FC = () => {
                           ))}
                         </div>
                         
-                        {/* More Events Button */}
-                        <div className="more-events-section">
-                          <div className="dots-indicator">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                              <path d="M6 10.5C5.17157 10.5 4.5 11.1716 4.5 12C4.5 12.8284 5.17157 13.5 6 13.5C6.82843 13.5 7.5 12.8284 7.5 12C7.5 11.1716 6.82843 10.5 6 10.5Z" fill="#F26430"/>
-                              <path d="M10.5 12C10.5 11.1716 11.1716 10.5 12 10.5C12.8284 10.5 13.5 11.1716 13.5 12C13.5 12.8284 12.8284 13.5 12 13.5C11.1716 13.5 10.5 12.8284 10.5 12Z" fill="#F26430"/>
-                              <path d="M16.5 12C16.5 11.1716 17.1716 10.5 18 10.5C18.8284 10.5 19.5 11.1716 19.5 12C19.5 12.8284 18.8284 13.5 18 13.5C17.1716 13.5 16.5 12.8284 16.5 12Z" fill="#F26430"/>
-                            </svg>
+                        {/* Pagination - only show if more than 8 events */}
+                        {totalEventsPages > 1 && (
+                          <div style={{ display: 'flex', justifyContent: 'center', gap: 8, margin: '16px 0 16px 0', alignItems: 'center' }}>
+                            {/* Previous button */}
+                            <button
+                              onClick={() => {
+                                const newPage = Math.max(1, eventsPage - 1);
+                                setEventsPage(newPage);
+                              }}
+                              disabled={eventsPage === 1}
+                              style={{
+                                padding: '0 12px',
+                                height: 36,
+                                borderRadius: 18,
+                                border: '1px solid #E5E5E5',
+                                background: eventsPage === 1 ? '#F3F3F3' : '#F3F3F3',
+                                color: eventsPage === 1 ? '#CCC' : '#000',
+                                fontFamily: 'Ravi',
+                                fontSize: 14,
+                                fontWeight: 600,
+                                cursor: eventsPage === 1 ? 'not-allowed' : 'pointer',
+                                opacity: eventsPage === 1 ? 0.5 : 1,
+                              }}
+                            >
+                              قبلی
+                            </button>
+
+                            {/* Page numbers */}
+                            {Array.from({ length: totalEventsPages }).map((_, i) => {
+                              const pageNum = i + 1;
+                              const isActive = pageNum === eventsPage;
+                              return (
+                                <button
+                                  key={pageNum}
+                                  onClick={() => setEventsPage(pageNum)}
+                                  style={{
+                                    minWidth: 36,
+                                    height: 36,
+                                    borderRadius: 18,
+                                    border: '1px solid #E5E5E5',
+                                    background: isActive ? '#F2C1AE' : '#F3F3F3',
+                                    color: isActive ? '#F26430' : '#000',
+                                    fontFamily: 'Ravi',
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  {pageNum}
+                                </button>
+                              );
+                            })}
+
+                            {/* Next button */}
+                            <button
+                              onClick={() => {
+                                const newPage = Math.min(totalEventsPages, eventsPage + 1);
+                                setEventsPage(newPage);
+                              }}
+                              disabled={eventsPage === totalEventsPages}
+                              style={{
+                                padding: '0 12px',
+                                height: 36,
+                                borderRadius: 18,
+                                border: '1px solid #E5E5E5',
+                                background: eventsPage === totalEventsPages ? '#F3F3F3' : '#F3F3F3',
+                                color: eventsPage === totalEventsPages ? '#CCC' : '#000',
+                                fontFamily: 'Ravi',
+                                fontSize: 14,
+                                fontWeight: 600,
+                                cursor: eventsPage === totalEventsPages ? 'not-allowed' : 'pointer',
+                                opacity: eventsPage === totalEventsPages ? 0.5 : 1,
+                              }}
+                            >
+                              بعدی
+                            </button>
                           </div>
-                          <button className="more-events-button" onClick={handleMoreEvents}>
-                            ایونت های بیشتر
-                          </button>
-                        </div>
+                        )}
                       </>
                     )}
                   </>

@@ -93,6 +93,7 @@ router.post('/complete-profile', async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        registeredEvents: user.registeredEvents || [],
       },
     });
   } catch (error) {
@@ -152,6 +153,7 @@ router.get('/user/:phone', async (req, res) => {
         isVerified: user.isVerified,
         isProfileComplete: user.isProfileComplete,
         lastLogin: user.lastLogin,
+        registeredEvents: user.registeredEvents || [],
       },
     });
   } catch (error) {
@@ -217,6 +219,7 @@ router.post('/login', async (req, res) => {
         lastName: user.lastName,
         email: user.email,
         isProfileComplete: user.isProfileComplete,
+        registeredEvents: user.registeredEvents || [],
       },
     });
   } catch (error) {
@@ -325,6 +328,140 @@ router.post('/reset-password', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'خطا در تغییر رمز عبور',
+    });
+  }
+});
+
+// Register for an event
+router.post('/register-event', async (req, res) => {
+  try {
+    const { userId, eventId } = req.body;
+
+    if (!userId || !eventId) {
+      return res.status(400).json({
+        success: false,
+        message: 'شناسه کاربر و ایونت الزامی است',
+      });
+    }
+
+    // Find user
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'کاربر یافت نشد',
+      });
+    }
+
+    // Get current registered events
+    let registeredEvents = user.registeredEvents || [];
+
+    // Check if already registered
+    const eventIdStr = String(eventId);
+    if (registeredEvents.some(id => String(id) === eventIdStr)) {
+      return res.status(400).json({
+        success: false,
+        message: 'شما قبلاً در این ایونت ثبت نام کرده‌اید',
+      });
+    }
+
+    // Add event to registered events
+    registeredEvents.push(Number(eventId));
+    user.registeredEvents = registeredEvents;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'ثبت نام در ایونت با موفقیت انجام شد',
+      registeredEvents: user.registeredEvents,
+    });
+  } catch (error) {
+    console.error('Register event error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در ثبت نام ایونت',
+    });
+  }
+});
+
+// Unregister from an event
+router.post('/unregister-event', async (req, res) => {
+  try {
+    const { userId, eventId } = req.body;
+
+    if (!userId || !eventId) {
+      return res.status(400).json({
+        success: false,
+        message: 'شناسه کاربر و ایونت الزامی است',
+      });
+    }
+
+    // Find user
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'کاربر یافت نشد',
+      });
+    }
+
+    // Get current registered events
+    let registeredEvents = user.registeredEvents || [];
+
+    // Remove event from registered events
+    const eventIdStr = String(eventId);
+    registeredEvents = registeredEvents.filter(id => String(id) !== eventIdStr);
+    
+    user.registeredEvents = registeredEvents;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'لغو ثبت نام از ایونت با موفقیت انجام شد',
+      registeredEvents: user.registeredEvents,
+    });
+  } catch (error) {
+    console.error('Unregister event error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در لغو ثبت نام ایونت',
+    });
+  }
+});
+
+// Get user's registered events
+router.get('/registered-events/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: 'شناسه کاربر الزامی است',
+      });
+    }
+
+    // Find user
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'کاربر یافت نشد',
+      });
+    }
+
+    res.json({
+      success: true,
+      registeredEvents: user.registeredEvents || [],
+    });
+  } catch (error) {
+    console.error('Get registered events error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در دریافت ایونت‌های ثبت نام شده',
     });
   }
 });

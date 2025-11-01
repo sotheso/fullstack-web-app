@@ -93,4 +93,14 @@ export const storiesAPI = {
   deleteStory: (id: number) => api.delete(`/stories/${id}`),
 };
 
+// Auth API for registered events
+export const authAPI = {
+  registerEvent: (userId: number, eventId: number | string) => 
+    api.post('/auth/register-event', { userId, eventId }),
+  unregisterEvent: (userId: number, eventId: number | string) => 
+    api.post('/auth/unregister-event', { userId, eventId }),
+  getRegisteredEvents: (userId: number) => 
+    api.get(`/auth/registered-events/${userId}`),
+};
+
 export default api; 
