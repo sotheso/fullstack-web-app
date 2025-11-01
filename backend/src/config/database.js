@@ -88,8 +88,22 @@ const connectDB = async () => {
     console.log('Database synchronized');
   } catch (error) {
     console.error('Error connecting to MySQL Database:', error.message);
-    // Don't exit process, let it retry
-    throw error;
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      parent: error.parent ? error.parent.message : null
+    });
+    
+    // In production/Docker, retry connection
+    if (process.env.NODE_ENV === 'production') {
+      console.log('Retrying database connection in 5 seconds...');
+      setTimeout(() => {
+        connectDB();
+      }, 5000);
+    } else {
+      // In development, throw to allow debugging
+      throw error;
+    }
   }
 };
 

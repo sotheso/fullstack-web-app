@@ -221,6 +221,11 @@ router.post('/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
+    console.error('Login error details:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    });
     res.status(500).json({
       success: false,
       message: 'خطا در ورود',
@@ -258,6 +263,11 @@ router.post('/forgot-password', async (req, res) => {
     });
   } catch (error) {
     console.error('Forgot password error:', error);
+    console.error('Forgot password error details:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    });
     res.status(500).json({
       success: false,
       message: 'خطا در ارسال کد بازیابی',
@@ -307,6 +317,11 @@ router.post('/reset-password', async (req, res) => {
     });
   } catch (error) {
     console.error('Reset password error:', error);
+    console.error('Reset password error details:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    });
     res.status(500).json({
       success: false,
       message: 'خطا در تغییر رمز عبور',
