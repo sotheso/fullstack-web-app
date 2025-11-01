@@ -13,7 +13,7 @@ interface BrandsCardProps {
 
 const BrandsCard: React.FC<BrandsCardProps> = ({ brands, onBrandSelect }) => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>(
-    brands.filter(brand => brand.isSelected).map(brand => brand.id)
+    brands.filter(brand => brand.isSelected && brand.id).map(brand => brand.id)
   );
 
   const handleBrandClick = (brandId: string) => {
@@ -139,11 +139,11 @@ const BrandsCard: React.FC<BrandsCardProps> = ({ brands, onBrandSelect }) => {
           </svg>
         </div>
         <div className="brands-content">
-          {brands.map((brand) => (
+          {brands.map((brand, index) => (
             <button
-              key={brand.id}
+              key={brand.id || index}
               className="brand-tag"
-              onClick={() => handleBrandClick(brand.id)}
+              onClick={() => brand.id && handleBrandClick(brand.id)}
             >
               {brand.name}
             </button>

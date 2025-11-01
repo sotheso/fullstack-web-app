@@ -29,6 +29,9 @@ const DetailsPage: React.FC = () => {
         // اگر نبود، از API بگیر
         fetchEventData(id).then(data => {
           if (data) {
+            console.log('Fetched event data:', data);
+            console.log('Programs:', data.programs);
+            console.log('Brands:', data.brands);
             setEventData(data);
           }
         });
