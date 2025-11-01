@@ -16,12 +16,18 @@ const DetailsPage: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
   const [eventData, setEventData] = useState<EventData | null>(null);
+  const [mounted, setMounted] = useState(false);
   const { getEventData, fetchEventData, loading, error } = useEventDetailsContext();
   const { isOnline } = useNetwork();
 
+  // Track when component is mounted on client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     // صبر کن تا router آماده بشه (برای client-side navigation)
-    if (!router.isReady) {
+    if (!router.isReady || !mounted) {
       return;
     }
 
@@ -46,7 +52,7 @@ const DetailsPage: React.FC = () => {
         });
       }
     }
-  }, [router.isReady, id, getEventData, fetchEventData]);
+  }, [router.isReady, id, getEventData, fetchEventData, mounted]);
 
   // داده‌های پیش‌فرض اگر ایونت پیدا نشد یا در حال بارگذاری
   const defaultData: EventData = {
@@ -84,8 +90,8 @@ const DetailsPage: React.FC = () => {
     ]
   };
 
-  // اگر router هنوز آماده نیست، منتظر بمان
-  if (!router.isReady) {
+  // اگر component هنوز mount نشده یا router هنوز آماده نیست، منتظر بمان
+  if (!mounted || !router.isReady) {
     return (
       <div style={{ 
         display: 'flex', 

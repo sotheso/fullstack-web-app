@@ -14,11 +14,6 @@ const TopBar: React.FC = () => {
 
   // Pages that should not show TopBar
   const authPages = ['/', '/login', '/signin', '/complete-profile', '/forgot-password'];
-  
-  // Don't render TopBar on auth pages
-  if (authPages.includes(router.pathname)) {
-    return null;
-  }
 
   // تشخیص تب فعال
   const getActiveTab = () => {
@@ -33,6 +28,7 @@ const TopBar: React.FC = () => {
   const activeTab = getActiveTab();
   const isDetailsPage = router.pathname === '/details';
 
+  // Set isClient to true on mount
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -62,6 +58,16 @@ const TopBar: React.FC = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isClient, isMobile, lastScrollY]);
+
+  // Don't render TopBar on auth pages - moved after all hooks to prevent hydration mismatch
+  if (!isClient) {
+    // During SSR and initial client render, show nothing to prevent hydration mismatch
+    return null;
+  }
+  
+  if (authPages.includes(router.pathname)) {
+    return null;
+  }
 
   const Item: React.FC<{
     label: string;
