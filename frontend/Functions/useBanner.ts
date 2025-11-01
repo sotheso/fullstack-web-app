@@ -32,7 +32,7 @@ export const useBanner = () => {
         // Fallback banner data
         setBanner({
           id: 1,
-          image: '/banner-image.jpg',
+          image: '/banner.png',
           date: 'پنجشنبه، ۲۴ فروردین',
           tags: ['دانش', 'موزیک'],
           eventName: 'ایونت بساط',

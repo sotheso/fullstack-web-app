@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
   try {
     const { image, date, tags, eventName, eventDescription, detailsLink } = req.body;
     const banner = await Banner.create({
-      image: image || '/banner-image.jpg',
+      image: image || '/banner.png',
       date,
       tags: Array.isArray(tags) ? tags : [],
       eventName,
