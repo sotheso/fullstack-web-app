@@ -26,6 +26,8 @@ export const usePullToRefresh = (options: PullToRefreshOptions) => {
   const currentY = useRef<number>(0);
   const isAtTop = useRef<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isPullingRef = useRef<boolean>(false);
+  const pullDistanceRef = useRef<number>(0);
 
   useEffect(() => {
     if (disabled) return;
@@ -54,6 +56,8 @@ export const usePullToRefresh = (options: PullToRefreshOptions) => {
         e.preventDefault();
         
         const pullDistance = Math.min(deltaY / resistance, threshold * 1.5);
+        isPullingRef.current = true;
+        pullDistanceRef.current = pullDistance;
         
         setState(prev => ({
           ...prev,
@@ -64,11 +68,13 @@ export const usePullToRefresh = (options: PullToRefreshOptions) => {
     };
 
     const handleTouchEnd = async () => {
-      if (!state.isPulling) return;
+      if (!isPullingRef.current) return;
 
-      const shouldRefresh = state.pullDistance >= threshold;
+      const shouldRefresh = pullDistanceRef.current >= threshold;
       
       if (shouldRefresh) {
+        isPullingRef.current = false;
+        pullDistanceRef.current = 0;
         setState(prev => ({
           ...prev,
           isRefreshing: true,
@@ -87,6 +93,8 @@ export const usePullToRefresh = (options: PullToRefreshOptions) => {
           }));
         }
       } else {
+        isPullingRef.current = false;
+        pullDistanceRef.current = 0;
         setState(prev => ({
           ...prev,
           isPulling: false,
@@ -105,7 +113,7 @@ export const usePullToRefresh = (options: PullToRefreshOptions) => {
       container.removeEventListener('touchmove', handleTouchMove);
       container.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [disabled, onRefresh, threshold, resistance, state.isPulling]);
+  }, [disabled, onRefresh, threshold, resistance]);
 
   return {
     ...state,
