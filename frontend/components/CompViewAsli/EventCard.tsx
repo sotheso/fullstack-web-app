@@ -202,7 +202,9 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
           >
             مشاهده
           </button>
-        </div>
+        </div> 
+
+{/* تست    */}
 
         {/* Divider Line */}
         <div style={{
