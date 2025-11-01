@@ -31,7 +31,6 @@ if (databaseUrl) {
     }
   } : {
     charset: 'utf8mb4',
-    collate: 'utf8mb4_unicode_ci',
     supportBigNumbers: true,
     bigNumberStrings: true
   };
@@ -45,9 +44,9 @@ if (databaseUrl) {
   sequelize = new Sequelize(
     process.env.DB_NAME || 'DavvvatDB',
     process.env.DB_USER || 'root',
-    process.env.DB_PASSWORD || '11331133',
+    // process.env.DB_PASSWORD || '11331133',
 // for 
-    // process.env.DB_PASSWORD || '',
+    process.env.DB_PASSWORD || '',
     {
       host: process.env.DB_HOST || 'localhost',
       port: process.env.DB_PORT || 3306,
@@ -61,7 +60,6 @@ if (databaseUrl) {
       } : {
         // Add these options to fix connection issues
         charset: 'utf8mb4',
-        collate: 'utf8mb4_unicode_ci',
         supportBigNumbers: true,
         bigNumberStrings: true
       },
