@@ -40,8 +40,6 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
     computeTitleFontSize(data.eventName)
   );
   const titleRef = useRef<HTMLHeadingElement | null>(null);
-  const isMountedRef = useRef(true);
-  const rafRef = useRef<number | null>(null);
 
   // Recompute base font-size when event title changes
   useEffect(() => {
@@ -50,11 +48,9 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
 
   // Shrink the title font-size only if it overflows (shows ellipsis)
   useEffect(() => {
-    isMountedRef.current = true;
-    
     const shrinkToFit = () => {
       const el = titleRef.current;
-      if (!el || !isMountedRef.current) return;
+      if (!el) return;
 
       const parseRem = (rem: string): number => parseFloat(rem.replace('rem', '')) || 0.9375;
       let current = parseRem(getComputedStyle(el).fontSize.endsWith('rem') ? getComputedStyle(el).fontSize : titleFontSize);
@@ -72,37 +68,22 @@ const EventCard: React.FC<EventCardProps> = ({ eventData, onFilter }) => {
       }
 
       // Persist final size so future renders keep it
-      if (isMountedRef.current) {
-        setTitleFontSize(`${current}rem`);
-      }
+      setTitleFontSize(`${current}rem`);
     };
 
-    // Run after layout with requestAnimationFrame
-    rafRef.current = requestAnimationFrame(shrinkToFit);
-    
-    const handleResize = () => {
-      if (isMountedRef.current) {
-        if (rafRef.current) {
-          cancelAnimationFrame(rafRef.current);
-        }
-        rafRef.current = requestAnimationFrame(shrinkToFit);
-      }
-    };
-    
-    window.addEventListener('resize', handleResize);
-    
+    // Run after layout
+    const raf = requestAnimationFrame(shrinkToFit);
+    window.addEventListener('resize', shrinkToFit);
     return () => {
-      isMountedRef.current = false;
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
-      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', shrinkToFit);
     };
   }, [titleFontSize, data.eventName]);
 
   const handleViewClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     // ارسال ID ایونت به صفحه details
+    console.log('[EventCard] Clicking on event card, navigating to:', `${BASE_PATH}/details?id=${data.id}`);
     router.push(`${BASE_PATH}/details?id=${data.id}`);
   };
 

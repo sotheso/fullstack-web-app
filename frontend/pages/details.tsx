@@ -20,18 +20,22 @@ const DetailsPage: React.FC = () => {
   const { isOnline } = useNetwork();
 
   useEffect(() => {
+    console.log('[DetailsPage] useEffect triggered, id:', id);
     if (id && typeof id === 'string') {
       // ابتدا چک کن آیا در cache هست
       const cachedData = getEventData(id);
+      console.log('[DetailsPage] Cached data:', cachedData ? 'Found' : 'Not found');
       if (cachedData) {
+        console.log('[DetailsPage] Setting cached data');
         setEventData(cachedData);
       } else {
         // اگر نبود، از API بگیر
+        console.log('[DetailsPage] Fetching from API');
         fetchEventData(id).then(data => {
           if (data) {
-            console.log('Fetched event data:', data);
-            console.log('Programs:', data.programs);
-            console.log('Brands:', data.brands);
+            console.log('[DetailsPage] Fetched event data:', data);
+            console.log('[DetailsPage] Programs:', data.programs);
+            console.log('[DetailsPage] Brands:', data.brands);
             setEventData(data);
           }
         });
@@ -76,6 +80,13 @@ const DetailsPage: React.FC = () => {
   };
 
   const data = eventData || defaultData;
+  
+  console.log('[DetailsPage] Rendering with data:', {
+    hasEventData: !!eventData,
+    hasPrograms: !!data.programs,
+    hasBrands: !!data.brands,
+    brandsCount: data.brands?.length || 0
+  });
 
   // اگر نت قطع است و داده cache شده نداریم
   if (!isOnline && !eventData) {
